@@ -6,11 +6,17 @@ We store all of the data **in the form of tables**.
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/data_storage_table.png?raw=true" width="600px">
 
+**Primary Key (主键)**
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/primary_key.png?raw=true">
+
 <br>
 
 ## Operations
 
-### Aggregation (聚集)
+### Aggregation (聚合)
+
+[On a single table]
 
 **Summarize multiple rows into a single row**
 
@@ -29,4 +35,8 @@ We store all of the data **in the form of tables**.
 * Max   *(on number)*
 
 * Min   *(on number)*
+
+### Join (合并)
+
+[On multiple tables]
 
