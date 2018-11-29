@@ -39,3 +39,15 @@ We store all of the data **in the form of tables**.
 ### Join (合并)
 
 [On multiple tables]
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/operation-join-1-original_tables.png?raw=true">
+
+Running the following query results in the table on the left:
+
+```sql
+select animals.name, animals.species, diet.food from animals join diet on animals.species = diet.species
+```
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/operation-join-2-mid_result_table.png?raw=true">
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/operation-join-3-process.png?raw=true">
