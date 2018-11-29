@@ -15,7 +15,9 @@ DB enables **safe concurrent access by multiple programs/users**.
 
 ## Communication with DB
 
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/comm_with_DB.png?raw=true">
 
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/comm_with_DB_impl.png?raw=true">
 
 <br>
 

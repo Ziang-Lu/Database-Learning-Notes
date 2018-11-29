@@ -4,13 +4,7 @@
 
 We store all of the data **in the form of tables**.
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/data_storage_table.png?raw=true">
-
-<br>
-
-## Communication with DB
-
-
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/data_storage_table.png?raw=true" width="600px">
 
 <br>
 
