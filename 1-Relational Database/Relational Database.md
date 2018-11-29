@@ -4,11 +4,11 @@
 
 We store all of the data **in the form of tables**.
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/data_storage_table.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/data_storage-table.png?raw=true" width="600px">
 
 **Primary Key (主键)**
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/primary_key.png?raw=true">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/data_storage-primary_key.png?raw=true">
 
 <br>
 
@@ -26,7 +26,7 @@ We store all of the data **in the form of tables**.
 
   -> Given a column, count the number rows in that colum that have the same value
 
-  <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/aggregation-count.png?raw=true">
+  <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/operation-aggregation-count.png?raw=true">
 
 * Sum   *(on number)*
 
@@ -39,4 +39,3 @@ We store all of the data **in the form of tables**.
 ### Join (合并)
 
 [On multiple tables]
-
