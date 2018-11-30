@@ -52,11 +52,40 @@
 
 ### 1. Fetching Data from DB
 
-Note: Use `*` to select all columns
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_where.png?raw=true" width="600px">
 
-**Supported Logic Operators**
+```sql
+select name, birthdate from animals where species = 'gorilla' and name = 'Max';
+```
 
-`and`, `or`, `not` (same as Python)
+Note: Use `*` to select all columns:
 
-**Supported Comparison Operators**
+```sql
+select * from animals where species = 'orangutan' order by birthdate desc;
+```
 
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_order_by.png?raw=true" width="600px">
+
+```sql
+select * from animals limit 10 offset 20;
+```
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_limit_offset.png?raw=true" width="600px">
+
+Supported Comparison Operators**
+
+`=`, `!=`, `<`, `>`, `<=`, `>=`
+
+#### (1) Aggregation (聚合)
+
+[On a single table]
+
+* `count`
+
+  <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_group_by.png?raw=true" width="600px">
+
+* `max`
+
+  ```sql
+  select max(name) as max_name from animals
+  ```

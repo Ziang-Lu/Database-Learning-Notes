@@ -34,13 +34,13 @@ We store all of the data **in the form of tables**.
 
   <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/Relational%20Database%20Concepts/operation-aggregation-count.png?raw=true">
 
-* `sum`   *(on number)*
+* `sum`
 
-* `avg`   *(on number)*
+* `avg`
 
-* `max`   *(on number)*
+* `max`
 
-* `min`   *(on number)*
+* `min`
 
 <br>
 
