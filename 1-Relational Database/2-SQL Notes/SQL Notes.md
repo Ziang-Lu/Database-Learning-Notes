@@ -52,7 +52,7 @@
 
 ### 1. Fetching Data from DB
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_where.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_where.png?raw=true" width="600px">
 
 ```sql
 select name, birthdate from animals where species = 'gorilla' and name = 'Max';
@@ -70,7 +70,7 @@ Note: Use `*` to select all columns:
 select * from animals where species = 'orangutan' order by birthdate desc;
 ```
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_order-by.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_order-by.png?raw=true" width="500px">
 
 |  name   |  species  | birthdate  |
 | :-----: | :-------: | :--------: |
@@ -87,7 +87,7 @@ select * from animals where species = 'orangutan' order by birthdate desc;
 select name, birthdate from animals where species = 'gorilla' limit 5 offset 3;
 ```
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_limit_offset.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_limit_offset.png?raw=true" width="500px">
 
 |  name   | birthdate  |
 | :-----: | :--------: |
@@ -125,7 +125,7 @@ select name, birthdate from animals where species = 'gorilla' limit 5 offset 3;
 
   * <u>For each distinct name, find how many animals are sharing that name?</u>
 
-    <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_group-by.png?raw=true" width="600px">
+    <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_group-by.png?raw=true" width="600px">
 
     ```sql
     select name, count(*) as num from animals group by name;
@@ -193,7 +193,7 @@ select animals.name, animals.species, diet.food from animals, diet where animals
 
 ### 2. Inserting Data to DB
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/insert-into_values.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/insert-into_values.png?raw=true" width="600px">
 
-A single `insert` statement can only <u>insert a single row into a single table</u>.
+A single `insert` statement can only <u>insert rows into a single table</u>.
 

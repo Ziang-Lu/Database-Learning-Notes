@@ -6,12 +6,13 @@ DB enables **safe concurrent access by multiple programs/users**.
 
 *Why not just fetch all the data from DB to my application code, and do all the data operations there?*
 
-* Speed
+* **Speed**
 
-  DB do the operations much faster.
+  **DB do the operations much faster.**
 
-* Space
+* **Space**
 
+  Usually the data scale is too large to fit in memory or will take up too much memory.
 
 <br>
 
@@ -19,10 +20,15 @@ DB enables **safe concurrent access by multiple programs/users**.
 
 * Navigational DB (导航型数据库)
 * **Relational DB (关系型数据库)**
+  * SQLite
+  * MySQL
+  * Oracle
+  * PostgreSQL
 * Key-value store (键-值存储)
   - 适用于数据类型相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
-  - Non-Relational DB (非关系型数据库) ??? // TODO
-    - NoSQL ??? // TODO
+  - Non-Relational DB (非关系型数据库) (NoSQL)
+    - MongoDB
+    - Redis
 
 <br>
 
