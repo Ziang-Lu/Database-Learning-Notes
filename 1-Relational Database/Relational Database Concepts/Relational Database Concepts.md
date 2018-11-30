@@ -34,6 +34,12 @@ We store all of the data **in the form of tables**.
 
   <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/Relational%20Database%20Concepts/operation-aggregation-count.png?raw=true">
 
+  The above is achieved by:
+
+  ```sql
+  select species, count(species) from animals group by species;
+  ```
+
 * `sum`
 
 * `avg`
@@ -57,7 +63,7 @@ We store all of the data **in the form of tables**.
 Running the following `join` query results in the table on the left:
 
 ```sql
-select animals.name, animals.species, diet.food from animals join diet on animals.species = diet.species
+select animals.name, animals.species, diet.food from animals join diet on animals.species = diet.species;
 ```
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/Relational%20Database%20Concepts/operation-join-2-mid_result_table.png?raw=true" width="500px">
@@ -69,4 +75,8 @@ After that, we can do a `count` aggregation on the above result table, and final
 The whole process is explained by the following diagram:
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/Relational%20Database%20Concepts/operation-join-3-process.png?raw=true" width="500px">
+
+<br>
+
+### 2. Inserting Data to DB
 

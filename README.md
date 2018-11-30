@@ -2,6 +2,19 @@
 
 DB enables **safe concurrent access by multiple programs/users**.
 
+## Benefits
+
+*Why not just fetch all the data from DB to my application code, and do all the data operations there?*
+
+* Speed
+
+  DB do the operations much faster.
+
+* Space
+
+
+<br>
+
 ## Types
 
 * Navigational DB (导航型数据库)
