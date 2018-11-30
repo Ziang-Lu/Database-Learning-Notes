@@ -64,13 +64,13 @@ Note: Use `*` to select all columns:
 select * from animals where species = 'orangutan' order by birthdate desc;
 ```
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_order_by.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_order-by.png?raw=true" width="500px">
 
 ```sql
 select * from animals limit 10 offset 20;
 ```
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_limit_offset.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_limit_offset.png?raw=true" width="500px">
 
 Supported Comparison Operators**
 
@@ -82,7 +82,13 @@ Supported Comparison Operators**
 
 * `count`
 
-  <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_group_by.png?raw=true" width="600px">
+  Count the number of 
+
+  ```sql
+  select name, count(*) as num from animals group by name
+  ```
+
+  <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/SQL%20Notes/select_from_group-by.png?raw=true" width="600px">
 
 * `max`
 
