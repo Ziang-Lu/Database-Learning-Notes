@@ -1,5 +1,11 @@
 # Database Learning Notes
 
+These repo contains course notes in the following courses
+
+* Intro to Relational Database on Udacity
+
+<br>
+
 DB enables **safe concurrent access by multiple programs/users**.
 
 ## Benefits
@@ -22,8 +28,8 @@ DB enables **safe concurrent access by multiple programs/users**.
 * **Relational DB (关系型数据库)**
   * SQLite
   * MySQL
-  * Oracle
   * PostgreSQL
+  * Oracle
 * Key-value store (键-值存储)
   - 适用于数据类型相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
   - Non-Relational DB (非关系型数据库) (NoSQL)
