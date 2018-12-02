@@ -12,6 +12,22 @@ e.g., Python DB-API specifies <u>which functions you should call</u> to connect 
 
 <br>
 
+## Workflow
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/python_db-api_workflow.png?raw=true" width="600px">
+
+**Whenever we make changes to a DB, these changes will go into a <u>transaction</u>, and it will take effect only when we call `conn.commit()` method.**
+
+=> **"Atomicity": A transaction happens as a whole, or not at all.**
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_1.png?raw=true" width="500px">
+
+=> If we close a connection or the code crashes without committing the changes, the changes will be <u>rolled back</u>.
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_2.png?raw=true" width="500px">
+
+<br>
+
 ## Implementations
 
 The following Python modules <u>all follow Python DB-API</u>.

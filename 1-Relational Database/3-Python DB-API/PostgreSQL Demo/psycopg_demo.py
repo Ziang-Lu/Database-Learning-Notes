@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Simple usage demo of sqlite3 libray.
+Simple usage demo of sqlite3 libray (driver).
 """
 
 import psycopg2
