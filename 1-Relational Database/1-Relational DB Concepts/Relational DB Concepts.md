@@ -1,8 +1,8 @@
 # Relational DB Concepts
 
-## Relational Data Model
+## Relational Data Model (关系型数据模型)
 
-### Building Blocks
+### - Building Blocks
 
 * **Entity**
 
@@ -20,13 +20,25 @@
   * 1-to-Many
   * Many-to-Many
 
-### Entity-Relationship (ER) Diagram
+### - Entity-Relationship (ER) Diagram (实体关系图)
 
 -> Used to illustrate and document the relationships between entities
 
+***
 
+**ER Diagram Notations**:
 
-*(真的很像UML class diagram...)*
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/ER_diagram-notations.png?raw=true" width="600px">
+
+***
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/ER_diagram.png?raw=true" width="600px">
+
+<br>
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/ER_diagram-example.png?raw=true" width="600px">
+
+Note that these two diagrams uses Crow's Foot Notation
 
 <br>
 
@@ -38,7 +50,7 @@ We store all of the data **in the form of (related) tables**.
 
 ***
 
-**Primary Key (主键)**
+**Primary Key (PK) (主键)**
 
 **A column or a set of columns that <u>uniquely identify each row</u> in the table**
 
@@ -46,11 +58,23 @@ We store all of the data **in the form of (related) tables**.
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/data_storage-primary_key.png?raw=true">
 
+PK <u>cannot be null</u>.
+
 ***
 
-**Foreign Key (外部键)**
+**Foreign Key (FK) (外部键)**
 
-**A column or a set of columns that **
+**A column or a set of columns that <u>identify a row in another table</u>**
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/data_storage-primary_key_and_foreign_key.png?raw=true" width="600px">
+
+Like in the above example, in the `Department` tale, each `Department` needs to uniquely identify its leader, which is a `Person`.
+
+=> The `Department` table uses a column called `Department.leadPersonID` to refer to the values in `Person.ID`, which is the primary key of `Person` table, and thus uniquely identifies the person (the leader).
+
+=> In this way, `Department.leadPersonID` works as a foreign key from `Department` table to `Person` table.
+
+***
 
 <br>
 
@@ -83,7 +107,9 @@ We store all of the data **in the form of (related) tables**.
   The above is achieved by:
 
   ```sql
-  select species, count(species) from animals group by species;
+  select species, count(species)
+  from animals
+  group by species;
   ```
 
 * `sum`

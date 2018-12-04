@@ -10,6 +10,13 @@
 
   An exact decimal value
 
+  ```sql
+  decimal(8, 2)
+  -- At most 8 digits in total
+  -- 2 digits to the right of the decimal place
+  -- xxxxxx.xx
+  ```
+
 * `real`
 
   * $\approx$ Java `float`
@@ -55,7 +62,10 @@
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_where.png?raw=true" width="600px">
 
 ```sql
-select name, birthdate from animals where species = 'gorilla' and name = 'Max';
+select name, birthdate
+from animals
+where species = 'gorilla'
+	and name = 'Max';
 ```
 
 Note that `where` applies before any aggregation
@@ -67,13 +77,17 @@ Note that `where` applies before any aggregation
 Select a value from a selection of values:
 
 ```sql
-select name, birthdate from animals where species in ('gorilla', 'llama', 'orangutan');
+select name, birthdate
+from animals
+where species in ('gorilla', 'llama', 'orangutan');
 ```
 
 Use `not in` to exclude a selection of values:
 
 ```sql
-select name, birthdate from animals where species not in ('gorilla', 'llama', 'orangutan');
+select name, birthdate
+from animals
+where species not in ('gorilla', 'llama', 'orangutan');
 ```
 
 ***
@@ -83,7 +97,9 @@ select name, birthdate from animals where species not in ('gorilla', 'llama', 'o
 Select a value from a <u>range</u> of values (inclusive):
 
 ```sql
-select name, species from animals where birthdate between '1993-07-31' and '1993-10-05';
+select name, species
+from animals
+where birthdate between '1993-07-31' and '1993-10-05';
 ```
 
 *This will include both '1993-07-31' and '1993-10-05'.*
@@ -91,7 +107,9 @@ select name, species from animals where birthdate between '1993-07-31' and '1993
 Use `not between` to exclude a range of values (exclusive):
 
 ```sql
-select name, species from animals where birthdate not between '1993-07-31' and '1993-10-05';
+select name, species
+from animals
+where birthdate not between '1993-07-31' and '1993-10-05';
 ```
 
 *This will include neither '1993-07-31' nor '1993-10-05'.*
@@ -101,7 +119,9 @@ select name, species from animals where birthdate not between '1993-07-31' and '
 Note: **Use `*` to select all columns**:
 
 ```sql
-select * from animals where species = 'orangutan' order by birthdate desc;
+select * from animals
+where species = 'orangutan'
+order by birthdate desc;
 ```
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_order-by.png?raw=true" width="500px">
@@ -109,7 +129,10 @@ select * from animals where species = 'orangutan' order by birthdate desc;
 <br>
 
 ```sql
-select name, birthdate from animals where species = 'gorilla' limit 5 offset 3;
+select name, birthdate
+from animals
+where species = 'gorilla'
+limit 5 offset 3;
 ```
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_limit_offset.png?raw=true" width="500px">
@@ -129,7 +152,10 @@ select name, birthdate from animals where species = 'gorilla' limit 5 offset 3;
   * For each distinct species, find how many animals are there?
 
     ```sql
-    select species, count(species) from animals group by species limit 5;
+    select species, count(species)
+    from animals
+    group by species
+    limit 5;
     ```
 
   * <u>For each distinct name, find how many animals are sharing that name?</u>
@@ -137,7 +163,9 @@ select name, birthdate from animals where species = 'gorilla' limit 5 offset 3;
     <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_group-by.png?raw=true" width="600px">
 
     ```sql
-    select name, count(*) as num from animals group by name;
+    select name, count(*) as num
+    from animals
+    group by name;
     ```
 
     This reads as:
@@ -150,13 +178,17 @@ select name, birthdate from animals where species = 'gorilla' limit 5 offset 3;
 * `max`
 
   ```sql
-  select max(name) as max_name from animals
+  select max(name) as max_name
+  from animals
   ```
 
 * `min`
 
   ```sql
-  select species, min(birthdate) from animals group by species limit 5;
+  select species, min(birthdate)
+  from animals
+  group by species
+  limit 5;
   ```
 
   This reads as:
@@ -190,6 +222,52 @@ select animals.name, animals.species, diet.food from animals, diet where animals
 <br>
 
 ### 2. Inserting Data to DB
+
+#### Creating New Table
+
+**SQLite**
+
+```sqlite
+create table scores (
+    id varchar(20) not null primary key,
+    name varchar(20) not null,
+    score int
+)
+```
+
+**MySQL**
+
+```mysql
+create table scores (
+	id varchar(20) not null,
+    name varchar(20) not null,
+    score int,
+    primary key(id)
+)
+```
+
+<br>
+
+#### Creating Temporary Table (临时表)
+
+Temporary table:
+
+* Creating faster than a real, permanent table
+* Deleted when the current client session is terminated
+
+```sql
+create temporary table sandals as (
+    select *
+    from shoes
+    where shoe_type = 'sandals'
+)
+```
+
+*(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
+
+<br>
+
+#### Inserting Data to Table
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/insert-into_values.png?raw=true" width="600px">
 

@@ -24,18 +24,20 @@ def init_db() -> None:
         # Get the cursor
         cursor = conn.cursor()
 
-        # Create a "score" table
         cursor.execute('''
         create table scores (
-            id varchar(20),
-            name varchar(20),
+            id varchar(20) not null,
+            name varchar(20) not null,
             score int,
             primary key(id)
         )
         ''')
         # Note that specifying a primary key in MySQL is like above
+        # "primary key" constraint automatically contains "unique" constraint
+
         cursor.execute('''
-        insert into scores values
+        insert into scores
+        values
             ('A-001', 'Adam', 95),
             ('A-002', 'Bart', 62),
             ('A-003', 'Lisa', 78)
