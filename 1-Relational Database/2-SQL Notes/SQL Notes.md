@@ -58,28 +58,53 @@
 select name, birthdate from animals where species = 'gorilla' and name = 'Max';
 ```
 
-| name | birthdate  |
-| :--: | :--------: |
-| Max  | 2001-04-23 |
+Note that `where` applies before any aggregation
 
 ***
 
-Note: Use `*` to select all columns:
+**`in` operator** in `where` clause
+
+Select a value from a selection of values:
+
+```sql
+select name, birthdate from animals where species in ('gorilla', 'llama', 'orangutan');
+```
+
+Use `not in` to exclude a selection of values:
+
+```sql
+select name, birthdate from animals where species not in ('gorilla', 'llama', 'orangutan');
+```
+
+***
+
+**`between` operator** in `where` clause
+
+Select a value from a <u>range</u> of values (inclusive):
+
+```sql
+select name, species from animals where birthdate between '1993-07-31' and '1993-10-05';
+```
+
+*This will include both '1993-07-31' and '1993-10-05'.*
+
+Use `not between` to exclude a range of values (exclusive):
+
+```sql
+select name, species from animals where birthdate not between '1993-07-31' and '1993-10-05';
+```
+
+*This will include neither '1993-07-31' nor '1993-10-05'.*
+
+***
+
+Note: **Use `*` to select all columns**:
 
 ```sql
 select * from animals where species = 'orangutan' order by birthdate desc;
 ```
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_order-by.png?raw=true" width="500px">
-
-|  name   |  species  | birthdate  |
-| :-----: | :-------: | :--------: |
-|  Singa  | orangutan | 2012-11-03 |
-|  Gajah  | orangutan | 2011-05-26 |
-| Putera  | orangutan | 1993-06-29 |
-|  Ratu   | orangutan | 1989-09-15 |
-| Kambing | orangutan | 1988-11-12 |
-|  Raja   | orangutan | 1975-04-09 |
 
 <br>
 
@@ -88,14 +113,6 @@ select name, birthdate from animals where species = 'gorilla' limit 5 offset 3;
 ```
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_limit_offset.png?raw=true" width="500px">
-
-|  name   | birthdate  |
-| :-----: | :--------: |
-|   Liz   | 1998-06-12 |
-| George  | 2011-01-09 |
-| George  | 1998-05-18 |
-| Wendell | 1982-09-24 |
-|  Bjorn  | 2000-03-07 |
 
 ***
 
@@ -114,14 +131,6 @@ select name, birthdate from animals where species = 'gorilla' limit 5 offset 3;
     ```sql
     select species, count(species) from animals group by species limit 5;
     ```
-
-    |  species   | count(species) |
-    | :--------: | :------------: |
-    |   alpaca   |       5        |
-    | brown bear |       3        |
-    |   camel    |       3        |
-    |   dingo    |       3        |
-    |  echidna   |       1        |
 
   * <u>For each distinct name, find how many animals are sharing that name?</u>
 
@@ -144,10 +153,6 @@ select name, birthdate from animals where species = 'gorilla' limit 5 offset 3;
   select max(name) as max_name from animals
   ```
 
-  | max_name |
-  | :------: |
-  |   Zoe    |
-
 * `min`
 
   ```sql
@@ -163,13 +168,6 @@ select name, birthdate from animals where species = 'gorilla' limit 5 offset 3;
 
   Check the above illustration
 
-  |  species   | min(birthdate) |
-  | :--------: | :------------: |
-  |   alpaca   |   2001-01-16   |
-  | brown bear |   1981-10-17   |
-  |   camel    |   1971-03-08   |
-  |   dingo    |   1999-08-04   |
-  |  echidna   |   2003-01-31   |
 
 <br>
 

@@ -2,44 +2,38 @@
 # -*- coding: utf-8 -*-
 
 """
-Simple usage demo of sqlite3 library (driver).
+Simple usage demo of mysql-connector library (driver).
 """
 
 __author__ = 'Ziang Lu'
 
-import os
-import sqlite3
 from typing import List
 
-DB_NAME = 'sample.db'
+import mysql.connector as sql
+
+DB_NAME = 'test'
 
 
 def init_db() -> None:
-    """
-    Creates a DB and insert rows into it.
-    :return: None
-    """
-    # Remove any existing DB
-    full_path = os.path.join(os.path.dirname(__file__), DB_NAME)
-    if os.path.isfile(full_path):
-        os.remove(full_path)
+    # TODO: Remove any existing DB?
 
-    # Establish a connection to the DB
-    with sqlite3.connect(DB_NAME) as conn:
-        # If the DB doesn't exist, it will be created.
+    # TODO: figure out the correct and succesful way of connecting to MySQL
+    with sql.connect('DB_NAME') as conn:
+        # TODO: figure out whether it will create the DB if not existing?
 
         # Get the cursor
         cursor = conn.cursor()
 
-        # Create a 'user' table
+        # Create a "score" table
         cursor.execute('''
         create table scores (
-            id varchar(20) primary key,
+            id varchar(20),
             name varchar(20),
-            score int
+            score int,
+            primary key(id)
         )
-        ''')  # TODO: figure out 'primary key'?
-        # Insert 3 rows to 'user' table
+        ''')
+        # Note that specifying a primary key in MySQL is like above
         cursor.execute('''
         insert into scores values
             ('A-001', 'Adam', 95),
@@ -48,7 +42,6 @@ def init_db() -> None:
         ''')
         print('Finished DB initialization...')
         print(f'Number of inserted rows: {cursor.rowcount}')
-        # TODO: figure out cursor.rowcount only reflects the affected rows
 
         # Always remember to close the cursor
         cursor.close()
@@ -62,7 +55,7 @@ def init_db() -> None:
 
 
 def get_score_within(low: int, high: int) -> List[str]:
-    """
+        """
     Gets students whose score is within the given range, ordered by the score in
     ascending order.
     :param low: lower bound
@@ -71,18 +64,17 @@ def get_score_within(low: int, high: int) -> List[str]:
     """
     print(f'List students whose score is within {low} and {high}, ordered by '
           f'the score in ascending order:')
-    with sqlite3.connect(DB_NAME) as conn:
+    with sql.connect(DB_NAME) as conn:
         # Get the cursor
         cursor = conn.cursor()
 
-        # Execute the query
         cursor.execute('''
         select name
         from scores
-        where score between ? and ?
+        where score between %s and %s
         order by score
         ''', (low, high))  # Provide arguments to SQL query
-        # Fetch all the results
+        # Note that the placeholder used in MySQL is "%s"
         results = cursor.fetchall()
         desired_results = list(map(lambda x: x[0], results))
 
@@ -99,9 +91,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# Output:
-# Finished DB initialization...
-# Number of inserted rows: 3
-# List students whose score is within 60 and 80, ordered by the score in ascending order:
-# ['Bart', 'Lisa']

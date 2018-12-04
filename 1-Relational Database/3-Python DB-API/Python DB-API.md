@@ -20,11 +20,11 @@ e.g., Python DB-API specifies <u>which functions you should call</u> to connect 
 
 => **"Atomicity": A transaction happens as a whole, or not at all.**
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_1.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_1.png?raw=true" width="400px">
 
 => If we close a connection or the code crashes without committing the changes, the changes will be <u>rolled back</u>.
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_2.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_2.png?raw=true" width="400px">
 
 <br>
 
@@ -32,9 +32,17 @@ e.g., Python DB-API specifies <u>which functions you should call</u> to connect 
 
 The following Python modules <u>all follow Python DB-API</u>.
 
-| DB System  | Python DB-API Library (Driver) |
-| :--------: | :----------------------------: |
-|   SQLite   |           `sqlite3`            |
-|   MySQL    |       `mysql.connector`        |
-| PostgreSQL |           `psycopg2`           |
+|            DB Management System             | Python DB-API Library (Driver) |
+| :-----------------------------------------: | :----------------------------: |
+|                   SQLite                    |           `sqlite3`            |
+| MySQL<br>*Check out the below instructions* |       `mysql.connector`        |
+|                 PostgreSQL                  |           `psycopg2`           |
+
+***
+
+Note that <u>SQLite is embedded in Python</u>, so we don't need to do anything to use it.
+
+***
+
+*Check out the corresponding demo program for detailed usage*
 

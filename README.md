@@ -6,11 +6,13 @@ These repo contains course notes in the following courses
 
 <br>
 
-DB enables **safe concurrent access by multiple programs/users**.
-
 ## Benefits
 
-*Why not just fetch all the data from DB to my application code, and do all the data operations there?*
+DB enables **safe concurrent access by multiple programs/users**.
+
+***
+
+Why not just fetch all the data from DB to my application code, and do all the data operations there?*
 
 * **Speed**
 
@@ -25,27 +27,26 @@ DB enables **safe concurrent access by multiple programs/users**.
 ## Types
 
 * Navigational DB (导航型数据库)
-* **Relational DB (关系型数据库)**
-  * SQLite
-    * 嵌入式DB, 其DB就是一个文件
-    * 经常被集成到桌面和移动端应用之中
-  * **MySQL**
-  * **PostgreSQL**
-  * Oracle
-    * 不开源、付费
+* Relational DB (关系型数据库) ***
+  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/Relational%20DB%20Concepts.md">Relational DB Concepts</a>
+  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/SQL%20Notes.md">SQL Notes</a>
+  * Relational DB Management System (关系型数据库管理系统)
+    * SQLite
+      * 轻量级、嵌入式DB, 其一个DB就是一个文件 => 经常被集成到桌面和移动端应用之中
+      * 不能承受高concurrency访问
+    * MySQL ***
+      * 为server-side设计的, 使用最广泛的DB server
+      * 能承受高concurrency访问
+    * PostgreSQL ***
+    * Oracle
+      * 不开源、付费
+  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/Python%20DB-API.md">Python DB-API</a>
 * Key-value store (键-值存储)
   - 适用于数据类型相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
-  - **Non-Relational DB (非关系型数据库) (NoSQL)**
-    - **MongoDB**
-    - **Redis**
-
-<br>
-
-## Communication with DB
-
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/comm_with_DB.png?raw=true" width="500px">
-
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/comm_with_DB_impl.png?raw=true" width="600px">
+  - Non-Relational DB (非关系型数据库) (NoSQL) ***
+    - Non-Relational DB Management System (非关系型数据库管理系统)
+      - MongoDB ***
+      - Redis ***
 
 <br>
 

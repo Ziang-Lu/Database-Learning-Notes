@@ -1,5 +1,9 @@
 # Relational DB Concepts
 
+
+
+<br>
+
 ## Data Storage
 
 We store all of the data **in the form of tables**.
@@ -13,6 +17,14 @@ We store all of the data **in the form of tables**.
 *(=> Commonly use a simple numerical ID that is unique for each row)*
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/data_storage-primary_key.png?raw=true">
+
+<br>
+
+## Communicatino with Relational DB
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/comm_with_relational_DB.png?raw=true" width="600px">
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/comm_with_relationa_DB_impl.png?raw=true" width="600px">
 
 <br>
 
