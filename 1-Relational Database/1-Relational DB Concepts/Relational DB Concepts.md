@@ -1,30 +1,64 @@
 # Relational DB Concepts
 
+## Relational Data Model
 
+### Building Blocks
+
+* **Entity**
+
+  Unique, distinct, and distinguishable
+
+* **Attribute**
+
+  A ~ is a <u>characteristic of an entity</u>.
+
+* **Relationship**
+
+  Describes the <u>association between entities</u>
+
+  * 1-to-1
+  * 1-to-Many
+  * Many-to-Many
+
+### Entity-Relationship (ER) Diagram
+
+-> Used to illustrate and document the relationships between entities
+
+
+
+*(真的很像UML class diagram...)*
 
 <br>
 
 ## Data Storage
 
-We store all of the data **in the form of tables**.
+We store all of the data **in the form of (related) tables**.
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/data_storage-table.png?raw=true" width="600px">
 
+***
+
 **Primary Key (主键)**
 
-<u>Unique for each row</u>
+**A column or a set of columns that <u>uniquely identify each row</u> in the table**
 
 *(=> Commonly use a simple numerical ID that is unique for each row)*
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/data_storage-primary_key.png?raw=true">
 
+***
+
+**Foreign Key (外部键)**
+
+**A column or a set of columns that **
+
 <br>
 
-## Communicatino with Relational DB
+## Communication with Relational DB
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/comm_with_relational_DB.png?raw=true" width="600px">
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/comm_with_relationa_DB_impl.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/comm_with_relational_DB_impl.png?raw=true" width="600px">
 
 <br>
 

@@ -12,7 +12,7 @@ DB enables **safe concurrent access by multiple programs/users**.
 
 ***
 
-Why not just fetch all the data from DB to my application code, and do all the data operations there?*
+*Why not just fetch all the data from DB to my application code, and do all the data operations there?*
 
 * **Speed**
 
@@ -24,7 +24,15 @@ Why not just fetch all the data from DB to my application code, and do all the d
 
 <br>
 
-## Types
+## Data Model (数据模型)
+
+**Data Modeling** is a way to **organize and join data**.
+
+*Data Model should always represent a real-world problem as closely as possible.*
+
+<br>
+
+## DB Types (本质上是Data Model的不同type)
 
 * Navigational DB (导航型数据库)
 * Relational DB (关系型数据库) ***
@@ -41,12 +49,11 @@ Why not just fetch all the data from DB to my application code, and do all the d
     * Oracle
       * 不开源、付费
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/Python%20DB-API.md">Python DB-API</a>
-* Key-value store (键-值存储)
+* Key-value store (键-值存储)   (Not-only SQL)
   - 适用于数据类型相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
-  - Non-Relational DB (非关系型数据库) (NoSQL) ***
-    - Non-Relational DB Management System (非关系型数据库管理系统)
-      - MongoDB ***
-      - Redis ***
+  - NoSQL DB Management System
+    - MongoDB ***
+    - Redis ***
 
 <br>
 

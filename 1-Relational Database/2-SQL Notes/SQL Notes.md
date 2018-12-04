@@ -1,4 +1,4 @@
-# Structured Query Language (SQL) Notes
+# SQL Notes
 
 ## Data Types in SQL
 
