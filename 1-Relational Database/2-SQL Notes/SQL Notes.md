@@ -59,6 +59,8 @@
 
 ### 1. Fetching Data from DB
 
+#### (1) Retrieving & Filtering
+
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_where.png?raw=true" width="600px">
 
 ```sql
@@ -68,7 +70,7 @@ where species = 'gorilla'
 	and name = 'Max';
 ```
 
-Note that `where` applies before any aggregation
+Note that <u>`where` applies before any aggregation</u>
 
 ***
 
@@ -188,7 +190,23 @@ limit 5 offset 3;
 
 `=`, `!=`, `<`, `>`, `<=`, `>=`
 
-#### (1) Aggregation (聚合)
+***
+
+**Supported Math Operators**
+
+`+`, `-`, `*`, `/`
+
+```sql
+select product_id, units_on_order, unit_price,
+	units_on_order * unit_price as order_total_cost
+from products
+```
+
+***
+
+<br>
+
+#### (2) Aggregation (聚合)
 
 [On a single table]
 
@@ -220,11 +238,25 @@ limit 5 offset 3;
     - select the `name` column
     - do the aggregation: `count` all the selected rows grouping by the `name` column, i.e., <u>for each distinct `name`, `count` the number of selected rows with that `name`</u>
 
+* `sum`
+
+  ```sql
+  select sum(unit_price) as total_prod_price
+  from products;
+  ```
+
+* `avg`
+
+  ```sql
+  select avg(unit_price) as avg_price
+  from products;
+  ```
+
 * `max`
 
   ```sql
   select max(name) as max_name
-  from animals
+  from animals;
   ```
 
 * `min`
@@ -245,10 +277,24 @@ limit 5 offset 3;
 
   Check the above illustration
 
+***
+
+**`having` clause**:
+
+Works <u>similar to `where`</u> clause, but <u>after any aggregation</u>
+
+```sql
+select customer_id, count(*) as customer_orders
+from orders
+group by customer_id
+having customer_orders >= 2;
+```
+
+***
 
 <br>
 
-#### (2) Join (合并)
+#### (3) Join (合并)
 
 [On multiple tables]
 

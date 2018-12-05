@@ -40,9 +40,5 @@ The following Python modules <u>all follow Python DB-API</u>.
 
 ***
 
-Note that <u>SQLite is embedded in Python</u>, so we don't need to do anything to use it.
-
-***
-
 *Check out the corresponding demo program for detailed usage*
 

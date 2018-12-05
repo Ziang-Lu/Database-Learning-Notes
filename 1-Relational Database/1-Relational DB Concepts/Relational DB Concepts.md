@@ -28,7 +28,7 @@
 
 **ER Diagram Notations**:
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/ER_diagram-notations.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/ER_diagram-notations.png?raw=true">
 
 ***
 
@@ -90,7 +90,11 @@ Like in the above example, in the `Department` tale, each `Department` needs to 
 
 ### 1. Fetching Data from DB
 
-#### (1) Aggregation (聚合)
+#### (1) Retrieving & Filtering
+
+<br>
+
+#### (2) Aggregation (聚合)
 
 **Summarize multiple rows into a single row**
 
@@ -122,7 +126,7 @@ Like in the above example, in the `Department` tale, each `Department` needs to 
 
 <br>
 
-#### (2) Join (合并)
+#### (3) Join (合并)
 
 **Linking multiple tables** to extract the desired information
 
