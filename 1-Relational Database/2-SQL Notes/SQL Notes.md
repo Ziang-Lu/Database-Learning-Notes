@@ -100,9 +100,8 @@ Select a value from a <u>range</u> of values (inclusive):
 select name, species
 from animals
 where birthdate between '1993-07-31' and '1993-10-05';
+-- This will include both '1993-07-31' and '1993-10-05'.
 ```
-
-*This will include both '1993-07-31' and '1993-10-05'.*
 
 Use `not between` to exclude a range of values (exclusive):
 
@@ -110,9 +109,55 @@ Use `not between` to exclude a range of values (exclusive):
 select name, species
 from animals
 where birthdate not between '1993-07-31' and '1993-10-05';
+-- This will include neigher '1993-07-31' nor '1993-10-05'.
 ```
 
-*This will include neither '1993-07-31' nor '1993-10-05'.*
+***
+
+**`is null` operator** in `where` clause
+
+Select only `null` values:
+
+```sql
+select name, species
+from animals
+where birthdate is null;
+```
+
+Use `is not null` to select only non-null values:
+
+```sql
+select name, species
+from animals
+where birthdate is not null;
+```
+
+***
+
+**`like` operator** in `where` clause
+
+Select values that follow a pattern:
+
+Wildcards
+
+* `%` represents any number of characters
+* `_` represents a single character
+
+```sql
+select name, birthdate
+from animals
+where species like '_r%';
+-- This will select all the species that have 'r' at the second position.
+```
+
+Use `not like` to exclude values that follow a pattern:
+
+```sql
+select name, birthdate
+from animals
+where species not like '_r%';
+-- This will select all the species that does not have 'r' at the second position.
+```
 
 ***
 
