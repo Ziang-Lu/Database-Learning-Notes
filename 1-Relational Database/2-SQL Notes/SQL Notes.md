@@ -57,6 +57,20 @@
 
 ## Operations
 
+### 0. Creating DB
+
+```sql
+create database test;
+```
+
+After creating the DB, use the following command to show all existing DBs, to check if the creation is successful:
+
+```mysql
+show databases;
+```
+
+<br>
+
 ### 1. Fetching Data from DB
 
 #### (1) Retrieving & Filtering
@@ -208,6 +222,10 @@ from products
 
 #### (2) Aggregation (聚合)
 
+**Summarize multiple rows into a single row**
+
+**(=> Compute a single value from a set of values)**
+
 [On a single table]
 
 * `count`
@@ -296,13 +314,29 @@ having customer_orders >= 2;
 
 #### (3) Join (合并)
 
+**Linking multiples tables** to extract the desired information
+
 [On multiple tables]
 
-Full `join` query from the <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/Relational%20Database%20Concepts/Relational%20Database%20Concepts.md">relational DB concepts notes</a>:
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/operation-join-1-original_tables.png?raw=true" width="500px">
+
+**Question: How many individual animals eat fish?**
+
+Running the following `join` query results in the table on the left:
 
 ```sql
 select animals.name, animals.species, diet.food from animals join diet on animals.species = diet.species;
 ```
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/operation-join-2-mid_result_table.png?raw=true" width="500px">
+
+By adding the row restriction `where food = 'fish'`, we can get the individual animals that eat fish.
+
+After that, we can do a `count` aggregation on the above result table, and finally get the total number of individual animals that eat fish.
+
+The whole process is explained by the following diagram:
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/operation-join-3-process.png?raw=true" width="500px">
 
 Simplified version:
 
@@ -314,13 +348,21 @@ select animals.name, animals.species, diet.food from animals, diet where animals
 
 ### 2. Inserting Data to DB
 
-#### Creating New Table
+#### (1) Creating New Table
+
+* `not null`
+* `unique`
+
+* `primary key`
+  * A combination of `not null` and `unique`
+
+Note the difference in declaring a `primary key` in SQLite and MySQL:
 
 **SQLite**
 
 ```sqlite
 create table scores (
-    id varchar(20) not null primary key,
+    id varchar(20) primary key,
     name varchar(20) not null,
     score int
 )
@@ -339,7 +381,7 @@ create table scores (
 
 <br>
 
-#### Creating Temporary Table (临时表)
+#### (2) Creating Temporary Table (临时表)
 
 Temporary table:
 

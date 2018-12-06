@@ -32,13 +32,14 @@ def init_db(db_filename: str) -> None:
 
     cursor.execute('''
     create table scores (
-        id varchar(20) not null primary key,
+        id varchar(20) primary key,
         name varchar(20) not null,
         score int
     )
     ''')
     # Note that specifying a primary key in SQLite is like above
-    # "primary key" constraint automatically contains "unique" constraint
+    # "primary key" constraint automatically contains "not null" and "unique"
+    # constraints
     cursor.execute('''
     insert into scores
     values

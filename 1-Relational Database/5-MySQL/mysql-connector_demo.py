@@ -40,7 +40,8 @@ def init_db(user: str, pwd: str) -> None:
     )
     ''')
     # Note that specifying a primary key in MySQL is like above
-    # "primary key" constraint automatically contains "unique" constraint
+    # "primary key" constraint automatically contains "not null" and "unique"
+    # constraints
 
     cursor.execute('''
     insert into scores
