@@ -3,10 +3,15 @@
 
 """
 Simple usage demo of mysql-connector library (driver).
+
+Before running this script, first create a MySQL database called "test":
+> mysql -u root -p
+> create database test
 """
 
 __author__ = 'Ziang Lu'
 
+import argparse
 from typing import List
 
 import mysql.connector as sql
@@ -14,82 +19,111 @@ import mysql.connector as sql
 DB_NAME = 'test'
 
 
-def init_db() -> None:
-    # TODO: Remove any existing DB?
+def init_db(user: str, pwd: str) -> None:
+    """
+    Initialize a DB by inserting rows into it.
+    :param user: str
+    :param pwd: str
+    :return: None
+    """
+    conn = sql.connect(user=user, password=pwd, database=DB_NAME)
 
-    # TODO: figure out the correct and succesful way of connecting to MySQL
-    with sql.connect('DB_NAME') as conn:
-        # TODO: figure out whether it will create the DB if not existing?
+    # Get the cursor
+    cursor = conn.cursor()
 
-        # Get the cursor
-        cursor = conn.cursor()
+    cursor.execute('''
+    create table scores (
+        id varchar(20) not null,
+        name varchar(20) not null,
+        score int,
+        primary key(id)
+    )
+    ''')
+    # Note that specifying a primary key in MySQL is like above
+    # "primary key" constraint automatically contains "unique" constraint
 
-        cursor.execute('''
-        create table scores (
-            id varchar(20) not null,
-            name varchar(20) not null,
-            score int,
-            primary key(id)
-        )
-        ''')
-        # Note that specifying a primary key in MySQL is like above
-        # "primary key" constraint automatically contains "unique" constraint
+    cursor.execute('''
+    insert into scores
+    values
+        ('A-001', 'Adam', 95),
+        ('A-002', 'Bart', 62),
+        ('A-003', 'Lisa', 78)
+    ''')
+    print('Finished DB initialization...')
+    print(f'Number of inserted rows: {cursor.rowcount}')
 
-        cursor.execute('''
-        insert into scores
-        values
-            ('A-001', 'Adam', 95),
-            ('A-002', 'Bart', 62),
-            ('A-003', 'Lisa', 78)
-        ''')
-        print('Finished DB initialization...')
-        print(f'Number of inserted rows: {cursor.rowcount}')
+    # Always remember to close the cursor
+    cursor.close()
 
-        # Always remember to close the cursor
-        cursor.close()
+    # Whenever we make changes to a DB, these changes will go into a
+    # "transaction", and it will take effect only when we call conn.commit()
+    # method.
+    conn.commit()
+    # If we close a connection or the code crashes without committing the
+    # changes, the changes will be rolled back.
 
-        # Whenever we make changes to a DB, these changes will go into a
-        # "trasaction", and it will take effect only when we call conn.commit()
-        # method.
-        conn.commit()
-        # If we close a connection or the code crashes without commiting the
-        # changes, the changes will be rolled back.
+    # Always remember to close the connection
+    conn.close()
 
 
-def get_score_within(low: int, high: int) -> List[str]:
-        """
+def get_score_within(user: str, pwd: str, low: int, high: int) -> List[str]:
+    """
     Gets students whose score is within the given range, ordered by the score in
     ascending order.
+    :param user: str
+    :param pwd: str
     :param low: lower bound
     :param high: upper bound
     :return: list[str]
     """
     print(f'List students whose score is within {low} and {high}, ordered by '
           f'the score in ascending order:')
-    with sql.connect(DB_NAME) as conn:
-        # Get the cursor
-        cursor = conn.cursor()
+    conn = sql.connect(user=user, password=pwd, database=DB_NAME)
 
-        cursor.execute('''
-        select name
-        from scores
-        where score between %s and %s
-        order by score
-        ''', (low, high))  # Provide arguments to SQL query
-        # Note that the placeholder used in MySQL is "%s"
-        results = cursor.fetchall()
-        desired_results = list(map(lambda x: x[0], results))
+    # Get the cursor
+    cursor = conn.cursor()
 
-        # Always remember to close the cursor
-        cursor.close()
+    cursor.execute('''
+    select name
+    from scores
+    where score between %s and %s
+    order by score
+    ''', (low, high))  # Provide arguments to SQL query
+    # Note that the placeholder used in MySQL is "%s"
+    results = cursor.fetchall()
+    desired_results = list(map(lambda x: x[0], results))
 
-        return desired_results
+    # Always remember to close the cursor
+    cursor.close()
+
+    # Always to remember to close the connection
+
+    return desired_results
 
 
 def main():
-    init_db()
-    print(get_score_within(low=60, high=80))
+    parser = argparse.ArgumentParser(
+        description='MySQL simple demo using mysql-connector'
+    )
+
+    parser.add_argument('-u', '--user', help='User to login')
+    parser.add_argument('-p', '--password',
+                        help='Password for the user to login')
+
+    args = parser.parse_args()
+
+    user = args.user
+    pwd = args.password
+
+    init_db(user, pwd)
+    print(get_score_within(user, pwd, low=60, high=80))
 
 
 if __name__ == '__main__':
     main()
+
+# Output:
+# Finished DB initialization...
+# Number of inserted rows: 3
+# List students whose score is within 60 and 80, ordered by the score in ascending order:
+# ['Bart', 'Lisa']

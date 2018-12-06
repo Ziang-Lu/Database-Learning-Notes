@@ -7,6 +7,61 @@
 
 <br>
 
+## Setup
+
+* Download MySQL from official website
+
+  * After installation,  set a password for the `root` user
+
+* `> ls /usr/local/mysql`
+
+  * `data/`: 用来保存数据文件和log文件
+  * `bin/`: 保存了MySQL常用的command工具和管理工具
+  * `docs/` and `man/`: 保存了MySQL的help documentations
+
+* Put `my.cnf` under `/etc` to set the encoding to UTF-8
+
+* `System Preference` -> `MySQL` -> `Configuration`
+
+  * Set the configuration file location to the above one
+
+* Add the following to `.bashrc` and `.zshrc`:
+
+  ```bash
+  export PATH="/usr/local/mysql/bin:$PATH"
+  ```
+
+<br>
+
+## Start MySQL Server
+
+* `System Preference` -> `MySQL`
+  * `Initialize Database`
+  * ``Start MySQL Server`
+
+<br>
+
+## MySQL Interactive Shell
+
+```bash
+> mysql -u root -p  # Establish a connection (open a client session), and enter MySQL interactive shell
+```
+
+**Common commands**
+
+```mysql
+show variables; -- Show all the system variables and status variables
+```
+
+```mysql
+show databases; -- Show all the databases on the MySQL server
+create database test; -- Create a database called "test"
+use test; -- Enter "test" database
+show tables; -- Show all the tables in "test" database
+```
+
+<br>
+
 ## Python Support
 
 `mysql-connector`
