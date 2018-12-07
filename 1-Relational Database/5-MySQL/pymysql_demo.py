@@ -9,12 +9,11 @@ Before running this script, first create a MySQL database called "test":
 > create database test
 """
 
-__author__ = 'Ziang Lu'
-
 import argparse
 from typing import List
 
-import mysql.connector as sql
+import pymysql
+from pymysql.cursors import DictCursor
 
 DB_NAME = 'test'
 
@@ -26,7 +25,7 @@ def init_db(user: str, pwd: str) -> None:
     :param pwd: str
     :return: None
     """
-    conn = sql.connect(user=user, password=pwd, database=DB_NAME)
+    conn = pymysql.connect(user=user, password=pwd, database=DB_NAME)
 
     # Get the cursor
     with conn.cursor() as cursor:
@@ -73,7 +72,8 @@ def get_score_within(user: str, pwd: str, low: int, high: int) -> List[str]:
     """
     print(f'List students whose score is within {low} and {high}, ordered by '
           f'the score in ascending order:')
-    conn = sql.connect(user=user, password=pwd, database=DB_NAME)
+    conn = pymysql.connect(user=user, password=pwd, database=DB_NAME,
+                           cursorclass=DictCursor)
 
     # Get the cursor
     with conn.cursor() as cursor:
@@ -85,7 +85,7 @@ def get_score_within(user: str, pwd: str, low: int, high: int) -> List[str]:
         ''', (low, high))  # Provide arguments to SQL query
         # Note that the placeholder used in MySQL is "%s"
         results = cursor.fetchall()
-        desired_results = list(map(lambda x: x[0], results))
+        desired_results = list(map(lambda x: x['name'], results))
 
     # Always to remember to close the connection
     conn.close()

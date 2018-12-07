@@ -65,6 +65,8 @@ show tables; -- Show all the tables in "test" database
 
 ## Python Support
 
-* `mysql-connector`
-* `pymysql`
+* `mysql-connector-python`
+  * Official Python support by Oracle Inc.
+  * Worst performance  = =
+* `PyMySQL`
 

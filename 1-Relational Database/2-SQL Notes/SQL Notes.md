@@ -57,7 +57,7 @@
 
 ## Operations
 
-### 0. Creating DB
+### 0. Operations on DB
 
 ```sql
 create database test;
@@ -67,6 +67,110 @@ After creating the DB, use the following command to show all existing DBs, to ch
 
 ```mysql
 show databases;
+```
+
+To delete the DB, use the following command:
+
+```sql
+drop database test;
+```
+
+<br>
+
+### 0. Operations on Table Itself
+
+#### (1) Creating Table
+
+**Constraints:**
+
+- `not null`
+- `unique`
+
+- `primary key`
+  - A combination of `not null` and `unique`
+- `auto_increment`
+
+SQLite:
+
+```sqlite
+create table scores (
+    id varchar(20) primary key,
+    name varchar(20) not null,
+    score int
+);
+-- Note that specifying a primary key in SQLite is like above
+```
+
+MySQL:
+
+```mysql
+create table scores (
+	id varchar(20) not null auto_increment,
+    name varchar(20) not null,
+    score int,
+    primary key(id)
+);
+-- Note that specifying a primary key in MySQL is like above
+```
+
+<br>
+
+#### (2) Creating Temporary Table (临时表)
+
+Temporary table:
+
+- Creating faster than a real, permanent table
+- Deleted when the current client session is terminated
+
+```sql
+create temporary table sandals as (
+    select *
+    from shoes
+    where shoe_type = 'sandals'
+);
+```
+
+*(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
+
+<br>
+
+#### (3) Altering Existing Table Itself
+
+* Add, modify, or delete columns of an existing table
+
+  * Add column
+
+    ```sql
+    alter table customers
+    add email /* column_name */ varchar(255) /* data_type */;
+    ```
+
+  * Modify column
+
+    MySQL:
+
+    ```sql
+    alter table customer
+    modify column email /* column_name */ ;
+    ```
+
+  * Delete column
+
+    ```sql
+    alter table customers
+    drop column email /* column_name */;
+    ```
+
+* Add and drop constraints on an existing table
+
+#### (4) Deleting Table
+
+```sql
+drop table scores; -- Delete all the information stored in the table, and then delete the table
+```
+
+```sql
+truncate table scores; -- Delete all the information stored (including the headers) in the table, but not table itself
 ```
 
 <br>
@@ -325,7 +429,9 @@ having customer_orders >= 2;
 Running the following `join` query results in the table on the left:
 
 ```sql
-select animals.name, animals.species, diet.food from animals join diet on animals.species = diet.species;
+select animals.name, animals.species, diet.food
+from animals join diet
+on animals.species = diet.species;
 ```
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/operation-join-2-mid_result_table.png?raw=true" width="500px">
@@ -341,68 +447,42 @@ The whole process is explained by the following diagram:
 Simplified version:
 
 ```sql
-select animals.name, animals.species, diet.food from animals, diet where animals.species = diet.species;
+select animals.name, animals.species, diet.food
+from animals, diet
+where animals.species = diet.species;
 ```
 
 <br>
 
-### 2. Inserting Data to DB
-
-#### (1) Creating New Table
-
-* `not null`
-* `unique`
-
-* `primary key`
-  * A combination of `not null` and `unique`
-
-Note the difference in declaring a `primary key` in SQLite and MySQL:
-
-**SQLite**
-
-```sqlite
-create table scores (
-    id varchar(20) primary key,
-    name varchar(20) not null,
-    score int
-)
-```
-
-**MySQL**
-
-```mysql
-create table scores (
-	id varchar(20) not null,
-    name varchar(20) not null,
-    score int,
-    primary key(id)
-)
-```
-
-<br>
-
-#### (2) Creating Temporary Table (临时表)
-
-Temporary table:
-
-* Creating faster than a real, permanent table
-* Deleted when the current client session is terminated
-
-```sql
-create temporary table sandals as (
-    select *
-    from shoes
-    where shoe_type = 'sandals'
-)
-```
-
-*(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
-
-<br>
-
-#### Inserting Data to Table
+### 2. Inserting Data to Table
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/insert-into_values.png?raw=true" width="600px">
 
 A single `insert` statement can only <u>insert rows into a single table</u>.
+
+<br>
+
+### 3. Updating Data to Table
+
+```sql
+update customers
+set contact_name = 'Aflred Schmidt',
+	city = 'Frankfurt'
+where customer_id = 1;
+```
+
+<br>
+
+### 4. Deleting Data in Table
+
+```sql
+delete from customers
+where customer_name = 'Alfred Futterkiste';
+```
+
+Note that
+
+```sql
+delete from customers; -- Delete all the information (not including the headers) stored in the table, but not table itself
+```
 

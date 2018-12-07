@@ -32,11 +32,11 @@ e.g., Python DB-API specifies <u>which functions you should call</u> to connect 
 
 The following Python modules <u>all follow Python DB-API</u>.
 
-| DB Management System | Python DB-API Library (Driver) |
-| :------------------: | :----------------------------: |
-|        SQLite        |           `sqlite3`            |
-|        MySQL         | `mysql.connector`<br>`pymysql` |
-|      PostgreSQL      |           `psycopg2`           |
+| DB Management System |                Python DB-API Library (Driver)                |
+| :------------------: | :----------------------------------------------------------: |
+|        SQLite        | <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/4-SQLite/sqlite3_demo.py">`sqlite3`</a> |
+|        MySQL         | <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/5-MySQL/mysql-connector_demo.py">`mysql.connector-python`</a><br>`PyMySQL` |
+|      PostgreSQL      |                          `psycopg2`                          |
 
 ***
 
