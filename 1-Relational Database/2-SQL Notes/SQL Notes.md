@@ -150,7 +150,7 @@ create temporary table sandals as (
     MySQL:
 
     ```sql
-    alter table customer
+    alter table customers
     modify column email /* column_name */ ;
     ```
 
@@ -431,12 +431,11 @@ Running the following `join` query results in the table on the left:
 ```sql
 select animals.name, animals.species, diet.food
 from animals join diet
-on animals.species = diet.species;
+on animals.species = diet.species
+where diet.food = 'fish';
 ```
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/operation-join-2-mid_result_table.png?raw=true" width="500px">
-
-By adding the row restriction `where food = 'fish'`, we can get the individual animals that eat fish.
 
 After that, we can do a `count` aggregation on the above result table, and finally get the total number of individual animals that eat fish.
 
@@ -451,6 +450,85 @@ select animals.name, animals.species, diet.food
 from animals, diet
 where animals.species = diet.species;
 ```
+
+<br>
+
+***
+
+**Different Types of `join`:**
+
+* **(INNER) JOIN**
+
+  Returns records that <u>have matching values in both tables</u>
+
+  * 是`join`的默认形式, 即上面的
+
+    ```sql
+    select animals.name, animals.species, diet.food
+    from animals join diet
+    on animals.species = diet.species
+    where diet.food = 'fish';
+    ```
+
+    即为`inner join`
+
+  `inner join` three tables:
+
+  ```sql
+  select order.order_id, customers.customer_name, shippers.shipper_name
+  from (
+      (
+          orders join customers
+          on orders.customer_id = customers.customer_id
+      ) join shippers
+      on orders.shipper_id = shippers.shipper_id
+  );
+  ```
+
+* **LEFT (OUTER) JOIN**
+
+  Returns <u>all records from the left table</u>, as well as the <u>matching records from the right table</u>
+
+  *Determine "left table" and "right table":*
+
+  `from left_table left join right table` or `from left_table, righ_table`
+
+  ```sql
+  select customers.customer_name, orders.order_id
+  from customers left join orders
+  on cutomers.customer_id = orders.customer_id
+  order by customers.customer_name;
+  ```
+
+* **RIGHT (OUTER) JOIN**
+
+  Returns <u>all records from the right table</u>, as well as the <u>matching records from the left table</u>
+
+  *与left (outer) join是完全对称的*
+
+  ```sql
+  select orders.order_id, employees.last_name, employees.first_name
+  from orders right join employees
+  on orders.employee_id = employees.employee_id
+  order by orders.order_id;
+  ```
+
+* **FULL (OUTER) JOIN**
+
+  Returns <u>all records in both tables</u> when there is a match in either table
+
+  *本质上是一个left (outer) join再补上right table中的剩余部分*
+
+  ```sql
+  select customers.curstomer_name, orders.order_id
+  from customers full outer join orders
+  on customers.customer_id = orders.customer_id
+  order by customers.customer_name
+  ```
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/operation-join-types.png?raw=true" width="500px">
+
+***
 
 <br>
 

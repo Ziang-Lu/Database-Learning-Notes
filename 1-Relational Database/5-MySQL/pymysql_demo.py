@@ -29,6 +29,18 @@ def init_db(user: str, pwd: str) -> None:
 
     # Get the cursor
     with conn.cursor() as cursor:
+        # Remove any existing DB
+        cursor.execute('''
+        drop table if exists %s
+        ''', (DB_NAME,))  # # Provide arguments to SQL query
+
+        # Whenever we make changes to a DB, these changes will go into a
+        # "transaction", and it will take effect only when we call conn.commit()
+        # method.
+        conn.commit()
+        # If we close a connection or the code crashes without committing the
+        # changes, the changes will be rolled back.
+
         cursor.execute('''
         create table scores (
             id int not null auto_increment,
@@ -49,12 +61,7 @@ def init_db(user: str, pwd: str) -> None:
         print('Finished DB initialization...')
         print(f'Number of inserted rows: {cursor.rowcount}')
 
-    # Whenever we make changes to a DB, these changes will go into a
-    # "transaction", and it will take effect only when we call conn.commit()
-    # method.
-    conn.commit()
-    # If we close a connection or the code crashes without committing the
-    # changes, the changes will be rolled back.
+        conn.commit()
 
     # Always remember to close the connection
     conn.close()
