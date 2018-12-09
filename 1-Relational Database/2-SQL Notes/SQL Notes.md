@@ -85,32 +85,35 @@ drop database test;
 
 - `not null`
 - `unique`
-
 - `primary key`
   - A combination of `not null` and `unique`
 - `auto_increment`
+- `foreign_key`
+  - By using `foreign key` constraints, we establish links between tables.
+  - Using `foreign key` constraint prevents actions that would break these links
 
 SQLite:
 
 ```sqlite
 create table scores (
-    id varchar(20) primary key,
+    id int primary key,  -- Specify a primary key in SQLite
     name varchar(20) not null,
-    score int
+    score int,
+    exam_id int
+    foreign key(exam_id) references exams(exam_id)  -- Specify a foreign key in SQLite
 );
--- Note that specifying a primary key in SQLite is like above
 ```
 
 MySQL:
 
 ```mysql
 create table scores (
-	id varchar(20) not null auto_increment,
+	id int not null auto_increment,
     name varchar(20) not null,
     score int,
-    primary key(id)
+    primary key(id)  -- Specify a primary key in SQLite
+    foreign key(exam_id) references exams(exam_id)  -- Specify a foreign key in MySQL
 );
--- Note that specifying a primary key in MySQL is like above
 ```
 
 <br>
@@ -145,16 +148,44 @@ create temporary table sandals as (
     add email /* column_name */ varchar(255) /* data_type */;
     ```
 
+    Adding constraints in MySQL:
+
+    ```mysql
+    -- Add a "unique" constraint on column "email"
+    alter table customers
+    add unique(email);
+    ```
+
+    ```mysql
+    -- Add a "primary key" constraint on column "id"
+    alter table customers
+    add primary key(id);
+    ```
+
+    ```mysql
+    -- Add a "primary key" constraint on multiple columns, and give the PK a name
+    alter table customers
+    add constraint person_pk /* pk_name */ primary key(id, lastname);
+    ```
+
+    ```mysql
+    -- Add a "foreign key" constraint on column "person_id", to refer to column "person_id" in "persons" table
+    alter table orders
+    add foreign key(person_id) references persons(person_id);
+    ```
+
   * Modify column
 
     MySQL:
 
     ```sql
     alter table customers
-    modify column email /* column_name */ ;
+    modify column email /* column_name */ not null;
     ```
 
   * Delete column
+
+    MySQL:
 
     ```sql
     alter table customers
@@ -416,7 +447,57 @@ having customer_orders >= 2;
 
 <br>
 
-#### (3) Join (合并)
+#### (3) Subquery (子查询)
+
+**Queries inside another query**
+
+<u>Question: Need to know the region of each customer who ever had an order with freight > 100</u>
+
+```sql
+-- Step 1: Select all the customers who ever had an order with freight > 100
+select distinct customer_id
+from orders
+where freight > 100;
+
+-- Step 2: Get the customer name, company name and region for those selected customers
+select customer_name, company_name, region
+from customers
+where customer_id in ...;  -- Use the above resulting Customer IDs
+
+-- Combined using subquery:
+select customer_name, company_name, region
+from customers
+where customer_id in (
+    select distinct customer_id, order_id
+    from orders
+    where freight > 100
+);
+```
+
+**A subquery is only allowed to select one column!!!**
+
+<br>
+
+<u>Question: What is the total number of orders placed by each customer?</u>
+
+```sql
+-- Count the total number of orders placed by a particular customer
+select count(*)
+from orders
+where customer_id = 143569;
+
+-- Use the above as a calculation
+select customer_name, customer_state,
+	(select count(*)
+    from orders
+    where orders.customer_id = customers.customer_id) as num_of_orders
+from customers
+order by customer_name;
+```
+
+<br>
+
+#### (4) Join (合并)
 
 **Linking multiples tables** to extract the desired information
 
@@ -456,6 +537,21 @@ where animals.species = diet.species;
 ***
 
 **Different Types of `join`:**
+
+* **CROSS JOIN** (Cartesian Join)
+
+  For <u>each record in the left table, match it with all the records in the right table</u>.
+
+  => Very <u>computationally taxing</u>, and potentially generates <u>a very large result set</u>!
+
+  ```sql
+  select products.product_name, products.unit_price, suppliers.supplier_name
+  from suppliers cross join products;
+  ```
+
+  *e.g., There are 29 rows in the "products" table, and 77 rows in the "customers" table; then there will be 29x77=2233 rows in the result set.*
+
+  => <u>Not very useful!</u>
 
 * **(INNER) JOIN**
 

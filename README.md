@@ -44,7 +44,8 @@ DB enables **safe concurrent access by multiple programs/users**.
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/Python%20DB-API.md">Python DB-API</a>
   * Relational DB Management System (关系型数据库管理系统)
     * SQLite
-      * 轻量级、嵌入式DB, 其一个DB就是一个文件
+      * 轻量级、嵌入式DB
+      * 其一个DB就是一个文件(`xxx.db`), 存储在disk上
       * => 经常被集成到桌面和移动端应用之中
       * 不能承受高concurrency访问
     * MySQL ***

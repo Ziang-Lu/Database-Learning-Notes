@@ -64,7 +64,9 @@ PK <u>cannot be null</u>.
 
 **Foreign Key (FK) (外部键)**
 
-**A column or a set of columns that <u>identify a row in another table</u>**
+**A column or a set of columns that <u>identify a row in another table</u>** (refer to the PK in another table)
+
+* The table containing the FK is called the child table, and the table containing the PK is called the parent table or referenced table.
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/data_storage-primary_key_and_foreign_key.png?raw=true" width="600px">
 
@@ -75,6 +77,26 @@ Like in the above example, in the `Department` tale, each `Department` needs to 
 => In this way, `Department.leadPersonID` works as a foreign key from `Department` table to `Person` table.
 
 ***
+
+<br>
+
+## Benefits
+
+* Logically models a business process
+
+  => Helps understand the way a business works in the real word
+
+* Efficient storage
+
+  => Reduce duplicate information
+
+* Link tables through common values ("keys")
+
+  => Reduce duplicate information
+
+* Greater scalability
+
+* Easy manipulation
 
 <br>
 

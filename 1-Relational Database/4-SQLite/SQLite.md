@@ -2,7 +2,8 @@
 
 ## Overview
 
-* 轻量级、嵌入式DB, 其DB就是一个文件(`xxx.db`)
+* 轻量级、嵌入式DB
+* 其DB就是一个文件(`xxx.db`), 存储在disk上
 * => 经常被集成到桌面和移动端应用中
 * 不能承受高concurrency访问
 
