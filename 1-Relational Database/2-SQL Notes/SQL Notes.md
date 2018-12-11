@@ -25,11 +25,54 @@
 
   * $\approx$ Java `double` / Python `float`
 
+***
+
+**Supported Math Operators (Only for Numerical Types)**
+
+`+`, `-`, `*`, `/`
+
+```sql
+select product_id, units_on_order, unit_price,
+	units_on_order * unit_price as order_total_cost  -- Calculate the each order's total cost
+from products;
+```
+
+***
+
 * `text`
 
   * $\approx$ Java `String` / Python `str`
 
   * Values are written <u>in single quotes</u>.
+
+  * Change case:
+
+    * `upper()` / `ucase()`
+    * `lower()`
+
+  * Trim: `trim()`, `ltrim()`, `rtrim()`
+
+    * `trim()`: Trim the leading and trailing space
+    * `ltrim()`: Trim only the leading space
+    * `rtrim()`: Trim only the trailing space
+
+  * Substring: `substr(str_name, str_position, substr_length)`
+
+    Note that `str_position` starts from 1!!!
+
+    ```sql
+    select first_name, substr(first_name, 2, 3)  -- Select only 3 characters, starting from the 2nd character
+    from employees
+    where department_id = 60;
+    ```
+
+  * Concatenate: `||`
+
+    ```sql
+    select company_name, contact_name,
+        company_name || ' (' || contact_name || ')'  -- Concatenate "company_name" and "contact_name"
+    from customers;
+    ```
 
 * `char(n)`
 
@@ -45,13 +88,83 @@
 
   * Values are written like `'2014-04-13'`.
 
+  * `date(timestring, modifier, modifier, ...) -> date`
+
+    *有点像一个constructor*
+
+    ```sql
+    -- Get today's date
+    select date('now');  -- 本质上相当于 select strftime('%Y-%m-%s', 'now')
+    
+    -- '2018-12-09'
+    ```
+
 * `time`
 
   A time of day
 
-* `timestamp`
+* `datetime` / `timestamp`
 
-  A `data` and `time` together
+  `data` and `time` together
+
+  * Values are written like `'2014-04-13 13:17:48'`.
+
+  * `datetime(timestring, modifier, modifier, ...)`
+
+    `timestamp(timestring, modifier, modifier, ...)`
+
+    *有点像一个constructor*
+
+    ```sql
+    -- Get the current datetime
+    select datetime('now');  -- 本质上相当于 select strftime('%Y-%m-%d %H-%M-%S', 'now')
+    
+    -- 2018-12-09 15:40:48
+    ```
+
+    ```sql
+    -- Select employees who have worked for the compnay for 15 years or more
+    select first_name, last_name, hire_date
+    from employees
+    where (date('now') - hire_date) >= 15;
+    ```
+
+***
+
+**Reformat date and time strings: `strftime(timestring, modifier, modifier, ...) -> text`**
+
+```sql
+-- Parse out and reformat the current datetime to "Year Month Day"
+select strftime('%Y %m %d', 'now')
+from employees;
+
+-- 1993 10 05
+```
+
+```sql
+-- Parse out and reformat the current datetime to "Hour Minute Second Millisecond"
+select strftime('%H %M %S %s', 'now')
+from employees;
+
+-- 15 40 48 785
+```
+
+```sql
+-- Parse out certain pieces from "birthdate"
+select birthdate,
+    strftime('%Y', birthdate) as year,
+    strftime('%m', birthdate) as month,
+    strftime('%d', birthdate) as day,
+    date('now') - birthdate as age
+from employees;
+
+-- birthdate  year month day age
+-- 1993-10-05 1993  10   05  25
+```
+
+***
+
+**To make the queries simple and easy to maintain, DO NOT ALLOW TIME COMPONENT IN THE DATES!**
 
 <br>
 
@@ -126,6 +239,7 @@ Temporary table:
 - Deleted when the current client session is terminated
 
 ```sql
+-- Create a temporary table containing all the sandals
 create temporary table sandals as (
     select *
     from shoes
@@ -137,7 +251,26 @@ create temporary table sandals as (
 
 <br>
 
-#### (3) Altering Existing Table Itself
+#### (3) Creating View
+
+View: A ~ is a <u>virtual table (illusion) based on the result-set of an SQL statement</u>.
+
+```sql
+-- Create a view containing all the customers from Brazil
+create view brazil_customers as (
+    select customer_name, contact_name
+    from customers
+    where country = 'Brazil'
+);
+```
+
+*(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
+
+<u>但是与temporary table不同的是, view本质上并没有写数据: 因此对于没有write权限的DB, 用view是更方便的.</u>
+
+<br>
+
+#### (4) Altering Existing Table Itself
 
 * Add, modify, or delete columns of an existing table
 
@@ -194,7 +327,21 @@ create temporary table sandals as (
 
 * Add and drop constraints on an existing table
 
-#### (4) Deleting Table
+<br>
+
+#### (6) Updating View
+
+```sql
+-- Update the "brazil_customers" view by adding a "City" column to it
+create or replace view brazil_customers as
+select customer_name, contact_name, city
+from customers
+where country = 'Brazil';
+```
+
+<br>
+
+#### (7) Deleting Table
 
 ```sql
 drop table scores; -- Delete all the information stored in the table, and then delete the table
@@ -202,6 +349,15 @@ drop table scores; -- Delete all the information stored in the table, and then d
 
 ```sql
 truncate table scores; -- Delete all the information stored (including the headers) in the table, but not table itself
+```
+
+<br>
+
+#### (8) Deleting View
+
+```sql
+-- Delete the "brazil_customers" view
+drop view brazil_customers;
 ```
 
 <br>
@@ -341,14 +497,36 @@ limit 5 offset 3;
 
 ***
 
-**Supported Math Operators**
+<br>
 
-`+`, `-`, `*`, `/`
+***
+
+**`case` clause**
+
+* Mimics the `if-then-else` scheme in most programming languages
+* Do different processing based on some condition
 
 ```sql
-select product_id, units_on_order, unit_price,
-	units_on_order * unit_price as order_total_cost
-from products
+-- Add a corresponding description to the "quantity" field
+select order_id, quantity,
+    (case
+        when quantity > 30 then 'The quantity is greater than 30'
+        when quantity = 30 then 'The quantity is 30'
+        else 'The quentity is under 30'
+    end) as quantity_description
+from order_details;
+```
+
+```sql
+-- Classify the tracks by size
+select track_id, name, bytes
+    (case
+        when bytes < 300000 then 'small'
+        when bytes >= 300001 and bytes < 500000 then 'medium'
+        when bytes >= 500000 then 'large'
+        else 'other'
+    end) as byte_category
+from tracks;
 ```
 
 ***
@@ -503,7 +681,7 @@ order by customer_name;
 
 [On multiple tables]
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/operation-join-1-original_tables.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Note/join-1-original_tables.png?raw=true" width="500px">
 
 **Question: How many individual animals eat fish?**
 
@@ -516,13 +694,13 @@ on animals.species = diet.species
 where diet.food = 'fish';
 ```
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/operation-join-2-mid_result_table.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/join-2-mid_result_table.png?raw=true" width="500px">
 
 After that, we can do a `count` aggregation on the above result table, and finally get the total number of individual animals that eat fish.
 
 The whole process is explained by the following diagram:
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/operation-join-3-process.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/join-3-process.png?raw=true" width="500px">
 
 Simplified version:
 
@@ -619,10 +797,10 @@ where animals.species = diet.species;
   select customers.curstomer_name, orders.order_id
   from customers full outer join orders
   on customers.customer_id = orders.customer_id
-  order by customers.customer_name
+  order by customers.customer_name;
   ```
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/operation-join-types.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/join-types.png?raw=true" width="500px">
 
 ***
 

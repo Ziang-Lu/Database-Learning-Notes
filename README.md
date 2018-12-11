@@ -62,6 +62,31 @@ DB enables **safe concurrent access by multiple programs/users**.
 
 <br>
 
+***
+
+**Working through a Data Science Problem**
+
+1. <u>Business Understading (业务理解)</u>
+
+   - Understand the business problem to solve, and clarify the business goal
+   - Translate this business understanding to a problem that the data analysis is trying to solve, and establish the success criteria for the data analysis
+
+2. <u>Data Understanding (数据理解)</u>
+
+   * <u>Data Governance (数据管制) / Data profiling (数据剖析)</u>
+     * Examine data accessibilty, availability, completeness, consistency and accuracy
+     * Summarize the potential problems in the data
+
+   * e.g.. pay attention to the data type for each column in each table
+
+   * e.g., figure out the relationships between tables, i.e., how the tables are linked together
+
+     *(=> Foreign keys)*
+
+***
+
+<br>
+
 ## License
 
 This repo is distributed under the <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/LICENSE">MIT license</a>.
