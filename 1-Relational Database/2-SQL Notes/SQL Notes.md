@@ -37,6 +37,8 @@ select product_id, units_on_order, unit_price,
 from products;
 ```
 
+<u>Note that `/` is using integer division!!!</u>
+
 ***
 
 * `text`
