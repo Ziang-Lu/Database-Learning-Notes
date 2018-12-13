@@ -48,26 +48,6 @@ We store all of the data **in the form of (related) tables**.
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/data_storage-table.png?raw=true" width="600px">
 
-### Normalized Design Rules
-
-1. Every row has the same number of columns.
-
-   * If for a given key, there are <u>many values having the same meaning</u>, they need to be <u>splitted into separate rows (separate records)</u>.
-
-2. There is a **unique key (one column, or multiples columns combined)**, and the **non-key columns describes about the key**.
-
-   * In any row, the <u>key provides the topic of the sentence</u>, and the <u>rest of the row descibes about the that topic</u>.
-
-3. (From 2) **Facts that don't relate to the key belong in different tables.**
-
-   *这点需要特别注意!!!*
-
-   <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/normalized_design_rules_3_original.png?raw=true">
-
-   Note that the addresses actually describes locations, rather than particular items!!!
-
-   <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/normalized_design_rules_3_normalized.png?raw=true">
-
 ***
 
 **Primary Key (PK) (主键)**
@@ -117,6 +97,32 @@ Like in the above example, in the `Department` tale, each `Department` needs to 
 * Greater scalability
 
 * Easy manipulation
+
+<br>
+
+## Normalized Table Design
+
+#### 1. Every row has the same number of columns.
+
+- If for a given key, there are <u>many values having the same meaning</u>, they need to be <u>splitted into separate rows (separate records)</u>.
+
+<br>
+
+#### 2. There is a **unique key (one column, or multiples columns combined)**, and the **non-key columns describes about the key**.
+
+- In any row, the <u>key provides the topic of the sentence</u>, and the <u>rest of the row descibes about the that topic</u>.
+
+<br>
+
+#### 3. (From 2) **Facts that don't relate to the key belong in different tables.**
+
+*这点需要特别注意!!!*
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/normalized_table_design_rule_3_original.png?raw=true" width="500px">
+
+Note that the <u>addresses actually describes locations, rather than particular items</u>!!! Thus, it should be designed as follows instead:
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/normalized_table_design_rule_3_normalized.png?raw=true" width="500px">
 
 <br>
 
