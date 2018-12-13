@@ -53,11 +53,12 @@ DB enables **safe concurrent access by multiple programs/users**.
     * PostgreSQL ***
     * Oracle
       * 不开源、付费
-* Key-value store (键-值存储)   (Not-only SQL)
-  - 适用于数据类型相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
-  - NoSQL DB Management System
-    - MongoDB ***
-    - Redis ***
+* Not-only SQL (NoSQL) ***
+  * Key-value store (键-值存储)
+    * 适用于数据类型相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
+      * Redis ***
+  * Document store (文档存储)
+    * Mongo DB ***
 
 <br>
 
