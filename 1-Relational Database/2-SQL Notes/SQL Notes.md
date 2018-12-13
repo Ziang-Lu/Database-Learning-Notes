@@ -276,6 +276,12 @@ create view brazil_customers as (
 
 * Add, modify, or delete columns of an existing table
 
+  * Rename table
+
+    ```sql
+    alter table customers rename to my_customers;
+    ```
+
   * Add column
 
     ```sql
@@ -315,7 +321,7 @@ create view brazil_customers as (
 
     ```sql
     alter table customers
-    modify column email /* column_name */ not null;
+    modify column email varchar(255) /* column_name */ not null;
     ```
 
   * Delete column

@@ -50,15 +50,16 @@
 **Common commands**
 
 ```mysql
-show variables; -- Show all the system variables and status variables
+show variables;  -- Show all the system variables and status variables
 ```
 
 ```mysql
-show databases; -- Show all the databases on the MySQL server
-create database if not exists test; -- Create a database called "test" if it doesn't exist
-use test; -- Enter "test" database
-show tables; -- Show all the tables in "test" database
-drop table if exists test; -- Delete a database called "test" if it exists
+show databases;  -- Show all the databases on the MySQL server
+create database if not exists test;  -- Create a database called "test" if it doesn't exist
+use test;  -- Enter "test" database
+show tables;  -- Show all the tables in "test" database
+describe sample_table;  -- Show the structure (columns) of "sample_table" table
+drop database if exists test;  -- Delete a database called "test" if it exists
 ```
 
 <br>
