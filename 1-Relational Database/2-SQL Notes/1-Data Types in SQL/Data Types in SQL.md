@@ -4,7 +4,7 @@
 
 - `integer`
 
-  - $\approx$ Java `int` / Python `int`
+  - 约等于 Java `int` / Python `int`
 
 - `decimal`
 
@@ -43,14 +43,15 @@ from products;
 
 - `text`
 
-  - $\approx$ Java `String` / Python `str`
+  - 约等于 Java `String` / Python `str`
 
-  - Values are written <u>in single quotes</u>.
+  - Change case: `upper()` / `lower()`
 
-  - Change case:
+    ***
 
-    - `upper()` / `ucase()`
-    - `lower()`
+    *MySQL*: `upper()` = `ucase()`, `lower()` = `lcase()`
+
+    ***
 
   - Trim: `trim()`, `ltrim()`, `rtrim()`
 

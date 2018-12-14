@@ -37,11 +37,11 @@ DB enables **safe concurrent access by multiple programs/users**.
 ## DB Types (本质上是Data Model的不同type)
 
 * Navigational DB (导航型数据库)
-* Relational DB (关系型数据库) ***
+* Relational DB (关系型数据库)
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/Relational%20DB%20Concepts.md">Relational DB Concepts</a>
   * SQL Notes
-    * Data Types in SQL
-    * Operations
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/1-Data%20Types%20in%20SQL/Data%20Types%20in%20SQL.md">Data Types in SQL</a>
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/Operations.md">Operations</a>
       * Operations on DB
       * Fetching Data from DB
       * Inserting Data to Table
@@ -49,15 +49,20 @@ DB enables **safe concurrent access by multiple programs/users**.
       * Deleting Data in Table
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/Python%20DB-API.md">Python DB-API</a>
   * Relational DB Management System (关系型数据库管理系统)
-    * SQLite
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/4-SQLite/SQLite.md">SQLite</a>
       * 轻量级、嵌入式DB
       * 其一个DB就是一个文件(`xxx.db`), 存储在disk上
       * => 经常被集成到桌面和移动端应用之中
       * 不能承受高concurrency访问
-    * MySQL ***
+      * Python Support: `sqlite3`
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/5-MySQL/MySQL.md">MySQL</a>
       * 为server-side设计的, 使用最广泛的DB server
       * 能承受高concurrency访问
-    * PostgreSQL ***
+      * Python Support: `mysql-connector-python` / `PyMySQL`
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/6-PostgreSQL/PostgreSQL.md">PostgreSQL</a>
+      * 为server-side设计的, 使用流行度呈上升趋势
+      * 能承受高concurrency访问
+      * Python Support: `psycopg2`
     * Oracle
       * 不开源、付费
 * Not-only SQL (NoSQL) ***

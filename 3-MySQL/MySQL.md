@@ -39,6 +39,8 @@
   * `Initialize Database`
   * ``Start MySQL Server`
 
+<u>Note that `mysqld` is the command-line tool for operating MySQL server</u>
+
 <br>
 
 ## MySQL Interactive Shell

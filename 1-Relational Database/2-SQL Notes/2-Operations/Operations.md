@@ -24,7 +24,7 @@ drop database test;
 
 #### (1) Creating Table
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/create-table.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/create-table.png?raw=true" width="500px">
 
 **Constraints:**
 
@@ -37,7 +37,9 @@ drop database test;
   - By using `foreign key` constraints, we establish links between tables.
   - Using `foreign key` constraint prevents actions that would break these links
 
-SQLite:
+***
+
+*SQLite*:
 
 ```sqlite
 create table scores (
@@ -49,17 +51,19 @@ create table scores (
 );
 ```
 
-MySQL:
+*MySQL*:
 
 ```mysql
 create table scores (
 	id int not null auto_increment,
     name varchar(20) not null,
     score int,
-    primary key(id)  -- Specify a primary key in SQLite
+    primary key(id)  -- Specify a primary key in MySQL
     foreign key(exam_id) references exams(exam_id)  -- Specify a foreign key in MySQL
 );
 ```
+
+***
 
 <br>
 
@@ -119,7 +123,7 @@ create view brazil_customers as (
     add email /* column_name */ varchar(255) /* data_type */;
     ```
 
-    Adding constraints in MySQL:
+    *Only in MySQL*:
 
     ```mysql
     -- Add a "unique" constraint on column "email"
@@ -147,7 +151,7 @@ create view brazil_customers as (
 
   - Modify column
 
-    MySQL:
+    *MySQL*:
 
     ```sql
     alter table customers
@@ -156,7 +160,7 @@ create view brazil_customers as (
 
   - Delete column
 
-    MySQL:
+    *Only in MySQL*:
 
     ```sql
     alter table customers
@@ -204,7 +208,7 @@ drop view brazil_customers;
 
 #### (1) Retrieving & Filtering
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_where.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_where.png?raw=true" width="600px">
 
 ```sql
 select name, birthdate
@@ -314,7 +318,7 @@ where species = 'orangutan'
 order by birthdate desc;
 ```
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_order-by.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_order-by.png?raw=true" width="500px">
 
 <br>
 
@@ -325,7 +329,7 @@ where species = 'gorilla'
 limit 5 offset 3;
 ```
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_limit_offset.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_limit_offset.png?raw=true" width="500px">
 
 ------
 
@@ -392,7 +396,7 @@ from tracks;
 
   - <u>For each distinct name, find how many animals are sharing that name?</u>
 
-    <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_group-by.png?raw=true" width="600px">
+    <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_group-by.png?raw=true" width="600px">
 
     ```sql
     select name, count(*) as num
@@ -519,7 +523,7 @@ order by customer_name;
 
 [On multiple tables]
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Note/join-1-original_tables.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/join-1-original_tables.png?raw=true" width="500px">
 
 **Question: How many individual animals eat fish?**
 
@@ -532,13 +536,13 @@ on animals.species = diet.species
 where diet.food = 'fish';
 ```
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/join-2-mid_result_table.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/join-2-mid_result_table.png?raw=true" width="500px">
 
 After that, we can do a `count` aggregation on the above result table, and finally get the total number of individual animals that eat fish.
 
 The whole process is explained by the following diagram:
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/join-3-process.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/join-3-process.png?raw=true" width="500px">
 
 Simplified version:
 
@@ -638,7 +642,7 @@ where animals.species = diet.species;
   order by customers.customer_name;
   ```
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/join-types.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/join-types.png?raw=true" width="500px">
 
 ------
 
@@ -646,7 +650,7 @@ where animals.species = diet.species;
 
 ### 2. Inserting Data to Table
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/insert-into_values.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/insert-into_values.png?raw=true" width="600px">
 
 A single `insert` statement can only <u>insert rows into a single table</u>.
 
