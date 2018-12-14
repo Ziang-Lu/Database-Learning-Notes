@@ -39,7 +39,14 @@ DB enables **safe concurrent access by multiple programs/users**.
 * Navigational DB (导航型数据库)
 * Relational DB (关系型数据库) ***
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/Relational%20DB%20Concepts.md">Relational DB Concepts</a>
-  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/SQL%20Notes.md">SQL Notes</a>
+  * SQL Notes
+    * Data Types in SQL
+    * Operations
+      * Operations on DB
+      * Fetching Data from DB
+      * Inserting Data to Table
+      * Updating Data in Table
+      * Deleting Data in Table
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/Python%20DB-API.md">Python DB-API</a>
   * Relational DB Management System (关系型数据库管理系统)
     * SQLite

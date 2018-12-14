@@ -1,178 +1,6 @@
-# SQL Notes
+# Operations
 
-## Data Types in SQL
-
-* `int`
-
-  * $\approx$ Java `int` / Python `int`
-
-* `decimal`
-
-  An exact decimal value
-
-  ```sql
-  decimal(8, 2)
-  -- At most 8 digits in total
-  -- 2 digits to the right of the decimal place
-  -- xxxxxx.xx
-  ```
-
-* `real`
-
-  * $\approx$ Java `float`
-
-* `double precision`
-
-  * $\approx$ Java `double` / Python `float`
-
-***
-
-**Supported Math Operators (Only for Numerical Types)**
-
-`+`, `-`, `*`, `/`
-
-```sql
-select product_id, units_on_order, unit_price,
-	units_on_order * unit_price as order_total_cost  -- Calculate the each order's total cost
-from products;
-```
-
-<u>Note that `/` is using integer division!!!</u>
-
-***
-
-* `text`
-
-  * $\approx$ Java `String` / Python `str`
-
-  * Values are written <u>in single quotes</u>.
-
-  * Change case:
-
-    * `upper()` / `ucase()`
-    * `lower()`
-
-  * Trim: `trim()`, `ltrim()`, `rtrim()`
-
-    * `trim()`: Trim the leading and trailing space
-    * `ltrim()`: Trim only the leading space
-    * `rtrim()`: Trim only the trailing space
-
-  * Substring: `substr(str_name, str_position, substr_length)`
-
-    Note that `str_position` starts from 1!!!
-
-    ```sql
-    select first_name, substr(first_name, 2, 3)  -- Select only 3 characters, starting from the 2nd character
-    from employees
-    where department_id = 60;
-    ```
-
-  * Concatenate: `||`
-
-    ```sql
-    select company_name, contact_name,
-        company_name || ' (' || contact_name || ')'  -- Concatenate "company_name" and "contact_name"
-    from customers;
-    ```
-
-* `char(n)`
-
-  A string of exactly *n* characters
-
-* `varchar(n)`
-
-  A string of up to *n* characters
-
-* `date`
-
-  A calendar date, including year, month and day
-
-  * Values are written like `'2014-04-13'`.
-
-  * `date(timestring, modifier, modifier, ...) -> date`
-
-    *有点像一个constructor*
-
-    ```sql
-    -- Get today's date
-    select date('now');  -- 本质上相当于 select strftime('%Y-%m-%s', 'now')
-    
-    -- '2018-12-09'
-    ```
-
-* `time`
-
-  A time of day
-
-* `datetime` / `timestamp`
-
-  `data` and `time` together
-
-  * Values are written like `'2014-04-13 13:17:48'`.
-
-  * `datetime(timestring, modifier, modifier, ...)`
-
-    `timestamp(timestring, modifier, modifier, ...)`
-
-    *有点像一个constructor*
-
-    ```sql
-    -- Get the current datetime
-    select datetime('now');  -- 本质上相当于 select strftime('%Y-%m-%d %H-%M-%S', 'now')
-    
-    -- 2018-12-09 15:40:48
-    ```
-
-    ```sql
-    -- Select employees who have worked for the compnay for 15 years or more
-    select first_name, last_name, hire_date
-    from employees
-    where (date('now') - hire_date) >= 15;
-    ```
-
-***
-
-**Reformat date and time strings: `strftime(timestring, modifier, modifier, ...) -> text`**
-
-```sql
--- Parse out and reformat the current datetime to "Year Month Day"
-select strftime('%Y %m %d', 'now')
-from employees;
-
--- 1993 10 05
-```
-
-```sql
--- Parse out and reformat the current datetime to "Hour Minute Second Millisecond"
-select strftime('%H %M %S %s', 'now')
-from employees;
-
--- 15 40 48 785
-```
-
-```sql
--- Parse out certain pieces from "birthdate"
-select birthdate,
-    strftime('%Y', birthdate) as year,
-    strftime('%m', birthdate) as month,
-    strftime('%d', birthdate) as day,
-    date('now') - birthdate as age
-from employees;
-
--- birthdate  year month day age
--- 1993-10-05 1993  10   05  25
-```
-
-***
-
-**To make the queries simple and easy to maintain, DO NOT ALLOW TIME COMPONENT IN THE DATES!**
-
-<br>
-
-## Operations
-
-### 0. Operations on DB
+## 0. Operations on DB
 
 ```sql
 create database test;
@@ -192,9 +20,11 @@ drop database test;
 
 <br>
 
-### 0. Operations on Table Itself
+## 0. Operations on Table Itself
 
 #### (1) Creating Table
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/create-table.png?raw=true" width="600px">
 
 **Constraints:**
 
@@ -274,15 +104,15 @@ create view brazil_customers as (
 
 #### (4) Altering Existing Table Itself
 
-* Add, modify, or delete columns of an existing table
+- Add, modify, or delete columns of an existing table
 
-  * Rename table
+  - Rename table
 
     ```sql
     alter table customers rename to my_customers;
     ```
 
-  * Add column
+  - Add column
 
     ```sql
     alter table customers
@@ -315,7 +145,7 @@ create view brazil_customers as (
     add foreign key(person_id) references persons(person_id);
     ```
 
-  * Modify column
+  - Modify column
 
     MySQL:
 
@@ -324,7 +154,7 @@ create view brazil_customers as (
     modify column email varchar(255) /* column_name */ not null;
     ```
 
-  * Delete column
+  - Delete column
 
     MySQL:
 
@@ -333,7 +163,7 @@ create view brazil_customers as (
     drop column email /* column_name */;
     ```
 
-* Add and drop constraints on an existing table
+- Add and drop constraints on an existing table
 
 <br>
 
@@ -385,7 +215,7 @@ where species = 'gorilla'
 
 Note that <u>`where` applies before any aggregation</u>
 
-***
+------
 
 **`in` operator** in `where` clause
 
@@ -405,7 +235,7 @@ from animals
 where species not in ('gorilla', 'llama', 'orangutan');
 ```
 
-***
+------
 
 **`between` operator** in `where` clause
 
@@ -427,7 +257,7 @@ where birthdate not between '1993-07-31' and '1993-10-05';
 -- This will include neigher '1993-07-31' nor '1993-10-05'.
 ```
 
-***
+------
 
 **`is null` operator** in `where` clause
 
@@ -447,7 +277,7 @@ from animals
 where birthdate is not null;
 ```
 
-***
+------
 
 **`like` operator** in `where` clause
 
@@ -455,8 +285,8 @@ Select values that follow a pattern:
 
 Wildcards
 
-* `%` represents any number of characters
-* `_` represents a single character
+- `%` represents any number of characters
+- `_` represents a single character
 
 ```sql
 select name, birthdate
@@ -474,7 +304,7 @@ where species not like '_r%';
 -- This will select all the species that does not have 'r' at the second position.
 ```
 
-***
+------
 
 Note: **Use `*` to select all columns**:
 
@@ -497,22 +327,22 @@ limit 5 offset 3;
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_limit_offset.png?raw=true" width="500px">
 
-***
+------
 
 **Supported Comparison Operators**
 
 `=`, `!=`, `<`, `>`, `<=`, `>=`
 
-***
+------
 
 <br>
 
-***
+------
 
 **`case` clause**
 
-* Mimics the `if-then-else` scheme in most programming languages
-* Do different processing based on some condition
+- Mimics the `if-then-else` scheme in most programming languages
+- Do different processing based on some condition
 
 ```sql
 -- Add a corresponding description to the "quantity" field
@@ -537,7 +367,7 @@ select track_id, name, bytes
 from tracks;
 ```
 
-***
+------
 
 <br>
 
@@ -549,9 +379,9 @@ from tracks;
 
 [On a single table]
 
-* `count`
+- `count`
 
-  * For each distinct species, find how many animals are there?
+  - For each distinct species, find how many animals are there?
 
     ```sql
     select species, count(species)
@@ -560,7 +390,7 @@ from tracks;
     limit 5;
     ```
 
-  * <u>For each distinct name, find how many animals are sharing that name?</u>
+  - <u>For each distinct name, find how many animals are sharing that name?</u>
 
     <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/select_from_group-by.png?raw=true" width="600px">
 
@@ -577,28 +407,28 @@ from tracks;
     - select the `name` column
     - do the aggregation: `count` all the selected rows grouping by the `name` column, i.e., <u>for each distinct `name`, `count` the number of selected rows with that `name`</u>
 
-* `sum`
+- `sum`
 
   ```sql
   select sum(unit_price) as total_prod_price
   from products;
   ```
 
-* `avg`
+- `avg`
 
   ```sql
   select avg(unit_price) as avg_price
   from products;
   ```
 
-* `max`
+- `max`
 
   ```sql
   select max(name) as max_name
   from animals;
   ```
 
-* `min`
+- `min`
 
   ```sql
   select species, min(birthdate)
@@ -616,7 +446,7 @@ from tracks;
 
   Check the above illustration
 
-***
+------
 
 **`having` clause**:
 
@@ -629,7 +459,7 @@ group by customer_id
 having customer_orders >= 2;
 ```
 
-***
+------
 
 <br>
 
@@ -720,11 +550,11 @@ where animals.species = diet.species;
 
 <br>
 
-***
+------
 
 **Different Types of `join`:**
 
-* **CROSS JOIN** (Cartesian Join)
+- **CROSS JOIN** (Cartesian Join)
 
   For <u>each record in the left table, match it with all the records in the right table</u>.
 
@@ -739,11 +569,11 @@ where animals.species = diet.species;
 
   => <u>Not very useful!</u>
 
-* **(INNER) JOIN**
+- **(INNER) JOIN**
 
   Returns records that <u>have matching values in both tables</u>
 
-  * 是`join`的默认形式, 即上面的
+  - 是`join`的默认形式, 即上面的
 
     ```sql
     select animals.name, animals.species, diet.food
@@ -767,7 +597,7 @@ where animals.species = diet.species;
   );
   ```
 
-* **LEFT (OUTER) JOIN**
+- **LEFT (OUTER) JOIN**
 
   Returns <u>all records from the left table</u>, as well as the <u>matching records from the right table</u>
 
@@ -782,7 +612,7 @@ where animals.species = diet.species;
   order by customers.customer_name;
   ```
 
-* **RIGHT (OUTER) JOIN**
+- **RIGHT (OUTER) JOIN**
 
   Returns <u>all records from the right table</u>, as well as the <u>matching records from the left table</u>
 
@@ -795,7 +625,7 @@ where animals.species = diet.species;
   order by orders.order_id;
   ```
 
-* **FULL (OUTER) JOIN**
+- **FULL (OUTER) JOIN**
 
   Returns <u>all records in both tables</u> when there is a match in either table
 
@@ -810,7 +640,7 @@ where animals.species = diet.species;
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/join-types.png?raw=true" width="500px">
 
-***
+------
 
 <br>
 

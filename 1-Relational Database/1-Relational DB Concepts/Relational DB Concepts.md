@@ -56,7 +56,7 @@ We store all of the data **in the form of (related) tables**.
 
 *(=> Commonly use a simple numerical ID that is unique for each row)*
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/data_storage-primary_key.png?raw=true">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/data_storage-primary_key.png?raw=true" width="600px">
 
 PK <u>cannot be null</u>.
 
@@ -110,6 +110,7 @@ Like in the above example, in the `Department` tale, each `Department` needs to 
 
 #### 2. There is a **unique key (one column, or multiples columns combined)**, and the **non-key columns describes about the key**.
 
+- The key can even be the entire row (all the columns)!!!
 - In any row, the <u>key provides the topic of the sentence</u>, and the <u>rest of the row descibes about the that topic</u>.
 
 <br>
@@ -118,11 +119,11 @@ Like in the above example, in the `Department` tale, each `Department` needs to 
 
 *这点需要特别注意!!!*
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/normalized_table_design_rule_3_original.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/normalized_table_design_rule_3_original.png?raw=true" width="600px">
 
 Note that the <u>addresses actually describes locations, rather than particular items</u>!!! Thus, it should be designed as follows instead:
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/normalized_table_design_rule_3_normalized.png?raw=true" width="500px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/normalized_table_design_rule_3_normalized.png?raw=true" width="600px">
 
 <br>
 
