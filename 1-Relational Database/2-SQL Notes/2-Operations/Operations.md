@@ -31,84 +31,72 @@ drop database test;
 **Constraints:**
 
 - `default`
+
 - `not null`
+
+  Check out the coding examples
+
+- `check`
+
+  ```sql
+  create table users (
+      id integer primary key,
+      username varchar(100) not null unique,
+      age check(age >= 18)
+  );
+  ```
+
 - `unique`
+
+  Check out the coding examples
+
 - `primary key`
+
   - A combination of `not null` and `unique`
+
+  Check out the coding examples
+
 - `autoincrement`
+
+  ***
+
+  *SQLite:*
+
+  ```sqlite
+  create table students (
+      id integer primary key autoincrement,  -- Specify autoincrement in SQLite
+  	name varchar(20) not null,
+      email varchar(100) not null
+  );
+  ```
+
+  *MySQL*:
+
+  ```mysql
+  create table students (
+      id integer primary key auto_increment,  -- Specify autoincrement in MySQL
+      name varchar(20) not null,
+      email varchar(100) not null
+  );
+  ```
+
+  *PostgreSQL*:
+
+  ```sql
+  create table students (
+      id serial primary key,  -- Specify autoincrement in PostgreSQL by using "serial" data type
+      name varchar(20) not null,
+      email varchar(100) not null
+  );
+  ```
+
+  ***
+
 - `foreign_key`
   - By using `foreign key` constraints, we establish links between tables.
   - Using `foreign key` constraint prevents actions that would break these links
 
-***
-
-*SQLite*:
-
-```sqlite
-create table students (
-    id integer primary key autoincrement,  -- Specify autoincrement in SQLite
-	name varchar(20) not null,
-    email varchar(100) not null
-);
-
-create table courses (
-    id char(5) primary key,
-	name varchar(30) not null
-);
-
-create table scores (
-    student_id integer references students(id),  -- Specify a reference key in SQLite
-	course_id char(5) references courses(id),
-	score integer,
-	primary key(student_id, course_id)  -- Specify a multi-column primary key
-);
-```
-
-*MySQL*:
-
-```mysql
-create table students (
-    id integer primary key auto_increment,  -- Specify autoincrement in MySQL
-    name varchar(20) not null,
-    email varchar(100) not null
-);
-
-create table courses (
-    id char(5) primary key,
-    name varchar(30) not null
-);
-
-create table scores (
-    student_id integer references students(id),
-    course_id char(5) references courses(id),
-    score integer,
-    primary key(student_id, course_id)
-)
-```
-
-*PostgreSQL:*
-
-```sql
-create table students (
-    id serial primary key,  -- Specify autoincrement in PostgreSQL by using "serial" data type
-    name varchar(20) not null,
-    email varchar(100) not null
-);
-
-create table courses (
-    id char(5) primary key,
-    name varchar(30) not null
-);
-
-create table scores (
-    student_id integer references students(id),
-    course_id char(5) references courses(id),
-    score integer,
-    primary key(student_id, course_id)
-);
-```
-
-***
+  Check out the coding examples
 
 <br>
 

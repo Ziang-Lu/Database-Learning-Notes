@@ -34,7 +34,8 @@ def init_db(user: str, pwd: str) -> None:
         create table students (
             id integer primary key auto_increment,
             name varchar(20) not null,
-            email varchar(100) not null
+            email varchar(100) not null,
+            is_del boolean default false
         );
         ''')
         # Note that specifying autoincrement in MySQL is like above
@@ -54,8 +55,9 @@ def init_db(user: str, pwd: str) -> None:
 
         cursor.execute('''
         create table courses (
-        id char(5) primary key,
-        name varchar(30) not null
+            id char(5) primary key,
+            name varchar(30) not null,
+            is_del boolean default false
         );
         ''')
         cursor.execute('''
@@ -68,10 +70,11 @@ def init_db(user: str, pwd: str) -> None:
 
         cursor.execute('''
         create table scores (
-        student_id integer references students(id),
-        course_id char(5) references courses(id),
-        score integer,
-        primary key(student_id, course_id)
+            student_id integer references students(id),
+            course_id char(5) references courses(id),
+            score integer,
+            is_del boolean default false,
+            primary key(student_id, course_id)
         );
         ''')
         cursor.execute('''
