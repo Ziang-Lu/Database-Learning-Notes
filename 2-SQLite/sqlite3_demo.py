@@ -10,7 +10,7 @@ __author__ = 'Ziang Lu'
 import argparse
 import os
 import sqlite3
-from typing import List
+from typing import List, Tuple
 
 
 def init_db(db_filename: str) -> None:
@@ -31,23 +31,20 @@ def init_db(db_filename: str) -> None:
         cursor = conn.cursor()
 
         cursor.execute('''
-        create table scores (
-            id int primary key,
+        create table students (
+            id integer primary key autoincrement,
             name varchar(20) not null,
-            score int
-        )
+            email varchar(100) not null
+        );
         ''')
-        # Note that specifying a primary key in SQLite is like above
+        # Note that specifying autoincrement in SQLite is like above
         cursor.execute('''
-        insert into scores (name, score)
+        insert into students (name, email)
         values
-            ('Adam', 95),
-            ('Bart', 62),
-            ('Lisa', 78)
+            ('Adam', 'adam@gmail.com'),
+            ('Bart', 'bart@gmail.com'),
+            ('Lisa', 'lisa@gmail.com')
         ''')
-        print('Finished DB initialization...')
-        print(f'Number of inserted rows: {cursor.rowcount}')
-
         # Whenever we make changes to a DB, these changes will go into a
         # "transaction", and it will take effect only when we call
         # conn.commit() method.
@@ -55,39 +52,76 @@ def init_db(db_filename: str) -> None:
         # If we close a connection or the code crashes without committing
         # the changes, the changes will be rolled back.
 
+        cursor.execute('''
+        create table courses (
+        id char(5) primary key,
+        name varchar(30) not null
+        );
+        ''')
+        cursor.execute('''
+        insert into courses
+        values
+            ('CS101', 'Intro to Computer Science'),
+            ('CS105', 'Data Structures')
+        ''')
+        conn.commit()
+
+        cursor.execute('''
+        create table scores (
+        student_id integer references students(id),
+        course_id char(5) references courses(id),
+        score integer,
+        primary key(student_id, course_id)
+        );
+        ''')
+        cursor.execute('''
+        insert into scores
+        values
+            (1, 'CS101', 55),
+            (2, 'CS101', 80),
+            (3, 'CS101', 70),
+            (1, 'CS105', null),
+            (2, 'CS105', 95),
+            (3, 'CS105', 90)
+        ''')
+        conn.commit()
+
+        print('Finished DB initialization...')
+
         # Always remember to close the cursor
         cursor.close()
 
 
-def get_score_within(db_filename: str, low: int, high: int) -> List[str]:
+def get_score_within(db_filename: str, low: int, high: int) -> List[Tuple[str]]:
     """
-    Gets students whose score is within the given range, ordered by the score in
-    ascending order.
+    Gets students and courses where score is within the given range, ordered by
+    the score in ascending order.
     :param db_filename: str
     :param low: lower bound
     :param high: upper bound
-    :return: list[str]
+    :return: list[tuple(str)]
     """
-    print(f'List students whose score is within {low} and {high}, ordered by '
-          f'the score in ascending order:')
+    print(f'List students and courses where score is within {low} and {high}, '
+          f'ordered by the score in ascending order:')
     with sqlite3.connect(db_filename) as conn:
         # Get the cursor
         cursor = conn.cursor()
 
         cursor.execute('''
-        select name
+        select students.name, courses.name
         from scores
-        where score between ? and ?
-        order by score
-        ''', (low, high))  # Provide arguments to SQL query
-        # Note that the placeholder used in SQLite is "?"
+        join students on scores.student_id = students.id
+        join courses on scores.course_id = courses.id
+        where scores.score between ? and ?
+        order by scores.score
+        ''', (low, high))
+        # Note that SQLite uses ? placeholder
         results = cursor.fetchall()
-        desired_results = list(map(lambda x: x[0], results))
 
         # Always remember to close the cursor
         cursor.close()
 
-    return desired_results
+    return results
 
 
 def main():
@@ -112,6 +146,5 @@ if __name__ == '__main__':
 
 # Output:
 # Finished DB initialization...
-# Number of inserted rows: 3
-# List students whose score is within 60 and 80, ordered by the score in ascending order:
-# ['Bart', 'Lisa']
+# List students and courses where score is within 60 and 80, ordered by the score in ascending order:
+# [('Lisa', 'Intro to Computer Science'), ('Bart', 'Intro to Computer Science')]

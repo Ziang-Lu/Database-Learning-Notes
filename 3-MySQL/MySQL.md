@@ -33,23 +33,29 @@
 
 <br>
 
-## Start MySQL Server
+## Start/Stop MySQL Server
 
 * `System Preference` -> `MySQL`
   * `Initialize Database`
-  * ``Start MySQL Server`
+  * `Start MySQL Server` / `Stop MySQL Server`
 
-<u>Note that `mysqld` is the command-line tool for operating MySQL server</u>
+***
+
+Note that `mysqld` is the command-line tool for operating MySQL server
+
+***
 
 <br>
 
-## MySQL Interactive Shell
+## MySQL Command-Line Interface
 
 ```bash
 > mysql -u root -p  # Establish a connection (open a client session), and enter MySQL interactive shell
 ```
 
-**Common commands**
+***
+
+**[Inside the interactive shell] Common commands**
 
 ```mysql
 show variables;  -- Show all the system variables and status variables
@@ -57,12 +63,21 @@ show variables;  -- Show all the system variables and status variables
 
 ```mysql
 show databases;  -- Show all the databases on the MySQL server
+
 create database if not exists test;  -- Create a database called "test" if it doesn't exist
+
 use test;  -- Enter "test" database
+
 show tables;  -- Show all the tables in "test" database
-describe sample_table;  -- Show the structure (columns) of "sample_table" table
+
+source some_codes.sql;  -- Import (Execute) the SQL codes in "some_codes.sql"
+
+describe some_table;  -- Show the structure (columns) of "some_table" table
+
 drop database if exists test;  -- Delete a database called "test" if it exists
 ```
+
+***
 
 <br>
 
@@ -72,3 +87,4 @@ drop database if exists test;  -- Delete a database called "test" if it exists
   * Official Python support by Oracle Inc.
   * Worst performance  = =
 * `PyMySQL`
+

@@ -45,29 +45,74 @@ from products;
 
   - 约等于 Java `String` / Python `str`
 
-  - Change case: `upper()` / `lower()`
+  - Find index of first occurrence of substring: `instr(str, substr)`
 
     ***
 
-    *MySQL*: `upper()` = `ucase()`, `lower()` = `lcase()`
+    *MySQL*: `locate(substr, str, pos)`
+
+    ```mysql
+    select locate('bar', 'foobarbar', 5);
+    
+    -- 7
+    ```
 
     ***
 
-  - Trim: `trim()`, `ltrim()`, `rtrim()`
+  - Change case: `upper(s)` / `lower(s)`
 
-    - `trim()`: Trim the leading and trailing space
-    - `ltrim()`: Trim only the leading space
-    - `rtrim()`: Trim only the trailing space
+    ***
 
-  - Substring: `substr(str_name, str_position, substr_length)`
+    *MySQL*: `upper(s)` = `ucase(s)`, `lower(s)` = `lcase(s)`
 
-    Note that `str_position` starts from 1!!!
+    ***
+
+  - Trim: `trim(s)`, `ltrim(s)`, `rtrim(s)`
+
+    - `trim(s)`: Trim the leading and trailing space
+    - `ltrim(s)`: Trim only the leading space
+    - `rtrim(s)`: Trim only the trailing space
+
+    ***
+
+    *MySQL:* `trim([{BOTH | LEADING | TRAILING} [remstr] FROM] str)`
+
+    ```mysql
+    select trim('   bar   ');  -- BOTH is assumed + space is assumed
+    
+    -- bar
+    
+    select trim(LEADING 'x' FROM 'xxxbarxxx');
+    
+    -- barxxx
+    
+    select trim(TRAILING 'xyz' FROM 'barxxyz');
+    
+    -- barx
+    ```
+
+    ***
+
+  - Substring: `substr(str_name, str_pos, substr_length)`
+
+    Note that `str_pos` starts from 1!!!
 
     ```sql
     select first_name, substr(first_name, 2, 3)  -- Select only 3 characters, starting from the 2nd character
     from employees
     where department_id = 60;
+    
+    
+    select substr('MySQL', -2, 2);  -- Select only 2 characters, starting from the 1st character from the right
+    
+    -- QL
     ```
+
+    ***
+
+    *MySQL*: `substr()` = `substring()`
+
+    ***
 
   - Concatenate: `||`
 
@@ -76,6 +121,38 @@ from products;
         company_name || ' (' || contact_name || ')'  -- Concatenate "company_name" and "contact_name"
     from customers;
     ```
+
+    ***
+
+    *MySQL*:
+
+    * `concat(str1, str2, ...)`
+
+      ```mysql
+      select concat('My', 'S', 'QL');
+      
+      -- MySQL
+      
+      -- If any argument is null, return null.
+      select concat('My', null, 'QL');
+      
+      -- null
+      ```
+
+    * `concat_ws(separator, str1, str2, ...)`
+
+      ```mysql
+      select concat_ws(',', 'First name', 'Second name', 'Last name');
+      
+      -- 'First name,Second name,Last name'
+      
+      -- If the separator is null, the result is null.
+      select concat_ws(',', 'First name', null, 'Last name');
+      
+      -- null
+      ```
+
+    ***
 
 - `char(n)`
 

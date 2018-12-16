@@ -26,13 +26,16 @@ drop database test;
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/create-table.png?raw=true" width="500px">
 
+*We can add `if not exists` between `table` and `tablename`, to create the table if it doesn't already exist.*
+
 **Constraints:**
 
+- `default`
 - `not null`
 - `unique`
 - `primary key`
   - A combination of `not null` and `unique`
-- `auto_increment`
+- `autoincrement`
 - `foreign_key`
   - By using `foreign key` constraints, we establish links between tables.
   - Using `foreign key` constraint prevents actions that would break these links
@@ -42,24 +45,66 @@ drop database test;
 *SQLite*:
 
 ```sqlite
+create table students (
+    id integer primary key autoincrement,  -- Specify autoincrement in SQLite
+	name varchar(20) not null,
+    email varchar(100) not null
+);
+
+create table courses (
+    id char(5) primary key,
+	name varchar(30) not null
+);
+
 create table scores (
-    id int primary key,  -- Specify a primary key in SQLite
-    name varchar(20) not null,
-    score int,
-    exam_id int
-    foreign key(exam_id) references exams(exam_id)  -- Specify a foreign key in SQLite
+    student_id integer references students(id),  -- Specify a reference key in SQLite
+	course_id char(5) references courses(id),
+	score integer,
+	primary key(student_id, course_id)  -- Specify a multi-column primary key
 );
 ```
 
 *MySQL*:
 
 ```mysql
-create table scores (
-	id int not null auto_increment,
+create table students (
+    id integer primary key auto_increment,  -- Specify autoincrement in MySQL
     name varchar(20) not null,
-    score int,
-    primary key(id)  -- Specify a primary key in MySQL
-    foreign key(exam_id) references exams(exam_id)  -- Specify a foreign key in MySQL
+    email varchar(100) not null
+);
+
+create table courses (
+    id char(5) primary key,
+    name varchar(30) not null
+);
+
+create table scores (
+    student_id integer references students(id),
+    course_id char(5) references courses(id),
+    score integer,
+    primary key(student_id, course_id)
+)
+```
+
+*PostgreSQL:*
+
+```sql
+create table students (
+    id serial primary key,  -- Specify autoincrement in PostgreSQL by using "serial" data type
+    name varchar(20) not null,
+    email varchar(100) not null
+);
+
+create table courses (
+    id char(5) primary key,
+    name varchar(30) not null
+);
+
+create table scores (
+    student_id integer references students(id),
+    course_id char(5) references courses(id),
+    score integer,
+    primary key(student_id, course_id)
 );
 ```
 
@@ -123,44 +168,9 @@ create view brazil_customers as (
     add email /* column_name */ varchar(255) /* data_type */;
     ```
 
-    *Only in MySQL*:
-
-    ```mysql
-    -- Add a "unique" constraint on column "email"
-    alter table customers
-    add unique(email);
-    ```
-
-    ```mysql
-    -- Add a "primary key" constraint on column "id"
-    alter table customers
-    add primary key(id);
-    ```
-
-    ```mysql
-    -- Add a "primary key" constraint on multiple columns, and give the PK a name
-    alter table customers
-    add constraint person_pk /* pk_name */ primary key(id, lastname);
-    ```
-
-    ```mysql
-    -- Add a "foreign key" constraint on column "person_id", to refer to column "person_id" in "persons" table
-    alter table orders
-    add foreign key(person_id) references persons(person_id);
-    ```
-
-  - Modify column
-
-    *MySQL*:
-
-    ```sql
-    alter table customers
-    modify column email varchar(255) /* column_name */ not null;
-    ```
-
   - Delete column
 
-    *Only in MySQL*:
+    *Only in MySQL& PostgreSQL*:
 
     ```sql
     alter table customers
@@ -198,7 +208,6 @@ truncate table scores; -- Delete all the information stored (including the heade
 #### (8) Deleting View
 
 ```sql
--- Delete the "brazil_customers" view
 drop view brazil_customers;
 ```
 
@@ -361,7 +370,7 @@ from order_details;
 
 ```sql
 -- Classify the tracks by size
-select track_id, name, bytes
+select track_id, name, bytes,
     (case
         when bytes < 300000 then 'small'
         when bytes >= 300001 and bytes < 500000 then 'medium'
