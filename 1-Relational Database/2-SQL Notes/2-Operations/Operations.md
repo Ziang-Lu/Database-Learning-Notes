@@ -109,11 +109,10 @@ Temporary table:
 
 ```sql
 -- Create a temporary table containing all the sandals
-create temporary table sandals as (
+create temporary table sandals as
     select *
     from shoes
-    where shoe_type = 'sandals'
-);
+    where shoe_type = 'sandals';
 ```
 
 *(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
@@ -126,11 +125,10 @@ View: A ~ is a <u>virtual table (illusion) based on the result-set of an SQL sta
 
 ```sql
 -- Create a view containing all the customers from Brazil
-create view brazil_customers as (
+create view brazil_customers as
     select customer_name, contact_name
     from customers
-    where country = 'Brazil'
-);
+    where country = 'Brazil';
 ```
 
 *(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
@@ -156,9 +154,7 @@ create view brazil_customers as (
     add email /* column_name */ varchar(255) /* data_type */;
     ```
 
-  - Delete column
-
-    *Only in MySQL& PostgreSQL*:
+  - Delete column   (*Only in MySQL and PostgreSQL*)
 
     ```sql
     alter table customers
@@ -169,7 +165,7 @@ create view brazil_customers as (
 
 <br>
 
-#### (6) Updating View
+#### (6) Updating View   (*Only in MySQL & PostgreSQL*)
 
 ```sql
 -- Update the "brazil_customers" view by adding a "City" column to it
@@ -488,10 +484,8 @@ where customer_id in (
     select distinct customer_id, order_id
     from orders
     where freight > 100
-);
+) as subq;  -- PostgreSQL requires an alias of the subquery result table
 ```
-
-**A subquery is only allowed to select one column!!!**
 
 <br>
 

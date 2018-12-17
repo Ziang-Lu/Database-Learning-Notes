@@ -33,7 +33,7 @@ or
 > pg_ctl -D /usr/local/var/postgresql@9.6/ start
 ```
 
-Stop PostgreSQL server**
+**Stop PostgreSQL server**
 
 ```bash
 > pg_ctl -D /usr/local/var/postgresql@9.6/ stop
@@ -57,16 +57,18 @@ Stop PostgreSQL server**
 
 **[Inside the interactive shell] Common commands**
 
-```
-\l  -- Show all the databases on the PostgreSQL server
+```bash
+\l  # Show all the databases on the PostgreSQL server
 
-\dt  -- Show all the tables in "test" database
+\dt  # Show all the tables in "test" database
 
-\d some_table  -- Show the structure (columns) of "some_table" table
+\d some_table  # Show the structure (columns) of "some_table" table
 
-\i some_codes.sql  - Import (Execute) the SQL codes in "some_codes.sql"
+\i some_codes.sql  # Import (Execute) the SQL codes in "some_codes.sql"
 
-\c 
+\x  # Toggle expanded output
+
+\c db_name  # Change connection to another DB
 ```
 
 ***
