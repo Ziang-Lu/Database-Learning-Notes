@@ -29,7 +29,7 @@
 
 **Supported Math Operators (Only for Numerical Types)**
 
-`+`, `-`, `*`, `/`
+`+`, `-`, `*`, `/`, `%`
 
 ```sql
 select product_id, units_on_order, unit_price,

@@ -82,3 +82,6 @@ or
 ## Python Support
 
 `psycopg2`
+
+(Check out `Online Forum App/` folder for a web application written with `Flask` and `PostgreSQL` DB)
+

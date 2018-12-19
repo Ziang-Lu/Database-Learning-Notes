@@ -147,6 +147,12 @@ create view brazil_customers as
     alter table customers rename to my_customers;
     ```
 
+  - Rename column
+
+    ```sql
+    alter table customers rename name to fullname;
+    ```
+
   - Add column
 
     ```sql
@@ -158,10 +164,9 @@ create view brazil_customers as
 
     ```sql
     alter table customers
-    drop column email /* column_name */;
+    drop email /* column_name */;
     ```
 
-- Add and drop constraints on an existing table
 
 <br>
 
@@ -180,11 +185,11 @@ where country = 'Brazil';
 #### (7) Deleting Table
 
 ```sql
-drop table scores; -- Delete all the information stored in the table, and then delete the table
+drop table scores;  -- Delete all the information stored in the table, and then delete the table
 ```
 
 ```sql
-truncate table scores; -- Delete all the information stored (including the headers) in the table, but not table itself
+truncate table scores;  -- Delete all the information stored (including the headers) in the table, but not table itself
 ```
 
 <br>
@@ -649,6 +654,8 @@ A single `insert` statement can only <u>insert rows into a single table</u>.
 
 ### 3. Updating Data to Table
 
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/update.png?raw=true" width="500px">
+
 ```sql
 update customers
 set contact_name = 'Aflred Schmidt',
@@ -659,6 +666,8 @@ where customer_id = 1;
 <br>
 
 ### 4. Deleting Data in Table
+
+**在实际设计DB时, 应该只使用逻辑删除 (把对应record的`is_del`设置为`true`), 而不使用物理删除 (实际删除掉对应record)**
 
 ```sql
 delete from customers
