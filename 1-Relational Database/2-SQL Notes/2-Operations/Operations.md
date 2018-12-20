@@ -680,3 +680,30 @@ Note that
 delete from customers; -- Delete all the information (not including the headers) stored in the table, but not table itself
 ```
 
+<br>
+
+***
+
+### Transaction
+
+*SQLite:*
+
+```sqlite
+begin transaction;  -- Start a transaction
+-- Some SQL changes
+commit;  -- Commit the transaction, updating the DB with the above two changes at the same time
+
+rollback;  -- Rollback to the last commit, aborting all the changes since then
+```
+
+*MySQL and PostgreSQL:*
+
+```mysql
+begin;  -- Start a transaction
+-- Some SQL changes
+commit;  -- Commit the transaction, updating the DB with the above two changes at the same time
+
+rollback;  -- Rollback to the last commit, aborting all the changes since then
+```
+
+***

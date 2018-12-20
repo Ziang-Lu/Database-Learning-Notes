@@ -62,6 +62,8 @@ or
 
 \dt  # Show all the tables in "test" database
 
+\dv  # Show all the views in "test" database
+
 \d some_table  # Show the structure (columns) of "some_table" table
 
 \i some_codes.sql  # Import (Execute) the SQL codes in "some_codes.sql"

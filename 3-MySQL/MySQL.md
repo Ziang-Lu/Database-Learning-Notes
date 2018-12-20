@@ -70,6 +70,8 @@ use test;  -- Enter "test" database
 
 show tables;  -- Show all the tables in "test" database
 
+show views;  -- Show all the views in "test" database
+
 source some_codes.sql;  -- Import (Execute) the SQL codes in "some_codes.sql"
 
 describe some_table;  -- Show the structure (columns) of "some_table" table
@@ -88,3 +90,4 @@ drop database if exists test;  -- Delete a database called "test" if it exists
   * Worst performance  = =
 * `PyMySQL`
 
+Open
