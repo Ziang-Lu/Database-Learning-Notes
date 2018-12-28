@@ -62,96 +62,6 @@ Key-value store
 > redis-cli  # 默认进入DB-0
 ```
 
-***
-
-**[Inside the interactive shell] Common commands**
-
-```bash
-select 2  # Use DB-2
-
-
-# COMMANDS FOR KEYS IN GENERAL
-
-keys *  # By using the wildcard "*", show all the keys in the current DB
-keys o*  # ... show all the keys that start with an "o" in the current DB
-keys ???  # By using the wildcard "?", show all the keys that are exactly 3 characters long in the current DB
-keys on[aew]  # By using the wildcard "[]", show all the keys that start with "on" followed by any one character among "a"/"e"/"w" in the current DB
-
-exists key  # Check whether "key" exists
-type key  # Show the type of the value at "key"
-
-move key 3  # Move "key" to DB-3
-
-del key anotherkey  # Delete the specified keys
-
-flushdb  # Delete all the keys in the current DB
-
-
-# COMMANDS FOR STRING
-
-# (1) Setting
-
-set key "foo" nx  # Store the mapping "key" -> "foo", but only set when "key" doesn't already exist
-set key "foo" xx  # ... but only set when "key" already exists => So this is equivalent to updating the string at "key"
-mset key "foo" anotherkey "bar"  # Store multiple mappings "key" -> "foo" and "anotherkey" -> "bar"
-msetnx key "foo" anotherkey "bar"  # ... but only set when all the specified keys don't already exist
-
-# setrange
-set key "hello"
-setrange key 2 "xx"  # Update a range of the string at "key", starting from index-2 (starting from 0)
-get key  # "hexxo"
-
-append key "additional"  # Append "additional" to the end of the string at "key"
-
-# setbit
-set letter "A"  # "A" is stored as ASCII code 65 (0x 0100 0001)
-# To change "A" to its lowercase, we need to increment the ASCII code by 32 (0x 0010 0000), i.e., change the index-2 bit from 0 to 1
-setbit letter 2 1  # Set the index-2 bit to 1
-get letter  # "a"
-
-# (2) Getting
-
-get key  # Get the string at "key"
-mget key anotherkey  # Get the strings at "key" and "anotherkey"
-getrange key 1 4  # Get a range (from index-1 to index-4) of the string at "key", inclusive
-
-strlen key  # Get the length of the string at "key"
-
-# (3) Operating as 
-
-# Increment / Decrement operations
-set key 10
-incr key  # Increment the string (interpreted as integer) at "key" by 1
-incrby key 5  # ... by 5
-incrbyfloat key 1.5  # Increment the string (interpreted as floating-number) at "key" by 1.5
-decr key  # Decrement ...
-decrby key 5  # Decrement ...
-
-
-# COMMANDS FOR LIST
-
-lpush key "a" "b"  # Push the specified values to the left of the linked-list at "key"
-rpush key "c" "d"  # ... to the right of ...
-
-linsert key before|after "a" "new_a"  # Insert "new_a" before|after the first "a" in the linked-list at "key"
-
-lindex key 2  # Show the value at index-2 of the linked-list at "key"
-lrange key 0 -1  # Show a range (from index-0 to last index) of the linked-list at "key", inclusive
-# "b", "a", "c", "d"
-
-llen key  # Get the length of the linked-list at "key"
-
-ltrim key 1 3 # Trim the linked-list at "key" to a range (from index-1 to index-3), inclusive
-
-lpop key  # Pop the left-most value from the linked-list at "key"
-rpop key  # ... right-most ...
-
-lrem key 5 "a"  # Remove at most 5 "a" from the left of the linked-list at "key"
-lrem key -5 "a"  # ... from the right of ...
-```
-
-***
-
 <br>
 
 ## Redis Commands
@@ -160,25 +70,184 @@ Full command lists:
 
 * About keys in general
 
+  ```bash
+  # (1) Check keys
+  
+  keys *  # By using the wildcard "*", show all the keys in the current DB
+  keys o*  # ... show all the keys that start with an "o" in the current DB
+  keys ???  # By using the wildcard "?", show all the keys that are exactly 3 characters long in the current DB
+  keys on[aew]  # By using the wildcard "[]", show all the keys that start with "on" followed by any one character among "a"/"e"/"w" in the current DB
+  
+  # (2) Check one key's information
+  
+  exists key  # Check whether "key" exists
+  type key  # Show the type of the value at "key"
+  
+  # (3) Move keys
+  
+  move key 3  # Move "key" to DB-3
+  
+  # (4) Delete keys
+  
+  del key anotherkey  # Delete the specified keys
+  flushdb  # Delete all the keys in the current DB
+  ```
+
   https://redis.io/commands#generic
 
 * About `String`
+
+  ```bash
+  # (1) String setting
+  
+  set key "foo" nx  # Store a string "foo" at "key", but only set when "key" doesn't already exist
+  set key "foo" xx  # ... but only set when "key" already exists => So this is equivalent to updating the string at "key"
+  mset key "foo" anotherkey "bar"  # Store a string "foo" at "key" and "bar" at "anotherkey"
+  msetnx key "foo" anotherkey "bar"  # ... but only set when all the specified keys don't already exist
+  
+  # setrange
+  set key "hello"
+  setrange key 2 "xx"  # Update a range of the string at "key", starting from index-2 (starting from 0)
+  get key  # "hexxo"
+  
+  append key "additional"  # Append "additional" to the end of the string at "key"
+  
+  # setbit
+  set letter "A"  # "A" is stored as ASCII code 65 (0x 0100 0001)
+  # To change "A" to its lowercase, we need to increment the ASCII code by 32 (0x 0010 0000), i.e., change the index-2 bit from 0 to 1
+  setbit letter 2 1  # Set the index-2 bit to 1
+  get letter  # "a"
+  
+  # (2) String getting
+  
+  get key  # Get the string at "key"
+  mget key anotherkey  # Get the strings at "key" and "anotherkey"
+  getrange key 1 4  # Get a range (from index-1 to index-4) of the string at "key", inclusive
+  
+  strlen key  # Get the length of the string at "key"
+  
+  # (3) String operated as number
+  
+  # Increment / Decrement operations
+  set key 10
+  incr key  # Increment the string (interpreted as integer) at "key" by 1
+  incrby key 5  # ... by 5
+  incrbyfloat key 1.5  # Increment the string (interpreted as floating-number) at "key" by 1.5
+  decr key  # Decrement ...
+  decrby key 5  # Decrement ...
+  ```
 
   https://redis.io/commands#string
 
 * About `List` (linked-list)
 
+  ```bash
+  # (1) Insertion
+  
+  lpush key "a" "b"  # Push the specified values to the left of the linked-list at "key"
+  rpush key "c" "d"  # ... to the right of ...
+  
+  linsert key before|after "a" "new_a"  # Insert "new_a" before|after the first "a" in the linked-list at "key"
+  
+  lindex key 2  # Show the value at index-2 of the linked-list at "key"
+  lrange key 0 -1  # Show a range (from index-0 to last index) of the linked-list at "key", inclusive
+  # "b", "a", "c", "d"
+  
+  # (2) Retrieval
+  
+  llen key  # Get the length of the linked-list at "key"
+  
+  ltrim key 1 3 # Trim the linked-list at "key" to a range (from index-1 to index-3), inclusive
+  
+  # (3) Deletion
+  
+  lpop key  # Pop the left-most value from the linked-list at "key"
+  rpop key  # ... right-most ...
+  
+  lrem key 5 "a"  # Remove at most 5 "a" from the left of the linked-list at "key"
+  lrem key -5 "a"  # ... from the right of ...
+  ```
+
   https://redis.io/commands#list
 
 * About `Hash` (hash map)
+
+  ```bash
+  # (1) Insertion
+  
+  hset key name "Kevin"  # Store a mapping "name" -> "Kevin" in the hash map at "key"
+  hmset key name "Kevin" sex "M"  # Store mappings "name" -> "Kevin", "sex" -> "M" in the hash map at "key"
+  
+  # (2) Retrieval
+  
+  hexist key name  # Check whether the field "name" exists in the hash map at "key"
+  
+  hget key name  # Get the value of field "name" in the hash map at "key"
+  hmget key name sex # Get the values of the fields "name" and "set" in the hash map at "key"
+  hgetall key  # Get all the mappings in the hash map at "key"
+  hkeys key  # Get all the fields in the hash map at "key"
+  hvals key  # Get all the values in the hash map at "key"
+  
+  hlen key  # Get the number of mappings in the hash map at "key"
+  
+  # (3) Deletion
+  hdel key sex  # Delete the field "name" in the hash map at "key"
+  
+  # (4) Value operated as number
+  hincr key age 10  # Increment the value of the field "age" in the hash map at "key" by 10
+  hincrfloat key age 2.5  # ... by 2.5
+  ```
 
   https://redis.io/commands#hash
 
 * About `Set` (hash set)
 
+  ```bash
+  # (1) Insertion
+  
+  sadd key "Kevin" "John"  # Store the values "Kevin" and "John" in the set at "key"
+  
+  # (2) Retrieval
+  
+  sismember key "John"  # Check whether the value "John" exists in the set at "key"
+  
+  srandmember key  # Get a random value from the set at "key"
+  smembers key  # Get all the values from the set at "key"
+  
+  scard key  # Get the number of values in the set at "key"
+  
+  # (3) Deletion
+  
+  spop key "Kevin"  # Pop out the value "Kevin" from the set at "key"
+  srem key "Kevin" "John"  # Delete the values "Kevin" and "John" from the set at "key"
+  ```
+
   https://redis.io/commands#set
 
 * About `SortedSet` (tree set)
+
+  ```bash
+  # (1) Insertion
+  
+  zadd key 6 "Lily" 8 "Lucy" 7 "Kevin"  # Store the values "Lily" with score 6, "Lucy" with score 8, and "Kevin" with score 7 in the sorted set at "key"
+  
+  # (2) Retrieval
+  
+  zrange key 1 3 [withscores]  # Get a range (from rank-1 to rank-3 in ascending order) from the sorted set at "key", inclusive, [together with the corresponding score]
+  zrevrange key 1 3 [withscores]  # ... in descending order ...
+  zrangebyscore key 10 15 [withscores] limit 2 3  # Get a range (from score 10 to score 15 in ascending order) from the sorted set at "key", inclusive, [...], offset 2 values and limit the result to the first 3 values
+  
+  zrank key "Lucy"  # Calculate the rank of "Lucy" (ascending order) in the sorted set at "key"
+  zrevrank key "Lucy"  # ... (descending order) ...
+  
+  zcard key  # Get the number of values in the sorted set at "key"
+  zcount key 10 15  # Count the number of values with score [10, 15] in the sorted set at "key"
+  
+  # (3) Deletion
+  zrem key "Lily" "Kevin"  # Delete the values "Kevin" and "John" from the sorted set at "key"
+  zremrangebyrank key 1 3  # Delete a range (from rank-1 to rank-3 in ascending order) from the sorted set at "key", inclusive
+  zremrankebyscore key 10 15  # ... (from score 10 to score 15 in ascending order) ...
+  ```
 
   https://redis.io/commands#sorted_set
 

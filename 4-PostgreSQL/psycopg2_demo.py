@@ -4,7 +4,8 @@
 """
 Simple usage demo of psycopg2 library (driver).
 
-Before running this script, first create a MySQL database called "test":
+Before running this script, first make sure PostgreSQL server is up and running,
+and create a PostgreSQL database called "test":
 > createdb test
 """
 
