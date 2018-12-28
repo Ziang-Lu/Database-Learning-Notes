@@ -9,9 +9,26 @@
 
 ## Setup
 
-* Download PostgreSQL from `homebrew`
+* Download and install PostgreSQL from `homebrew`
 
   `> brew install postgresql@9.6`
+
+* Add the following to `.bashrc` and `.zshrc`:
+
+  ```bash
+  # Setting for icu4c
+  export PATH="/usr/local/opt/icu4c/bin:$PATH"
+  export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+  export LDFLAGS="-L/usr/local/opt/icu4c/lib"
+  export CPPFLAGS="-I/usr/local/opt/icu4c/include"
+  export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
+  
+  # Setting for PostgreSQL
+  export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
+  export LDFLAGS="-L/usr/local/opt/postgresql@9.6/lib"
+  export CPPFLAGS="-I/usr/local/opt/postgresql@9.6/include"
+  export PKG_CONFIG_PATH="/usr/local/opt/postgresql@9.6/lib/pkgconfig"
+  ```
 
 <br>
 
@@ -21,7 +38,7 @@
 
 *(相当于MySQL的`mysqld`)*
 
-**Start PostgreSQL Server**
+**Start PostgreSQL Server**   **(Non-daemon process)**
 
 ```bash
 > postgres -D /usr/local/var/postgresql@9.6/

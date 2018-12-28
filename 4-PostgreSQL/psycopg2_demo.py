@@ -22,7 +22,7 @@ def init_db() -> None:
     Initialize a DB by inserting rows into it.
     :return: None
     """
-    with psycopg2.connect(f'dbname={DB_NAME}') as conn:
+    with psycopg2.connect(dbname=DB_NAME) as conn:
         # Get the cursor
         with conn.cursor() as cursor:
             cursor.execute('''
@@ -99,7 +99,7 @@ def get_score_within(low: int, high: int) -> List[Tuple[str]]:
     """
     print(f'List students and courses where score is within {low} and {high}, '
           f'ordered by the score in ascending order:')
-    with psycopg2.connect(f'dbname={DB_NAME}') as conn:
+    with psycopg2.connect(dbname=DB_NAME) as conn:
         # Get the cursor
         with conn.cursor() as cursor:
             cursor.execute('''

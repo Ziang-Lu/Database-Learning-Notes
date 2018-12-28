@@ -36,7 +36,6 @@ DB enables **safe concurrent access by multiple programs/users**.
 
 ## DB Types (本质上是Data Model的不同type)
 
-* Navigational DB (导航型数据库)
 * Relational DB (关系型数据库)
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/Relational%20DB%20Concepts.md">Relational DB Concepts</a>
   * SQL Notes
@@ -48,35 +47,42 @@ DB enables **safe concurrent access by multiple programs/users**.
       * Updating Data in Table
       * Deleting Data in Table
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/Python%20DB-API.md">Python DB-API</a>
-  * Relational DB Management System (关系型数据库管理系统)
+  * Relational DB Management System (RDBMS) (关系型数据库管理系统)
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/2-SQLite/SQLite.md">SQLite</a>
       * 轻量级、嵌入式DB
       * 其一个DB就是一个文件(`xxx.db`), 存储在disk上
       * => 经常被集成到桌面和移动端应用之中
       * 不能承受高concurrency访问
-      * Python Support: `sqlite3`
+      * Python support: `sqlite3`
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/3-MySQL/MySQL.md">MySQL</a>
       * 为server-side设计的, 使用最广泛的DB server
       * 能承受高concurrency访问
-      * Python Support: `mysql-connector-python` / `PyMySQL`
+      * Python support: `mysql-connector-python` / `PyMySQL`
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-PostgreSQL/PostgreSQL.md">PostgreSQL</a>
       * 为server-side设计的, 使用流行度呈上升趋势
       * 能承受高concurrency访问
-      * Python Support: `psycopg2`
+      * Python support: `psycopg2`
     * Oracle
       * 不开源、付费
-* Not-only SQL (NoSQL) ***
+* Not-only SQL (NoSQL)
   * Key-value store (键-值存储)
-    * 适用于数据类型相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
-      * Redis ***
+
+    适用于要存储的data type相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
+
+    * Redis
+
+      存储的data有结构, 用来存储string, linked-list, hash table, set等data type
+
+      => 常用作data structure server
   * Document store (文档存储)
-    * Mongo DB ***
+
+    * Mongo DB
 
 <br>
 
 ***
 
-**Working through a Data Science Problem**
+**TIPS: Before Working through a Data Science Problem**
 
 1. <u>Business Understading (业务理解)</u>
 
@@ -85,8 +91,15 @@ DB enables **safe concurrent access by multiple programs/users**.
 
 2. <u>Data Understanding (数据理解)</u>
 
-   * <u>Data Governance (数据管制) / Data profiling (数据剖析)</u>
-     * Examine data accessibilty, availability, completeness, consistency and accuracy
+   * <u>Data Governance (数据管制) / Data Profiling (数据剖析)</u>
+
+     * Examine data accessibilty, availability
+
+       *即查看公司对于data是如何管理的, 也查看自己对于哪些data有哪些权限*
+
+   * <u>Data Profiling (数据剖析)</u>
+
+     * Examine data completeness, consistency and accuracy
      * Summarize the potential problems in the data
 
    * e.g.. pay attention to the data type for each column in each table

@@ -21,7 +21,7 @@
 
   - $\approx$ Java `float`
 
-- `double precision`
+- `double`
 
   - $\approx$ Java `double` / Python `float`
 

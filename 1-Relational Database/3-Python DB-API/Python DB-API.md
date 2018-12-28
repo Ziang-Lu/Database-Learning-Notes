@@ -42,3 +42,59 @@ The following Python modules <u>all follow Python DB-API</u>.
 
 *Check out the corresponding demo program for detailed usage*
 
+<br>
+
+***
+
+### Object-Relational Mapping (对象-关系映射) (ORM)
+
+#### Problem:
+
+Assume we have the following `users` table:
+
+```sql
+create table 
+```
+
+Data structure returned by Python DB-API:
+
+```python
+# A list of tuples, where each tuple represents a record
+[
+    (1, 'Michael'),
+    (2, 'Bob'),
+    (3, 'Adam')
+]
+```
+
+which is <u>not so intuitive</u>.
+
+#### ORM: Change the each record (tuple) to an object
+
+```python
+# Similar to the following:
+class User:
+    """
+    User class
+    """
+
+    def __init__(self, id: int, name: str):
+        """
+        Constructor with parameter.
+        :param id: int
+        :param name: str
+        """
+        self._id = id
+        self._name = name
+
+    def __repr__(self):
+        return f'User(id={self._id}, name={self._name})'
+
+[
+    User(id=1, name='Michael'),
+    User(id=2, name='Bob'),
+    User(id=3, name='Adam')
+]
+```
+
+***

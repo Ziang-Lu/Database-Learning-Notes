@@ -11,7 +11,7 @@
 
 * Download MySQL from official website
 
-  * After installation,  set a password for the `root` user
+  After installation,  set a password for the `root` user
 
 * `> ls /usr/local/mysql`
 
@@ -34,6 +34,8 @@
 <br>
 
 ## Start/Stop MySQL Server
+
+**(Daemon process)**
 
 * `System Preference` -> `MySQL`
   * `Initialize Database`
