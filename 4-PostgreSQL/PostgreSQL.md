@@ -78,7 +78,7 @@ exit
   ```bash
   > postgres -D /Library/PostgreSQL/9.5/data
   # or
-  > pg_ctl -D /Library/PostgreSQL/9.5/data
+  > pg_ctl -D /Library/PostgreSQL/9.5/data start
   ```
 
   Let the server running in this terminal
@@ -92,13 +92,7 @@ exit
 * **Stop PostgreSQL Server**
 
   ```bash
-  # Change to user "postgres"
-  > sudo su postgres
-  # Password: "password"
-  
-  > postgres -D /Library/PostgreSQL/9.5/data
-  # or
-  > pg_ctl -D /Library/PostgreSQL/9.5/data
+  > pg_ctl -D /Library/PostgreSQL/9.5/data stop
   ```
 
 ***
