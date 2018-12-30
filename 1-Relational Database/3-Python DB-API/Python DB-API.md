@@ -53,7 +53,10 @@ The following Python modules <u>all follow Python DB-API</u>.
 Assume we have the following `users` table:
 
 ```sql
-create table 
+create table users (
+    id integer primary key,
+    name varchar(20) not null
+)
 ```
 
 Data structure returned by Python DB-API:
@@ -69,7 +72,13 @@ Data structure returned by Python DB-API:
 
 which is <u>not so intuitive</u>.
 
-#### ORM: Change the each record (tuple) to an object
+#### ORM: Change each table to a class, and each record (tuple) in that table to an object of that class
+
+| DB Representation | Table | Column (Field)  | Record |
+| ----------------- | ----- | --------------- | ------ |
+| ORM               | Class | Class attribute | Object |
+
+In this way, writing code is much easier, since we <u>don't need to write SQL statements anymore</u>, but <u>just need to define plain Python classes (for tables) and objects (for records)</u>.
 
 ```python
 # Similar to the following:

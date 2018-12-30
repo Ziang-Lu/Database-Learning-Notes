@@ -15,7 +15,7 @@ __author__ = 'Ziang Lu'
 import argparse
 from typing import List, Tuple
 
-import mysql.connector as sql
+import mysql.connector
 
 DB_NAME = 'test'
 
@@ -27,7 +27,7 @@ def init_db(user: str, pwd: str) -> None:
     :param pwd: str
     :return: None
     """
-    conn = sql.connect(user=user, password=pwd, database=DB_NAME)
+    conn = mysql.connector.connect(user=user, password=pwd, database=DB_NAME)
 
     # Get the cursor
     cursor = conn.cursor()
@@ -113,7 +113,7 @@ def get_score_within(user: str, pwd: str, low: int,
     """
     print(f'List students and courses where score is within {low} and {high}, '
           f'ordered by the score in ascending order:')
-    conn = sql.connect(user=user, password=pwd, database=DB_NAME)
+    conn = mysql.connector.connect(user=user, password=pwd, database=DB_NAME)
 
     # Get the cursor
     cursor = conn.cursor()

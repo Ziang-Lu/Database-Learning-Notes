@@ -56,6 +56,53 @@ or
 > pg_ctl -D /usr/local/var/postgresql@9.6/ stop
 ```
 
+***
+
+For 麻麻:
+
+Before all the operations, change to user "postgres"
+
+```bash
+> sudo su postgres
+# Password: "password"
+```
+
+To exit back to "Meooow":
+
+```bash
+exit
+```
+
+* **Start PostgreSQL Server**
+
+  ```bash
+  > postgres -D /Library/PostgreSQL/9.5/data
+  # or
+  > pg_ctl -D /Library/PostgreSQL/9.5/data
+  ```
+
+  Let the server running in this terminal
+
+* **Establish Connection as Client**
+
+  (In another terminal)
+
+  Check out the below commands
+
+* **Stop PostgreSQL Server**
+
+  ```bash
+  # Change to user "postgres"
+  > sudo su postgres
+  # Password: "password"
+  
+  > postgres -D /Library/PostgreSQL/9.5/data
+  # or
+  > pg_ctl -D /Library/PostgreSQL/9.5/data
+  ```
+
+***
+
 <br>
 
 ## PostgreSQL Command-Line Interface
