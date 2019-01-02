@@ -37,6 +37,9 @@ DB enables **safe concurrent access by multiple programs/users**.
 ## DB Types (本质上是Data Model的不同type)
 
 * Relational DB (关系型数据库)
+
+  操作数据都是通过SQL statements来完成的
+
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/Relational%20DB%20Concepts.md">Relational DB Concepts</a>
   * SQL Notes
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/1-Data%20Types%20in%20SQL/Data%20Types%20in%20SQL.md">Data Types in SQL</a>
@@ -64,19 +67,24 @@ DB enables **safe concurrent access by multiple programs/users**.
       * Python support: `psycopg2`
     * Oracle
       * 不开源、付费
+
 * Not-only SQL (NoSQL)
+
+  操作数据都是通过commands或prorgamming language来完成的
+
   * Key-value store (键-值存储)
 
     适用于要存储的data type相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
 
-    * Redis
-
-      存储的data有结构, 用来存储string, linked-list, hash table, set等data type
-
-      => 常用作data structure server
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-Redis/Redis.md">Redis</a>
+      * 存储的data有结构, 用来存储`String`, `List` (linked-list), `Hash` (hash table), `Set` (set), `SortedSet` (tree set) 等data type
+      * => 常用作data structure server
+      * Python support: `redis`
   * Document store (文档存储)
 
-    * Mongo DB
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/6-MongoDB/MongoDB.md">Mongo DB</a>
+
+      => 多用于data的采集和分散处理 (Map/Reduce), 特别是在大数据处理方面比较擅长
 
 <br>
 
@@ -115,4 +123,3 @@ DB enables **safe concurrent access by multiple programs/users**.
 ## License
 
 This repo is distributed under the <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/LICENSE">MIT license</a>.
-

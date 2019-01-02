@@ -1,6 +1,6 @@
 # Redis
 
-Key-value store
+**Key-value store (键-值存储)**
 
 适用于要存储的data type相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
 

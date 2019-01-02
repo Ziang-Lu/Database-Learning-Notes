@@ -588,13 +588,9 @@ where animals.species = diet.species;
 
   ```sql
   select order.order_id, customers.customer_name, shippers.shipper_name
-  from (
-      (
-          orders join customers
-          on orders.customer_id = customers.customer_id
-      ) join shippers
-      on orders.shipper_id = shippers.shipper_id
-  );
+  from orders
+  join customers on orders.customer_id = customers.customer_id
+  join shippers on orders.shipper_id = shippers.shipper_id;
   ```
 
 - **LEFT (OUTER) JOIN**

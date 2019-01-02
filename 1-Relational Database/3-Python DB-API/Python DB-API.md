@@ -20,11 +20,11 @@ e.g., Python DB-API specifies <u>which functions you should call</u> to connect 
 
 => **"Atomicity": A transaction happens as a whole, or not at all.**
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_1.png?raw=true" width="400px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_1.png?raw=true" width="500px">
 
 => If we close a connection or the code crashes without committing the changes, the changes will be <u>rolled back</u>.
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_2.png?raw=true" width="400px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_2.png?raw=true" width="500px">
 
 <br>
 
