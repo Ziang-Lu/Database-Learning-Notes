@@ -80,11 +80,20 @@ DB enables **safe concurrent access by multiple programs/users**.
       * 存储的data有结构, 用来存储`String`, `List` (linked-list), `Hash` (hash table), `Set` (set), `SortedSet` (tree set) 等data type
       * => 常用作data structure server
       * Python support: `redis`
+
   * Document store (文档存储)
 
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/6-MongoDB/MongoDB.md">Mongo DB</a>
+    Basic Concepts:
 
-      => 多用于data的采集和分散处理 (Map/Reduce), 特别是在大数据处理方面比较擅长
+    | Document store    | Relational DBMS |
+    | ----------------- | --------------- |
+    | DB                | DB (same)       |
+    | Collection (集合) | Table           |
+    | Document (文档)   | Record          |
+
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/6-MongoDB/MongoDB.md">Mongo DB</a>
+      * => 多用于data的采集和分散处理 (Map/Reduce), 特别是在大数据处理方面比较擅长
+      * Python support: `PyMongo`
 
 <br>
 
