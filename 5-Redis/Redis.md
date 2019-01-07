@@ -91,6 +91,7 @@ Full command lists:
   
   del key anotherkey  # Delete the specified keys
   flushdb  # Delete all the keys in the current DB
+  flushall  # Delete all the keys in all the DBs
   ```
 
   https://redis.io/commands#generic
@@ -166,6 +167,7 @@ Full command lists:
   
   lrem key 5 "a"  # Remove at most 5 "a" from the left of the linked-list at "key"
   lrem key -5 "a"  # ... from the right of ...
+  lrem key 0 "a"  # Remove all "5" from the linked-list at "key"
   ```
 
   https://redis.io/commands#list
@@ -194,7 +196,7 @@ Full command lists:
   hdel key sex  # Delete the field "name" in the hash map at "key"
   
   # (4) Value operated as number
-  hincr key age 10  # Increment the value of the field "age" in the hash map at "key" by 10
+  hincrby key age 10  # Increment the value of the field "age" in the hash map at "key" by 10
   hincrfloat key age 2.5  # ... by 2.5
   ```
 
