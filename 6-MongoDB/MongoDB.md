@@ -84,7 +84,7 @@ or
 
 **[Inside the interactive shell] Common commands**
 
-* DB commands
+* DB-level commands
 
   ```javascript
   show dbs;  // Show all the databases on the MongoDB server
@@ -96,7 +96,7 @@ or
   db.dropDatabase();  // Delete the current database
   ```
 
-* Collection commands
+* Collection-level commands
 
   ```javascript
   db.createCollection("posts");  // Create a collection called "posts" in "test" database
@@ -108,7 +108,7 @@ or
   db.posts.drop();  // Delete the "posts" collection
   ```
 
-* Document commands
+* Document-level commands
 
   * Insert documents
 
