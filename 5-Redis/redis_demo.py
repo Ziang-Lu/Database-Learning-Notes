@@ -15,7 +15,7 @@ import redis
 # Connect to Redis DB-2
 r = redis.Redis(db=2)
 # r provides a Python interface to all Redis commands.
-r.ping()
+print(r.ping())  # This method is used to test if the connection is still alive
 
 print(f"Set Record: {r.set('key', 'foo', nx=True)}")
 print(f"Get Record: {r.get('key')}")
