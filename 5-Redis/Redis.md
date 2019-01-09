@@ -118,6 +118,8 @@ Full command lists:
   # To change "A" to its lowercase, we need to increment the ASCII code by 32 (0x 0010 0000), i.e., change the index-2 bit from 0 to 1
   setbit letter 2 1  # Set the index-2 bit to 1
   get letter  # "a"
+  # Combining "setbit" and "getbit", we can use a string as an O(1) random-access arrays.
+  # Check out "bitmap_for_user_login.py" for using strings (together as a bitmap) to keep user logins and find active users
   
   # (2) String getting
   
