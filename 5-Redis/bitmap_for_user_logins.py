@@ -75,8 +75,7 @@ def simulate_one_day(day: str) -> None:
     print(r.ping())
 
     for _ in range(random.randint(N_LOGIN_PER_DAY_MIN, N_LOGIN_PER_DAY_MAX)):
-        rand_offset = random.randint(0, N_USER)
-        r.setbit(day, rand_offset, 1)
+        r.setbit(day, random.randint(0, N_USER), 1)
     print(f'Number of set bits: {r.bitcount(day, start=0, end=-1)}')
 
 
