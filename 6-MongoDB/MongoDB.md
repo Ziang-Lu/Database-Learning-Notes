@@ -220,11 +220,17 @@ or
 
 **-> Built-in analytics tools**
 
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/6-MongoDB/aggregation_framework_overview.png?raw=true" width="400px">
+
+<br>
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/6-MongoDB/aggregation_framework_stage.png?raw=true" width="400px">
+
 *(Similar to Linux shell pipeline)*
 
-For more practical examples of MongoDB Aggregation Framework, check out:
+For more practical examples of MongoDB Aggregation Framework, check out the MFlix project:
 
-https://github.com/Ziang-Lu/Intro-to-MongoDB
+https://github.com/Ziang-Lu/Intro-to-MongoDB/tree/master/notebooks
 
 <br>
 
