@@ -216,15 +216,18 @@ or
 
 <br>
 
-## Python Support
+## MongoDB Aggregation Framework
 
-`PyMongo`
+**-> Built-in analytics tools**
+
+*(Similar to Linux shell pipeline)*
+
+For more practical examples of MongoDB Aggregation Framework, check out:
+
+https://github.com/Ziang-Lu/Intro-to-MongoDB
 
 <br>
 
-## MongoDB Atlas
+## Python Support
 
-**Cluster that provides MongoDB hosting service**
-
-Check out https://www.mongodb.com/cloud/atlas
-
+`PyMongo`

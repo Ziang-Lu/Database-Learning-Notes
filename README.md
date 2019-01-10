@@ -1,6 +1,6 @@
 # Database Learning Notes
 
-These repo contains course notes in the following courses:
+This repo contains course notes in the following courses:
 
 * **Database Systems Concepts & Design** from *Georgia Tech* on Udacity
 * **Intro to Relational Database** on Udacity
