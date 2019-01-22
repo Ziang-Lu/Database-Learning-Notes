@@ -130,6 +130,8 @@ or
   * Select documents
 
     ```javascript
+    // Filtering
+    
     db.posts.find()  // Select all the documents in "posts" collection
     db.posts.find({tag: "diary"});  // ... where "tag" is "diary" ...
     db.posts.find({rank: {$gte: 5}});  // ... where "rank" >= 5 ...
@@ -144,14 +146,18 @@ or
     // We can also use $and to represent "AND".
     // But, we can simply combine the selection conditions into one single JSON object.
     
-    db.posts.find({rank: {$in: [3, 4, 5]}});  // ... where "rank" is in [3, 4, 5] ...
     db.posts.find({rank: {$exists: true}});  // ... where "rank" field exists ...
+    db.posts.find({rank: {$in: [3, 4, 5]}});  // ... where "rank" is in [3, 4, 5] ...
+    
+    // Projection
     
     db.posts.find({}, {title: true, rank: true});  // Select all the documents in "posts" collection, but only select out "title" and "rank" fields
     // Note that if a document only has some matchings of the specified fields, that document still will be selected out with only those matchings
     
     // However, by default, MongoDB also selects out "_id". Therefore to avoid this, we need to
     // db.posts.find({}, {title: true, rank: true, _id: false});
+    
+    // Post-processing
     
     db.posts.distinct("name");  // Select all the distinct "name"s in the documents in "posts" collection
     
