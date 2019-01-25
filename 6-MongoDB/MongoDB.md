@@ -177,7 +177,7 @@ or
     db.posts.update({title: "My First Blog"}, {rank: 99});  // Change the document where "title" is "My First Blog" in "posts" collection, deleting all the fields and setting only one field: "rank" is 99
     // This is DANGEROUS!!!
     
-    db.posts.update({title: "My First Blog", {title: "My First Blog", rank: 99, tag: "diary"}}, {upsert: true});  // ..., deleting all the fields and setting the specified fields;
+    db.posts.update({title: "My First Blog", {title: "My First Blog", rank: 99, tag: "diary"}}, {upsert: true});  // ..., deleting all the fields and setting the specified fields
     // (UPSERT) if the document does not exist, create the document
     
     
@@ -190,12 +190,12 @@ or
     db.posts.update({title: "My First Blog"}, {$inc: {rank: 5}});  // Increment "rank" by 10 for the document where "title" is "My First Blog" in "posts" collection
     db.posts.update({title: "My First Blog"}, {$mul: {rank: 2}});  // Multiply "rank" by 2 ...
     
-    db.posts.update({title: "My First Blog"}, {$rename: {"rank": "ranking"}});  // Rename "rank" field to "ranking" ...
+    db.posts.update({title: "My First Blog"}, {$rename: {rank: "ranking"}});  // Rename "rank" field to "ranking" ...
     
     
     // Delete fields
     
-    db.posts.update({title: "My First Blog"}, {$unset: {rank: true}});  // Delete "rank" field ...
+    db.posts.update({title: "My First Blog"}, {$unset: {rank: ""}});  // Delete "rank" field ...
     ```
 
   * Delete documents
