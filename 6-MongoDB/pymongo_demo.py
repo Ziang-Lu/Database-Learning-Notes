@@ -11,7 +11,7 @@ __author__ = 'Ziang Lu'
 
 from datetime import datetime
 
-from pymongo import ASCENDING, MongoClient
+from pymongo import ASCENDING, InsertOne, MongoClient, UpdateOne
 
 
 def init_db() -> None:
@@ -98,6 +98,17 @@ def update_db() -> None:
         filter={'author': 'Ziang'}, update={'$set': {'rank': 1}}
     )
     print(f'Number of updated documents: {update_result.modified_count}')
+
+    ####################
+
+    # We can also do bulk write as follows:
+    requests = [
+        InsertOne({'x': 1}),
+        UpdateOne(filter={'author': 'Ziang'}, update={'$set': {'rank': 1}})
+    ]
+    write_result = posts.bulk_write(requests)
+    print(f'Number of inserted documents: {write_result.inserted_count}')
+    print(f'Number of updated documents: {write_result.modified_count}')
 
 
 def test_index() -> None:
