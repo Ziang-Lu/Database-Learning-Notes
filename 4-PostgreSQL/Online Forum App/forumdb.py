@@ -29,11 +29,6 @@ def init_db() -> None:
             conn.commit()
 
 
-# # Temporarily a variable as the DB
-# posts = [('This is the first post.', datetime.now())]
-# # The data (posts) will be gone every time the application is shut down.
-
-
 def get_posts() -> Iterator[Tuple[str, datetime]]:
     """
     Returns the posts (most recent first) from the DB.

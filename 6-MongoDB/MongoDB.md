@@ -234,7 +234,7 @@ or
 
 *(Similar to Linux shell pipeline)*
 
-For more practical examples of MongoDB Aggregation Framework, check out the MFlix project:
+For more practical examples of Aggregation Framework, check out the MFlix project:
 
 https://github.com/Ziang-Lu/Intro-to-MongoDB/tree/master/notebooks
 

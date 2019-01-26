@@ -13,7 +13,7 @@ from forumdb import add_post, init_db, get_posts
 app = Flask(__name__)
 
 # HTML template for the forum page
-PAGE_TEMPLATE = '''\
+PAGE_TEMPLATE = '''
 <!DOCTYPE html>
 <html>
   <head>
@@ -47,9 +47,9 @@ POST_TEMPLATE = '''\
 
 
 @app.route('/', methods=['GET'])
-def main() -> str:
+def main_page() -> str:
     """
-    Forum page.
+    Forum main page.
     :return: str
     """
     posts = ''.join(
@@ -67,7 +67,7 @@ def post() -> None:
     """
     msg = request.form['content']
     add_post(msg)
-    return redirect(url_for('main'))
+    return redirect(url_for('main_page'))
 
 
 if __name__ == '__main__':
