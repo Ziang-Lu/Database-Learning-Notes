@@ -46,7 +46,7 @@ Normally, we use Index to speed up queries, but *Index is usually designed for s
 
 <u>Optimized solution: (Sharding + Geohashing)</u>
 
-1. Sharding
+1. DB Sharding
 
    Consider our use case, we can shard the DB into different regions, like North America, Asia, ...
 
