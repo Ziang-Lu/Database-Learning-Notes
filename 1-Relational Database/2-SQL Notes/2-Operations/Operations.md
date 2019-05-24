@@ -92,7 +92,7 @@ drop database test;
 
   ***
 
-- `foreign_key`
+- `foreign key`
   - By using `foreign key` constraints, we establish links between tables.
   - Using `foreign key` constraint prevents actions that would break these links
 
