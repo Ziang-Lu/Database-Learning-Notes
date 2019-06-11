@@ -169,7 +169,7 @@ Full command lists:
   
   lrem key 5 "a"  # Remove at most 5 "a" from the left of the linked-list at "key"
   lrem key -5 "a"  # ... from the right of ...
-  lrem key 0 "a"  # Remove all "5" from the linked-list at "key"
+  lrem key 0 "a"  # Remove all "a" from the linked-list at "key"
   ```
 
   https://redis.io/commands#list
