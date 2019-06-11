@@ -34,7 +34,7 @@ The following Python modules <u>all follow Python DB-API</u>.
 
 | DB Management System |                Python DB-API Library (Driver)                |
 | :------------------: | :----------------------------------------------------------: |
-|        MySQL         | <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-MySQL/mysql-connector_demo.py">`mysql.connector-python`</a><br/><a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-MySQL/pymysql_demo.py">`PyMySQL`</a> |
+|        MySQL         | <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/2-MySQL/mysql-connector_demo.py">`mysql.connector-python`</a><br/><a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/2-MySQL/pymysql_demo.py">`PyMySQL`</a> |
 |      PostgreSQL      | <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/3-PostgreSQL/psycopg2_demo.py">`psycopg2`</a> |
 
 ***
