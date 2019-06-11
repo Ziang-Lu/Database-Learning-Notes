@@ -162,6 +162,9 @@ def main():
 
     # Output:
     # Number of updated documents: 2
+    #
+    # Number of inserted documents: 1
+    # Number of updated documents: 0
 
     test_index()
 
