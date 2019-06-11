@@ -103,7 +103,7 @@ or
   
   show collections;  // Show all the collections in "test" database
   
-  db.posts.renameCollection("articles");  // Rename the "posts" to "articles"
+  db.posts.renameCollection("articles");  // Rename the "posts" collection to "articles"
   
   db.posts.drop();  // Delete the "posts" collection
   ```
@@ -119,6 +119,7 @@ or
         tags: ["diary"]
     })
     
+    # Support JavaScript
     for (let i = 2; i <= 10; ++i) {
         db.posts.insert({
             title: "Blog-" + i,
@@ -154,7 +155,7 @@ or
     db.posts.find({}, {title: true, rank: true});  // Select all the documents in "posts" collection, but only select out "title" and "rank" fields
     // Note that if a document only has some matchings of the specified fields, that document still will be selected out with only those matchings
     
-    // However, by default, MongoDB also selects out "_id". Therefore to avoid this, we need to
+    // However, by default, MongoDB also selects out "_id". Therefore to avoid this, we need to do
     // db.posts.find({}, {title: true, rank: true, _id: false});
     
     // Post-processing
@@ -163,8 +164,8 @@ or
     
     db.posts.find().sort({rank: 1});  // Select all the documents in "posts" collection, sorted by "rank" in ascending order
     db.posts.find().sort({rank: -1});  // ... in descending order
-    db.posts.find().sort({rank: 1}).limit(3);  // Select the first 3 documents ...
-    db.posts.find().sort({rank: 1}).skip(10).limit(3);  // Skipping the first 10, select the first 3 documents ...
+    db.posts.find().sort({rank: 1}).limit(3);  // ..., and select the first 3 documents
+    db.posts.find().sort({rank: 1}).skip(10).limit(3);  // ..., skipping the first 10 documents, and select the first 3
     
     db.posts.count();  // Count the number of documents in "posts" collection
     ```
@@ -208,8 +209,8 @@ or
 * Index commands
 
   ```javascript
-  db.posts.getIndexes();  // Get all the indexes of "posts" collection
   // By default, MongoDB will provide an index on "_id".
+  db.posts.getIndexes();  // Get all the indexes of "posts" collection
   
   db.posts.createIndex({rank: -1});  // Create an index on "rank" in descending order in "posts" collection
   db.posts.createIndex({title: 1}, {unique: true});  // ... on "title" in ascending order and must be unique ...
