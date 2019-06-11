@@ -46,7 +46,7 @@ Difference between document and record:
 
 ## Setup
 
-* Download and install PostgreSQL from `homebrew`
+ * Download and install MongoDB from `homebrew`
 
   ```bash
   > brew install mongodb
