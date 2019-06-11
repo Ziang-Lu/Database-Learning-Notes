@@ -100,4 +100,3 @@ drop database if exists test;  -- Delete a database called "test" if it exists
   * Worst performance  = =
 * `PyMySQL`
 
-Open

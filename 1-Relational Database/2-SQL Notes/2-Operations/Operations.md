@@ -60,16 +60,6 @@ drop database test;
 
   ***
 
-  *SQLite:*
-
-  ```sqlite
-  create table students (
-      id integer primary key autoincrement,  -- Specify autoincrement in SQLite
-  	name varchar(20) not null,
-      email varchar(100) not null
-  );
-  ```
-
   *MySQL*:
 
   ```mysql
@@ -681,16 +671,6 @@ delete from customers; -- Delete all the information (not including the headers)
 ***
 
 ### Transaction
-
-*SQLite:*
-
-```sqlite
-begin transaction;  -- Start a transaction
--- Some SQL changes
-commit;  -- Commit the transaction, updating the DB with the above two changes at the same time
-
-rollback;  -- Rollback to the last commit, aborting all the changes since then
-```
 
 *MySQL and PostgreSQL:*
 

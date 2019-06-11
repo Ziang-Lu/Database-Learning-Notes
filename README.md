@@ -51,23 +51,22 @@ DB enables **safe concurrent access by multiple programs/users**.
       * Deleting Data in Table
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/Python%20DB-API.md">Python DB-API</a>
   * Relational DB Management System (RDBMS) (关系型数据库管理系统)
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/2-SQLite/SQLite.md">SQLite</a>
+    * SQLite
       * 轻量级、嵌入式DB
       * 其一个DB就是一个文件(`xxx.db`), 存储在disk上
       * => 经常被集成到桌面和移动端应用之中
       * 不能承受高concurrency访问
-      * Python support: `sqlite3`
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/3-MySQL/MySQL.md">MySQL</a>
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/2-MySQL/MySQL.md">MySQL</a>
       * 为server-side设计的, 使用最广泛的DB server
       * 能承受高concurrency访问
       * Python support: `mysql-connector-python` / `PyMySQL`
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-PostgreSQL/PostgreSQL.md">PostgreSQL</a>
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/3-PostgreSQL/PostgreSQL.md">PostgreSQL</a>
       * 为server-side设计的, 使用流行度呈上升趋势
       * 能承受高concurrency访问
       * Python support: `psycopg2`
     * Oracle
       * 不开源、付费
-
+  
 * Not-only SQL (NoSQL)
 
   操作数据都是通过commands或prorgamming language来完成的
@@ -76,7 +75,7 @@ DB enables **safe concurrent access by multiple programs/users**.
 
     适用于要存储的data type相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
 
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-Redis/Redis.md">Redis</a>
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis.md">Redis</a>
       * 存储的data有结构, 用来存储`String`, `List` (linked-list), `Hash` (hash table), `Set` (set), `SortedSet` (tree set) 等data type
       * => 常用作data structure server
       * Python support: `redis`
@@ -91,7 +90,7 @@ DB enables **safe concurrent access by multiple programs/users**.
     | Collection (集合) | Table           |
     | Document (文档)   | Record          |
 
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/6-MongoDB/MongoDB.md">Mongo DB</a>
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/MongoDB.md">Mongo DB</a>
       * => 多用于data的采集和分散处理 (Map/Reduce), 特别是在大数据处理方面比较擅长
       * Python support: `PyMongo`
 

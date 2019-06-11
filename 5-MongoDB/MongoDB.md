@@ -22,7 +22,7 @@ Difference between document and record:
 
   *(On disk, there are already existing files, leaving the available spaces to be scattered. (See the below diagram))*
 
-  <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/6-MongoDB/documents_scattered.png?raw=true" width="400px">
+  <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/documents_scattered.png?raw=true" width="400px">
 
   * Copy the document to the next allocated space, add the new field to it, and delete the previous document
 
@@ -32,7 +32,7 @@ Difference between document and record:
 
     *In this way, the document to which a new field is added still locates on its original space.*
 
-    <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/6-MongoDB/documents_with_padding.png?raw=true" width="200px">
+    <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/documents_with_padding.png?raw=true" width="200px">
 
   ***
 
@@ -226,11 +226,11 @@ or
 
 **-> Built-in analytics tools**
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/6-MongoDB/aggregation_framework_overview.png?raw=true" width="400px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/aggregation_framework_overview.png?raw=true" width="400px">
 
 <br>
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/6-MongoDB/aggregation_framework_stage.png?raw=true" width="400px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/aggregation_framework_stage.png?raw=true" width="400px">
 
 *(Similar to Linux shell pipeline)*
 
