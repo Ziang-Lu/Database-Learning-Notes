@@ -26,7 +26,7 @@ Difference between document and record:
 
   * Copy the document to the next allocated space, add the new field to it, and delete the previous document
 
-    *But in this way, there is a space fragment at the previous document's location, which leads an increased space fragment between documents and thus slower read & write speed.*
+    *But in this way, there is a space fragment at the previous document's location, which leads to an increased space fragment between documents and thus slower read & write speed.*
 
   * => Pre-allocate some padding space for each document, and each time a new field is added to a document, it is written to that document's corresponding padding space.
 
