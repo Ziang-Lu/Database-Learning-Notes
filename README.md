@@ -75,7 +75,7 @@ DB enables **safe concurrent access by multiple programs/users**.
 
     适用于要存储的data type相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
 
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis.md">Redis</a>
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Basics.md">Redis</a>
       * 存储的data有结构, 用来存储`String`, `List` (linked-list), `Hash` (hash table), `Set` (set), `SortedSet` (tree set) 等data type
       * => 常用作data structure server
       * Python support: `redis`
@@ -90,7 +90,7 @@ DB enables **safe concurrent access by multiple programs/users**.
     | Collection (集合) | Table           |
     | Document (文档)   | Record          |
 
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/MongoDB.md">Mongo DB</a>
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/MongoDB.md">MongoDB</a>
       * => 多用于data的采集和分散处理 (Map/Reduce), 特别是在大数据处理方面比较擅长
       * Python support: `PyMongo`
 

@@ -26,6 +26,14 @@ e.g., Python DB-API specifies <u>which functions you should call</u> to connect 
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_2.png?raw=true" width="500px">
 
+*Note:*
+
+*During the execution of the SQL statements within a transaction, these changes are still VISIBLE to the developer.*
+
+*i.e., If we do `select` within a transaction, we can still see the changes we made.*
+
+*But they are just not committed and not updated to the DB server.*
+
 <br>
 
 ## Implementations

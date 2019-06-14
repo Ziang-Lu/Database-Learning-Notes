@@ -58,7 +58,7 @@ def new_day(day: str) -> None:
     # Connect to the selected Redis DB
     r = redis.Redis(db=SELECTED_DB)
     # r provies a Python interface to all Redis commands
-    print(r.ping())  # This method is used to test if the connection is still alive
+    print(r.ping())  # This method is used to test if the connection is still alive.
 
     # Create a long-enough bitmap for the given day, where each offset (bit)
     # represents a user

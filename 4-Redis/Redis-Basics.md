@@ -1,4 +1,4 @@
-# Redis
+# Redis Basics
 
 **Key-value store (键-值存储)**
 
@@ -92,6 +92,12 @@ Full command lists:
   del key anotherkey  # Delete the specified keys
   flushdb  # Delete all the keys in the current DB
   flushall  # Delete all the keys in all the DBs
+  
+  # (5) Keys lifetime
+  expire key 50  # Set the lifetime of "key" to be 50 seconds
+  pexpire key 5000  # Set the lifetime of "key" to be 5000 milliseconds
+  ttl key  # Show the time-to-live (remaining lifetime) of "key", in seconds
+  pttl key  # Show the time-to-live (remaining lifetime) of "key", in milliseconds
   ```
 
   https://redis.io/commands#generic
