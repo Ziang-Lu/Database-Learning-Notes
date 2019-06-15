@@ -68,6 +68,15 @@
 
 Full command lists:
 
+* About connection
+
+  ```bash
+  select 2  # Change to DB-2
+  
+  swapdb 1 3  # Swaps all the data in DB-2 and DB-3
+  # => All the clients connected with DB-2 will immediately see the new data, exactly like all the clients connected with DB-3 will see the data that was formerly of DB-2.
+  ```
+  
 * About keys in general
 
   ```bash
