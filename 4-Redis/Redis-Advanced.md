@@ -146,7 +146,7 @@ Check out `redis_transaction_optimistic_lock.py`
 
 <br>
 
-## Publisher-Subscriber Mechanism
+## Publish-Subscribe Mechanism
 
 Check out https://redis.io/topics/pubsub
 
@@ -200,9 +200,9 @@ publish music_radio "Check out this awesome song!"
 
 ***
 
-**Note!!!!!**
+*****Note!!!!!**
 
-The <u>Publisher-Subscriber mechanism is across DBs (i.e., a channel is across DBs)</u>: publishing on DB-10 will be heard by a subscriber on DB-1.
+The <u>Publish-Subscribe mechanism is across DBs (i.e., a channel is across DBs)</u>: publishing on DB-10 will be heard by a subscriber on DB-1.
 
 ***
 
@@ -219,4 +219,3 @@ pubsub numpat  # Returns the number of subscriptions to all the patterns
 ```
 
 Check out `pub_sub.py`
-

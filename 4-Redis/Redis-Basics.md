@@ -82,6 +82,8 @@ Full command lists:
   ```bash
   # (1) Check keys
   
+  dbsize  # Return the number of keys in the currently-selected DB
+  
   keys *  # By using the wildcard "*", show all the keys in the current DB
   keys o*  # ... show all the keys that start with an "o" in the current DB
   keys ???  # By using the wildcard "?", show all the keys that are exactly 3 characters long in the current DB
