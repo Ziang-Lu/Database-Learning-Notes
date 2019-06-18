@@ -135,8 +135,6 @@ Full command lists:
   # To change "A" to its lowercase, we need to increment the ASCII code by 32 (0x 0010 0000), i.e., change the index-2 bit from 0 to 1
   setbit letter 2 1  # Set the index-2 bit to 1
   get letter  # "a"
-  # Combining "setbit" and "getbit", we can use a string as an O(1) random-access arrays.
-  # Check out "bitmap_for_user_login.py" for using strings (together as a bitmap) to keep user logins and find active users
   
   # (2) String getting
   
@@ -158,6 +156,16 @@ Full command lists:
   ```
 
   https://redis.io/commands#string
+
+  ***
+
+  **Bitmap:**
+
+  Combinng `setbit` and `getbit`, we can use a string as an O(1) random-access array.
+
+  Check out `bitmap_for_user_login.py` for using strings (together as a bitmap) to keep user logins and find active users.
+
+  ***
 
 * About `List` (linked-list)
 
@@ -183,13 +191,20 @@ Full command lists:
   
   lpop key  # Pop the left-most value from the linked-list at "key"
   rpop key  # ... right-most ...
+  rpoplpush src dest  # Pop the right-most element from the linked-list at "src", and push it to the left of the linked-list at "dest"
+  # Note that "src" and "dest" can be the same
   
   lrem key 5 "a"  # Remove at most 5 "a" from the left of the linked-list at "key"
   lrem key -5 "a"  # ... from the right of ...
   lrem key 0 "a"  # Remove all "a" from the linked-list at "key"
+  
+  blpop key1 key2 ... 5  # Pop the left-most value from the first non-empty linked-list at among "key1" or "key2" or ..., blocking at most 5 seconds
+  brpop key1 key2 ... 5  # ... right-most ...
   ```
 
   https://redis.io/commands#list
+
+  Check out `blpop_as_event_notification.py` for a helper indicator `List` and its `blpop` operation as event notification
 
 * About `Hash` (hash map)
 
@@ -245,7 +260,7 @@ Full command lists:
 
   https://redis.io/commands#set
 
-* About `SortedSet` (tree set)
+* About `SortedSet` (tree map with mapping (score -> value))
 
   ```bash
   # (1) Insertion
@@ -271,6 +286,8 @@ Full command lists:
   ```
 
   https://redis.io/commands#sorted_set
+  
+  Check out `zrangebyscore_weighted_random_selection.py` for ???
 
 <br>
 

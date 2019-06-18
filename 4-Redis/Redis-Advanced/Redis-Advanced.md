@@ -219,3 +219,99 @@ pubsub numpat  # Returns the number of subscriptions to all the patterns
 ```
 
 Check out `pub_sub.py`
+
+<br>
+
+## Redis Data Persistance (数据持久化)
+
+**RDB Snapshotting Data Persistence (RDB快照 数据持久化)**
+
+vs
+
+**AOF (Append-Only-File) Logging Data Persistence (AOF日志 数据持久化)**
+
+(Including aggregated commands on some key "inverted" => single command on that key ("一步到位"))
+
+Check out https://redis.io/topics/persistence
+
+<br>
+
+## Redis Replication (主从复制)
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Advanced/master-slave.png?raw=true">
+
+Check out https://redis.io/topics/replication
+
+Example master/slave set-up:
+
+```bash
+mkdir redis_folder
+cd redis_folder
+mkdir pidfile
+mkdir data
+
+# We want Slave-1 to carry the work of RDB snapshotting to disk and AOF.
+
+# Set up Master
+scp /usr/local/redis/redis.conf redis_master.conf
+# In the configuation file:
+##### (-> Turned to Slave-1)
+# Turn off RDB snapshotting to disk
+# save 900 1
+# save 300 10
+# save 60 10000
+# Turn off AOF
+appendonly no
+#####
+
+# Set up Slave-1
+scp /usr/local/redis/redis.conf redis_slave1_6380.conf
+# In the configuration file:
+replicaof localhost 6379
+# Set the PID file
+pidfile ./pidfile/redis_6380.pid
+# Change the port
+port 6380
+##### (Work from Master)
+# Keep RDB snapshotting to disk on
+# Keep AOF on
+#####
+
+# Set up Slave-2
+scp /usr/local/redis/redis.conf redis_slave1_6381.conf
+# Set the PID file
+pidfile ./pidfile/redis_6381.pid
+# Change the port
+port 6381
+#####
+# Turn off RDB snapshotting to disk (-> Turned to Slave-1)
+# save 900 1
+# save 300 10
+# save 60 10000
+# Turn of AOF
+appendonly no
+#####
+```
+
+Start the master/slave servers:
+
+```bash
+> redis-server redis_maser.conf
+> redis-server redis_slave1_6380.conf
+> redis-server redis_slave2_6381.conf
+```
+
+Simple demo:
+
+```bash
+> redis-cli
+set title software_engineer
+# OK
+
+> redis-cli -p 6380
+get title
+# "software_engineer"
+set title "data_scientist"
+# (error) READONLY You can't write against a read only replica.
+```
+
