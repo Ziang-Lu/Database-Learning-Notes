@@ -240,7 +240,7 @@ Check out https://redis.io/topics/persistence
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Advanced/master-slave.png?raw=true">
 
-Check out https://redis.io/topics/replication
+Check out https://redis.io/topics/replication and `redis.conf` "REPLICATION" section for more details
 
 Example master/slave set-up:
 
@@ -276,6 +276,10 @@ port 6380
 # Keep RDB snapshotting to disk on
 # Keep AOF on
 #####
+# When the partial/full synchronization with the master is in progress, we let the slave refuse to serve the out-of-date data (currently on the slave).
+replica-serve-stale-data no
+# For better read-only security, disable "config" command
+rename-command CONFIG ""
 
 # Set up Slave-2
 scp /usr/local/redis/redis.conf redis_slave1_6381.conf
@@ -291,6 +295,10 @@ port 6381
 # Turn of AOF
 appendonly no
 #####
+# When the partial/full synchronization with the master is in progress, we let the slave refuse to serve the out-of-date data (currently on the slave).
+replica-serve-stale-data no
+# For better read-only security, disable "config" command
+rename-command CONFIG ""
 ```
 
 Start the master/slave servers:
@@ -315,3 +323,62 @@ set title "data_scientist"
 # (error) READONLY You can't write against a read only replica.
 ```
 
+***
+
+**Disk vs. Diskless Replication**
+
+When doing <u>full synchronization</u>, an RDB file is transmitted from the master to the replicas. The transmission can happen in two different ways:
+
+* Disk-backed
+
+  1. The master creates a new process that <u>writes the RDB file on disk</u>.
+  2. Later <u>the file is transmitted</u> by the parent process <u>to the replicas</u>.
+
+  While the RDB file is generating, more replicas requesting a full synchronization can be queued.
+
+  => Once the file finished its generation, it is transmitted to all the replicas, including the queued ones.
+
+  ***
+
+  e.g.
+
+  1. Slaves S1, S2 and S3 replicas request full synchronization to the master M.
+  2. M creates a new process that writes the RDB file on disk.
+  3. While the RDB file is generating, more replicas S4 and S5 request a full synchronization.
+  4. S4 and S5 are queued.
+  5. Once the file finished its generation, it is transmitted to all the slaves, i.e., S1, S2, S3, S4 and S5.
+
+  ***
+
+* Diskless
+
+  The master creates a new process that <u>directly write RDB file to the requesting replica sockets</u>, without touching the disk at all.
+
+  Once the transfer starts, new replicas arriving will be queued, and only when the current transfer terminates, will a new transfer start.
+
+  ***
+
+  e.g.,
+
+  1. Slaves S1, S2 and S3 replicas request full synchronization to the master M.
+  2. M creates a new process that directly write RDB file to S1, S2 and S3.
+  3. While the master is transmitting the file, more replicas S4 and S5 request a full synchronization.
+  4. Only when the transfer terminates will a new transfer to S4 and S5 start
+
+  ***
+
+  Diskless replication can be turned on by setting:
+
+  ```bash
+  repl-dickless-sync yes  # Turn on diskless replication
+  ```
+
+  Since once a transfer starts, the master cannot serve newly arriving replicas, which will be scheduled for the next transfer,
+
+  => We can configure the master to wait for some seconds, in order to let more replicas arrive in time, so that the master can do the transfer all at one.
+
+  ```bash
+  repl-dickless-sync-delay 5  # Let the master wait 5 seconds, in order to let more replicas arrive in time
+  ```
+
+***
