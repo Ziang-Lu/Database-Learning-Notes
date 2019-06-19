@@ -38,6 +38,7 @@ def weighted_random_selection(elems: List[Tuple[str, float]]) -> None:
     # [0.16, 0.5] -> B
     # [0.5, 1) -> C
 
+    # Weighted random selection
     rand_score = random.random()
     random_selected = r.zrangebyscore('elements', min=rand_score, max='inf')
     print(random_selected)

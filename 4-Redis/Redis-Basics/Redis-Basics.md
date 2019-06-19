@@ -6,7 +6,7 @@
 
 ## Overview
 
-* 存储的data有结构, 用来存储`String`, `List` (linked-list), `Hash` (hash map), `Set` (hash set), `SortedSet` (tree set) 等data type
+* 存储的data有结构, 用来存储`String`, `List` (linked-list), `Set` (hash set), `Hash` (hash map), `SortedSet` (tree map) 等data type
 * => 常用作data structure server
 
 <br>
@@ -206,6 +206,30 @@ Full command lists:
 
   Check out `blpop_as_event_notification.py` for a helper indicator `List` and its `blpop` operation as event notification
 
+* About `Set` (hash set)
+
+  ```bash
+  # (1) Insertion
+  
+  sadd key "Kevin" "John"  # Store the values "Kevin" and "John" in the set at "key"
+  
+  # (2) Retrieval
+  
+  sismember key "John"  # Check whether the value "John" exists in the set at "key"
+  
+  srandmember key  # Get a random value from the set at "key"
+  smembers key  # Get all the values from the set at "key"
+  
+  scard key  # Get the number of values in the set at "key"
+  
+  # (3) Deletion
+  
+  spop key "Kevin"  # Pop out the value "Kevin" from the set at "key"
+  srem key "Kevin" "John"  # Delete the values "Kevin" and "John" from the set at "key"
+  ```
+  
+  https://redis.io/commands#set
+  
 * About `Hash` (hash map)
 
   ```bash
@@ -235,30 +259,6 @@ Full command lists:
   ```
 
   https://redis.io/commands#hash
-
-* About `Set` (hash set)
-
-  ```bash
-  # (1) Insertion
-  
-  sadd key "Kevin" "John"  # Store the values "Kevin" and "John" in the set at "key"
-  
-  # (2) Retrieval
-  
-  sismember key "John"  # Check whether the value "John" exists in the set at "key"
-  
-  srandmember key  # Get a random value from the set at "key"
-  smembers key  # Get all the values from the set at "key"
-  
-  scard key  # Get the number of values in the set at "key"
-  
-  # (3) Deletion
-  
-  spop key "Kevin"  # Pop out the value "Kevin" from the set at "key"
-  srem key "Kevin" "John"  # Delete the values "Kevin" and "John" from the set at "key"
-  ```
-
-  https://redis.io/commands#set
 
 * About `SortedSet` (tree map with mapping (score -> value))
 
