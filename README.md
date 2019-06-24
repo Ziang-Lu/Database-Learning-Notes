@@ -59,11 +59,9 @@ DB enables **safe concurrent access by multiple programs/users**.
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/2-MySQL/MySQL.md">MySQL</a>
       * 为server-side设计的, 使用最广泛的DB server
       * 能承受高concurrency访问
-      * Python support: `mysql-connector-python` / `PyMySQL`
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/3-PostgreSQL/PostgreSQL.md">PostgreSQL</a>
       * 为server-side设计的, 使用流行度呈上升趋势
       * 能承受高concurrency访问
-      * Python support: `psycopg2`
     * Oracle
       * 不开源、付费
   
@@ -78,21 +76,20 @@ DB enables **safe concurrent access by multiple programs/users**.
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Basics.md">Redis</a>
       * 存储的data有结构, 用来存储`String`, `List` (linked-list), `Hash` (hash table), `Set` (set), `SortedSet` (tree set) 等data type
       * => 常用作data structure server
-      * Python support: `redis`
-
-  * Document store (文档存储)
-
-    Basic Concepts:
-
-    | Document store    | Relational DBMS |
+    
+* Document store (文档存储)
+  
+  Basic Concepts:
+  
+  | Document store    | Relational DBMS |
     | ----------------- | --------------- |
     | DB                | DB (same)       |
     | Collection (集合) | Table           |
     | Document (文档)   | Record          |
-
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/MongoDB.md">MongoDB</a>
+  
+  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/MongoDB.md">MongoDB</a>
+      * 能承受高concurrency访问
       * => 多用于data的采集和分散处理 (Map/Reduce), 特别是在大数据处理方面比较擅长
-      * Python support: `PyMongo`
 
 <br>
 

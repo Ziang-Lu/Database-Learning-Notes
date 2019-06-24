@@ -287,7 +287,45 @@ Full command lists:
 
   https://redis.io/commands#sorted_set
   
-  Check out `zrangebyscore_weighted_random_selection.py` for ???
+  Check out `zrangebyscore_weighted_random_selection.py` for using `zrangescore` to do weighted random selection
+
+<br>
+
+***
+
+**Redis Key Design Best Practices**
+
+Starting from a table `users` table in a relational database, we design the corresponding Redis keys following this pattern:
+
+<u>TableName:PrimaryKeyColumn:PrimaryKeyValue:Field</u>
+
+e.g.,
+
+```bash
+set user:userid:5:username 'Joey'
+set user:userid:5:title 'Software Engineer'
+set user:userid:5:email 'joey@gmail.com'
+set user:userid:6:username 'Lily'
+...
+```
+
+So that when we want to query all the information about a specific user, we can simply use wildcards:
+
+```bash
+keys user:userid:5*
+```
+
+Additionally, if we want to query by `username`, we can create an additional link layer, from `username` to `userid`:
+
+```bash
+set user:username:joey:userid 5
+set user:username:lily:userid 6
+...
+```
+
+In this way, we can map `username` to `userid`, and then we can get all the information about that user using his/her `userid`.
+
+***
 
 <br>
 
