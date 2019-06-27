@@ -74,22 +74,29 @@ DB enables **safe concurrent access by multiple programs/users**.
     适用于要存储的data type相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
 
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Basics.md">Redis</a>
+      * In-memory存储
+      
       * 存储的data有结构, 用来存储`String`, `List` (linked-list), `Hash` (hash table), `Set` (set), `SortedSet` (tree set) 等data type
+      
       * => 常用作data structure server
+      
+      * 由于是in-memory存储, 所以也常常用作在application layer和实际DB (比如MySQL) 之间的一层cache来使用
+      
+        -> 详情看Redis overview页面
     
-* Document store (文档存储)
-  
-  Basic Concepts:
-  
-  | Document store    | Relational DBMS |
+  * Document store (文档存储)
+    
+    Basic Concepts:
+    
+    | Document store    | Relational DBMS |
     | ----------------- | --------------- |
     | DB                | DB (same)       |
     | Collection (集合) | Table           |
     | Document (文档)   | Record          |
-  
-  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/MongoDB.md">MongoDB</a>
-      * 能承受高concurrency访问
-      * => 多用于data的采集和分散处理 (Map/Reduce), 特别是在大数据处理方面比较擅长
+    
+    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/MongoDB.md">MongoDB</a>
+        * 能承受高concurrency访问
+        * => 多用于data的采集和分散处理 (Map/Reduce), 特别是在大数据处理方面比较擅长
 
 <br>
 

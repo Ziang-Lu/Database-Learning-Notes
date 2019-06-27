@@ -6,6 +6,7 @@
 
 ## Overview
 
+* In-memory存储
 * 存储的data有结构, 用来存储`String`, `List` (linked-list), `Set` (hash set), `Hash` (hash map), `SortedSet` (tree map) 等data type
 * => 常用作data structure server
 
@@ -332,3 +333,18 @@ In this way, we can map `username` to `userid`, and then we can get all the info
 ## Python Support
 
 `redis-py`
+
+<br>
+
+## As Caching to Work With RDBMS
+
+由于Redis是in-memory存储, 所以也常常用作在application layer和实际DB (比如MySQL) 之间的一层cache来使用, 即
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Basics/redis-mysql.png?raw=true" width="700px">
+
+<br>
+
+**Redis sample usage as a cache**
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Basics/redis-cache.png?raw=true" width="700px">
+

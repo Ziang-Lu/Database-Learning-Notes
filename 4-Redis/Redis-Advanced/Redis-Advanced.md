@@ -146,82 +146,6 @@ Check out `redis_transaction_optimistic_lock.py`
 
 <br>
 
-## Publish-Subscribe Mechanism
-
-Check out https://redis.io/topics/pubsub
-
-```bash
-# Redis client-1 subscribes to "news" channel.
-subscribe news
-# -----
-# 1) "message"
-# 2) "news" [channel]
-# 3) "It's a good day!" [message content]
-# -----
-
-# Redis client-2 subscribes to "news" channel.
-subscribe news
-# -----
-# 1) "message"
-# 2) "news" [channel]
-# 3) "It's a good day!" [message content]
-# -----
-
-# Redis client-3 publishes to "news" channel with some content.
-publish news "It's a good day!"
-# (integer) 2, indicating that 2 clients receives this message.
-```
-
-We can also use pattern for subscribing:
-
-```bash
-# Redis client-1 subscribes to any channel starting with "music".
-psubscribe music*
-# -----
-# 1) "pmessage"
-# 2) "music*" [pattern]
-# 3) "music_radio" [specifc channel]
-# 4) "Check out this awesome song!" [message content]
-# -----
-
-# Redis client-2 subscribes to any channel ending with "radio".
-psubscribe *radio
-# -----
-# 1) "pmessage"
-# 2) "music*" [pattern]
-# 3) "music_radio" [specifc channel]
-# 4) "Check out this awesome song!" [message content]
-# -----
-
-# Redis client-3 publishes to "music_radio" channel with some content.
-publish music_radio "Check out this awesome song!"
-# (integer) 2
-```
-
-***
-
-*****Note!!!!!**
-
-The <u>Publish-Subscribe mechanism is across DBs (i.e., a channel is across DBs)</u>: publishing on DB-10 will be heard by a subscriber on DB-1.
-
-***
-
-Other commands include:
-
-```bash
-# "pubsub" is a group of commands used to inspect the state of the Pub/Sub subsystem.
-pubsub channels [pattern]  # List the currently active channels [matching the pattern]
-# Active channel: A channel with one or more subscribers
-
-pubsub numsub [channel-1 ... channel-N]  # Returns the number of subscribers to the specified channels
-
-pubsub numpat  # Returns the number of subscriptions to all the patterns
-```
-
-Check out `pub_sub.py`
-
-<br>
-
 ## Redis Data Persistance (数据持久化)
 
 **RDB Snapshotting Data Persistence (RDB快照 数据持久化)**
@@ -382,3 +306,80 @@ When doing <u>full synchronization</u>, an RDB file is transmitted from the mast
   ```
 
 ***
+
+<br>
+
+## Publish-Subscribe Mechanism
+
+Check out https://redis.io/topics/pubsub
+
+```bash
+# Redis client-1 subscribes to "news" channel.
+subscribe news
+# -----
+# 1) "message"
+# 2) "news" [channel]
+# 3) "It's a good day!" [message content]
+# -----
+
+# Redis client-2 subscribes to "news" channel.
+subscribe news
+# -----
+# 1) "message"
+# 2) "news" [channel]
+# 3) "It's a good day!" [message content]
+# -----
+
+# Redis client-3 publishes to "news" channel with some content.
+publish news "It's a good day!"
+# (integer) 2, indicating that 2 clients receives this message.
+```
+
+We can also use pattern for subscribing:
+
+```bash
+# Redis client-1 subscribes to any channel starting with "music".
+psubscribe music*
+# -----
+# 1) "pmessage"
+# 2) "music*" [pattern]
+# 3) "music_radio" [specifc channel]
+# 4) "Check out this awesome song!" [message content]
+# -----
+
+# Redis client-2 subscribes to any channel ending with "radio".
+psubscribe *radio
+# -----
+# 1) "pmessage"
+# 2) "music*" [pattern]
+# 3) "music_radio" [specifc channel]
+# 4) "Check out this awesome song!" [message content]
+# -----
+
+# Redis client-3 publishes to "music_radio" channel with some content.
+publish music_radio "Check out this awesome song!"
+# (integer) 2
+```
+
+------
+
+**Note!!!!!**
+
+The <u>Publish-Subscribe mechanism is across DBs (i.e., a channel is across DBs)</u>: publishing on DB-10 will be heard by a subscriber on DB-1.
+
+------
+
+Other commands include:
+
+```bash
+# "pubsub" is a group of commands used to inspect the state of the Pub/Sub subsystem.
+pubsub channels [pattern]  # List the currently active channels [matching the pattern]
+# Active channel: A channel with one or more subscribers
+
+pubsub numsub [channel-1 ... channel-N]  # Returns the number of subscribers to the specified channels
+
+pubsub numpat  # Returns the number of subscriptions to all the patterns
+```
+
+Check out `pub_sub.py`
+
