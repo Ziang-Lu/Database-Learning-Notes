@@ -108,8 +108,9 @@ def get_score_within(user: str, pwd: str, low: int,
     """
     print(f'List students and courses where score is within {low} and {high}, '
           f'ordered by the score in ascending order:')
-    conn = pymysql.connect(user=user, password=pwd, database=DB_NAME,
-                           cursorclass=DictCursor)
+    conn = pymysql.connect(
+        user=user, password=pwd, database=DB_NAME, cursorclass=DictCursor
+    )
 
     # Get the cursor
     with conn.cursor() as cursor:
@@ -136,9 +137,10 @@ def main():
     )
 
     parser.add_argument('-u', '--user', help='User to login', default='root')
-    parser.add_argument('-p', '--password',
-                        help='Password for the user to login',
-                        default='password')
+    parser.add_argument(
+        '-p', '--password', help='Password for the user to login',
+        default='password'
+    )
 
     args = parser.parse_args()
 

@@ -12,6 +12,8 @@ possible to retrieve it without resorting to polling.
 
 However, using a helper indicator List and its "blpop" operation as event
 notification.
+
+Before running this script, first make sure Redis server is up and running.
 """
 
 __author__ = 'Ziang Lu'

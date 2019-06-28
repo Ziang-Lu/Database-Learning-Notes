@@ -346,5 +346,6 @@ In this way, we can map `username` to `userid`, and then we can get all the info
 
 **Redis sample usage as a cache**
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Basics/redis-cache.png?raw=true" width="700px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Basics/redis-cache.png?raw=true">
 
+Check out `Redis-as-caching/` for the above demo

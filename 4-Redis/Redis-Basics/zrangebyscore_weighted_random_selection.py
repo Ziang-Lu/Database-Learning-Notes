@@ -3,6 +3,8 @@
 
 """
 Weighted random selection using "zrangebyscore" operation of Sorted Set.
+
+Before running this script, first make sure Redis server is up and running.
 """
 
 __author__ = 'Ziang Lu'

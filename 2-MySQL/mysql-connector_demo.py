@@ -144,9 +144,10 @@ def main():
     )
 
     parser.add_argument('-u', '--user', help='User to login', default='root')
-    parser.add_argument('-p', '--password',
-                        help='Password for the user to login',
-                        default='password')
+    parser.add_argument(
+        '-p', '--password', help='Password for the user to login',
+        default='password'
+    )
 
     args = parser.parse_args()
 

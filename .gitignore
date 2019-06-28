@@ -1,4 +1,5 @@
 .DS_Store
 
-# Redis rdb files
+# Redis persistence files
 *.rdb
+*.aof
