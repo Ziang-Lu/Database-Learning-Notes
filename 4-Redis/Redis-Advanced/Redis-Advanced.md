@@ -15,7 +15,7 @@ decrby ziang 100
 # QUEUED
 incrby mama 100
 # QUEUED
-# From the returned message we can know that actually the commands are actually queued, waiting to be executed as a whole.
+# From the returned messages we can know that actually the commands are actually queued, waiting to be executed as a whole.
 
 exec  # Execute all the queued commands
 ```
@@ -143,6 +143,26 @@ Check out `redis_transaction_optimistic_lock.py`
 - **抢单、"秒杀"的实现**
 
   把<u>对某件商品的data全部操作放进一个transaction, 再加上optimistic lock</u>, 即可<u>避免data inconsistency问题 (race condition)</u>
+
+<br>
+
+## (Distributed System) Distributed Locking Mechanism (Using Redis)
+
+For a distributed scenario, we can <u>use the Redis's single-threaded feature</u> to
+
+* Implement a **naive** distributed lock
+
+  <u>Simple but imperfect</u>
+
+  => <u>In NOT so high-concurrent scenarios, this works just fine.</u>
+
+* Use a **third-party library**
+
+  <u>Complex but perfect</u>
+
+  => <u>Works for high-concurrent scenarios</u>
+
+  Check out `distributed_locking.py`
 
 <br>
 

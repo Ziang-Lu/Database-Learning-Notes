@@ -55,9 +55,6 @@ def redis_transaction_error() -> None:
         queue.execute()
     except Exception as ex:
         print(f'{type(ex).__name__}: {ex}')
-    # When executing, redis-py will execute the queued commands one by one,
-    # raise error on the errored ones, but the successful ones still take
-    # effect.
     # ResponseError: Command # 2 (SADD ziang rocks) of pipeline caused error: WRONGTYPE Operation against a key holding the wrong kind of value
 
     print(r.get('ziang'))
