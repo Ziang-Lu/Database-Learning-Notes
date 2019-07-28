@@ -63,7 +63,7 @@ Assume we have the following `users` table:
 create table users (
     id integer primary key,
     name varchar(20) not null
-)
+);
 ```
 
 Data structure returned by Python DB-API:
@@ -81,6 +81,8 @@ which is <u>not so intuitive</u>.
 
 #### ORM: Change each table to a class, and each record (tuple) in that table to an object of that class
 
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/orm.png?raw=true" width="500px">
+
 | DB Representation | Table | Column (Field)  | Record |
 | ----------------- | ----- | --------------- | ------ |
 | ORM               | Class | Class attribute | Object |
@@ -91,7 +93,7 @@ In this way, writing code is much easier, since we <u>don't need to write SQL st
 # Similar to the following:
 class User:
     """
-    User class
+    User class.
     """
 
     def __init__(self, id: int, name: str):

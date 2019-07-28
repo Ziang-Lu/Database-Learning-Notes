@@ -48,10 +48,12 @@ def pub_sub_demo() -> None:
 
     time.sleep(2)
 
+    print('here')
+
     print(p1.get_message())
     # {'type': 'message', 'pattern': None, 'channel': b'news', 'data': b"It's a good day!"}
     print(p2.get_message())
-    # {'type': 'message', 'pattern': None, 'channel': b'news', 'data': b"It's a good day!"}
+    # MESSAGE HANDLER: "It's a good day!"
 
 
 def _message_handler(message: dict) -> None:

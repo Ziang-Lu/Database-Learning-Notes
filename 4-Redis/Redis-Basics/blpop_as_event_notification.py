@@ -10,7 +10,7 @@ into a Redis Set, so that as far as a new element is added to the set, it is
 possible to retrieve it without resorting to polling.
 => This would require a blocking version of "spop", which is not available.
 
-However, using a helper indicator List and its "blpop" operation as event
+However, we can use a helper indicator List and its "blpop" operation as event
 notification.
 
 Before running this script, first make sure Redis server is up and running.
