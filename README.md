@@ -36,10 +36,12 @@ DB enables **safe concurrent access by multiple programs/users**.
 
 ## DB Types (本质上是Data Model的不同type)
 
-* Relational DB (关系型数据库)
+* **<u>Relational DB (关系型数据库)</u>**
 
-  操作数据都是通过SQL statements来完成的
+  *(Based on "Relational Data Model (关系型数据模型)")*
 
+  -> 操作data都是通过SQL语句来完成的
+  
   * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/Relational%20DB%20Concepts.md">Relational DB Concepts</a>
   * SQL Notes
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/1-Data%20Types%20in%20SQL/Data%20Types%20in%20SQL.md">Data Types in SQL</a>
@@ -65,14 +67,25 @@ DB enables **safe concurrent access by multiple programs/users**.
     * Oracle
       * 不开源、付费
   
-* Not-only SQL (NoSQL)
+  优点:
+  
+  * data的每个table都非常规整, 确保了每一个row (record) 都有相同数量的column (field)
+  * 通过foreign key的使用, 可以减少数据冗余
+  
+  缺点:
+  
+  * 很多时候为了拿到某个information, 需要把多个table join起来, 这是一个很耗时且占用资源的操作
+  
+* **<u>Not-only SQL (NoSQL)</u>**
 
-  操作数据都是通过commands或prorgamming language来完成的
+  操作data都是通过commands或prorgamming language来完成的
 
-  * Key-value store (键-值存储)
+  * **<u>Key-value store (键-值存储)</u>**
+
+    *(Based on "Key-Value Data Model (键-值对数据模型)")*
 
     适用于要存储的data type相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
-
+    
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Basics.md">Redis</a>
       * In-memory存储
       
@@ -84,7 +97,9 @@ DB enables **safe concurrent access by multiple programs/users**.
       
         -> 详情看Redis overview页面
     
-  * Document store (文档存储)
+  * **<u>Document store (文档存储)</u>**
+    
+    *(Based on "Document Data Model (文档数据模型)")*
     
     Basic Concepts:
     
@@ -97,38 +112,14 @@ DB enables **safe concurrent access by multiple programs/users**.
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/5-MongoDB/MongoDB.md">MongoDB</a>
         * 能承受高concurrency访问
         * => 多用于data的采集和分散处理 (Map/Reduce), 特别是在大数据处理方面比较擅长
-
-<br>
-
-***
-
-**TIPS: Before Working through a Data Science Problem**
-
-1. <u>Business Understading (业务理解)</u>
-
-   - Understand the business problem to solve, and clarify the business goal
-   - Translate this business understanding to a problem that the data analysis is trying to solve, and establish the success criteria for the data analysis
-
-2. <u>Data Understanding (数据理解)</u>
-
-   * <u>Data Governance (数据管制) / Data Profiling (数据剖析)</u>
-
-     * Examine data accessibilty, availability
-
-       *即查看公司对于data是如何管理的, 也查看自己对于哪些data有哪些权限*
-
-   * <u>Data Profiling (数据剖析)</u>
-
-     * Examine data completeness, consistency and accuracy
-     * Summarize the potential problems in the data
-
-   * e.g.. pay attention to the data type for each column in each table
-
-   * e.g., figure out the relationships between tables, i.e., how the tables are linked together
-
-     *(=> Foreign keys)*
-
-***
+    
+  * **<u>Graph store (图存储)</u>**
+  
+    *(Based on "Graph Data Model (图数据模型)")*
+  
+    e.g., 每个entity对应一个node; 每个relation对应一条edge
+  
+    ...
 
 <br>
 
