@@ -38,7 +38,7 @@
 
 *(相当于MySQL的`mysqld`)*
 
-**Start PostgreSQL Server**   **(Non-daemon process)**
+**Start PostgreSQL Server**   **(Daemon process)**
 
 ```bash
 > postgres -D /usr/local/var/postgresql@9.6/
@@ -56,50 +56,15 @@ or
 > pg_ctl -D /usr/local/var/postgresql@9.6/ stop
 ```
 
-***
-
-For 麻麻:
-
-Before all the operations, change to user "postgres"
-
-```bash
-> sudo su postgres
-# Password: "password"
-```
-
-To exit back to "Meooow":
-
-```bash
-exit
-```
-
-* **Start PostgreSQL Server**
-
-  ```bash
-  > postgres -D /Library/PostgreSQL/9.5/data
-  # or
-  > pg_ctl -D /Library/PostgreSQL/9.5/data start
-  ```
-
-  Let the server running in this terminal
-
-* **Establish Connection as Client**
-
-  (In another terminal)
-
-  Check out the below commands
-
-* **Stop PostgreSQL Server**
-
-  ```bash
-  > pg_ctl -D /Library/PostgreSQL/9.5/data stop
-  ```
-
-***
-
 <br>
 
 ## PostgreSQL Command-Line Interface
+
+```bash
+> createuser -s postgres  # Create a superuser "postgres" for later use
+```
+
+***
 
 ```bash
 > psql -l  # Show all the databases on the PostgreSQL server
@@ -129,12 +94,15 @@ exit
 \x  # Toggle expanded output
 
 \c db_name  # Change connection to another DB
+
+\q  # Quit the interactive shell
 ```
 
 ***
 
 ```bash
 > dropdb test  # Delete a database called "test"
+> dropuser postgres  # Delete the previously created superuser "postgres"
 ```
 
 <br>

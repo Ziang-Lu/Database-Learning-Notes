@@ -32,7 +32,7 @@ def init_db() -> None:
     # Insert documents
     first_post = {
         'author': 'Ziang',
-        'title': 'First Blog',
+        'title': 'First Post',
         'content': 'What to write...',
         'tags': ['diary', 'python'],
         'date': datetime.now()
@@ -42,13 +42,13 @@ def init_db() -> None:
     inserted_ids = posts.insert_many([
         {
             'author': 'Mike',
-            'title': 'Second Blog',
+            'title': 'Second Post',
             'tags': ['diary'],
             'date': datetime.now()
         },
         {
             'author': 'Ziang',
-            'title': 'Third Blog',
+            'title': 'Third Post',
             'tags': ['diary'],
             'date': datetime.now()
         }
@@ -127,12 +127,12 @@ def test_index() -> None:
     # Check index
     posts.insert_one({
         'author': 'Ziang',
-        'title': 'Fourth Blog'
+        'title': 'Fourth Post'
     })  # This is fine.
 
     posts.insert_one({
         'author': 'Ziang',
-        'title': 'Fourth Blog'
+        'title': 'Fourth Post'
     })  # DuplicateKeyError
 
 
@@ -152,11 +152,11 @@ def main():
 
     # Output:
     # Documents with author 'Ziang': 2
-    # {'author': 'Ziang', 'title': 'First Blog', 'content': 'What to write...'}
-    # {'author': 'Ziang', 'title': 'Third Blog'}
+    # {'author': 'Ziang', 'title': 'First Post', 'content': 'What to write...'}
+    # {'author': 'Ziang', 'title': 'Third Post'}
     # Same result sorted by 'title':
-    # {'author': 'Ziang', 'title': 'First Blog', 'content': 'What to write...'}
-    # {'author': 'Ziang', 'title': 'Third Blog'}
+    # {'author': 'Ziang', 'title': 'First Post', 'content': 'What to write...'}
+    # {'author': 'Ziang', 'title': 'Third Post'}
 
     update_db()
 

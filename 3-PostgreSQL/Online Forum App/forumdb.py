@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Interface with DB module.
+Interface module with PostgreSQL DB.
 """
 
 from datetime import datetime
@@ -34,8 +34,6 @@ def get_posts() -> Iterator[Tuple[str, datetime]]:
     Returns the posts (most recent first) from the DB.
     :return: iterable(tuple)
     """
-    # return reversed(posts)
-
     with psycopg2.connect('dbname=forum') as conn:
         with conn.cursor() as cursor:
             cursor.execute('''
@@ -74,8 +72,6 @@ def add_post(content: str) -> None:
     :param content: str
     :return: None
     """
-    # posts.append((content, datetime.now()))
-
     with psycopg2.connect('dbname=forum') as conn:
         with conn.cursor() as cursor:
             cursor.execute('''
