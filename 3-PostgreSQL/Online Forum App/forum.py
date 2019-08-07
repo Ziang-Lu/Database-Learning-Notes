@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Main driver module.
+Flask application module.
 """
 
 import bleach
