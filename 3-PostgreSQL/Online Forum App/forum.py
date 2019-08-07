@@ -8,7 +8,7 @@ Main driver module.
 import bleach
 from flask import Flask, request, redirect, url_for
 
-from forumdb import add_post, init_db, get_posts
+import forumdb
 
 app = Flask(__name__)
 
@@ -58,11 +58,12 @@ POST_TEMPLATE = '''\
 def main_page() -> str:
     """
     Forum main page.
+    When a "GET" request is forwarded to "/", this function gets called.
     :return: str
     """
     posts = ''.join(
         POST_TEMPLATE % (bleach.clean(content), date)
-        for content, date in get_posts()
+        for content, date in forumdb.get_posts()
     )  # Output sanitization
     return PAGE_TEMPLATE % posts
 
@@ -70,14 +71,15 @@ def main_page() -> str:
 @app.route('/', methods=['POST'])
 def post() -> None:
     """
-    New post submission page.
+    Forum main page, with post submission.
+    When a "POST" request is forwarded to "/", this function gets called.
     :return: None
     """
     msg = request.form['content']
-    add_post(msg)
+    forumdb.add_post(msg)
     return redirect(url_for('main_page'))
 
 
 if __name__ == '__main__':
-    init_db()
-    app.run(host='0.0.0.0', port=8000)
+    forumdb.init_db()
+    app.run(host='0.0.0.0')  # Default port: 5000

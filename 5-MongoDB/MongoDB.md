@@ -181,7 +181,8 @@ or
         print("Post: " + doc.title)
     })
     
-    db.posts.find({tag: "diary"})  // ... where "tag" is "diary" ...
+    db.posts.find({title: "My First Post"})  // ... where "title" is "My First Post"
+    db.posts.find({tag: "diary"})  // ... where "tag" array contains an element "diary" ... !!!
     db.posts.find({rank: {$gte: 5}})  // ... where "rank" >= 5 ...
     // We can also use $gt, $lte, $lt, $eq and $ne to represent >, <=, <, = and !=, respectively.
     // But for $eq, we can simply use "tag": "diary".
@@ -193,9 +194,11 @@ or
     db.posts.find({$or: [{tag: "diary"}, {rank: {$gte: 5}}]})  // ... where "tag" is "diary" OR "rank" >= 5 ...
     // We can also use $and to represent "AND".
     // But, we can simply combine the selection conditions into one single JSON object.
+    // We can also use $not to represent "NOT".
     
     db.posts.find({rank: {$exists: true}})  // ... where "rank" field exists ...
     db.posts.find({rank: {$in: [3, 4, 5]}})  // ... where "rank" is in [3, 4, 5] ...
+    // We can also use $nin to represent "not in".
     
     // Projection
     
@@ -218,7 +221,43 @@ or
     
     
     // Query for embedded documents
-    db.reviews.find({comments: {$elemMatch: {user: "Mary Williams"}}})  // Select all the documents in "reviews" collections where in the "comment" array field, "user" is "Mary Williams"
+    // For a document to be selected out, there must be at least 1 specific array element matching the inner-most filter.
+    db.reviews.find({
+        comments: {
+            $elemMatch: {
+                user: "Mary Williams",
+                year: {
+                    $lt: 2015
+                }
+            }
+        }
+    })  // Select all the documents in "reviews" collection, where in the "comment" array field, "user" is "Mary Williams" and "date" is before 2015.
+    
+    
+    // Query for geospatial data
+    db.theaters.find({
+        location.geo: {
+            $geoWithin: {
+                $centerSphere: [
+                    [-109.03570413346142, 36.16356989496471],
+                    0.10854253384250637  // In earth radians
+                ]
+            }
+        }
+    })  // Select all the documents in "theaters" collection, where in the "location.geo" geoJSON field, the location point is within a specified circle
+    // Similarly, we use "$nearSphere" operator.
+    // NOTE!!!!! The usage of "$nearSphere" operator requires a geospatial index on, in this case, "location.geo".
+    db.theaters.find({
+        location.geo: {
+            $nearSphere: {
+                $geometry: {
+                    "type": "Point",
+                    "coordinates": [-73.9899604, 40.7575067]
+                },
+                $maxDistance: 1000  // In meters
+            }
+        }
+    })
     ```
 
   * Update documents (Manipulate fields)
@@ -257,20 +296,91 @@ or
     db.posts.remove({title: "Post"})  // ... where "title" is "Post" ...
     ```
 
-* Index commands
+
+***
+
+<br>
+
+## MongoDB Indexes
+
+```javascript
+// By default, MongoDB will provide an index on "_id".
+db.posts.getIndexes()  // Get all the indexes of "posts" collection
+```
+
+MongoDB supports various different types of indexes:
+
+* **Single Field ~**
+
+  -> Use <u>one single field</u> to create the index
 
   ```javascript
-  // By default, MongoDB will provide an index on "_id".
-  db.posts.getIndexes()  // Get all the indexes of "posts" collection
-  
   db.posts.createIndex({rank: -1})  // Create an index on "rank" in descending order in "posts" collection
   db.posts.createIndex({title: 1}, {unique: true})  // ... on "title" in ascending order and must be unique ...
   // Since this index specifies that "title" must be unique, it can work as a PRIMARY KEY.
-  
-  db.posts.dropIndex({rank: -1})  // Delete the index on "rank" in descending order in "posts" collection
   ```
 
-***
+* **Compound ~**
+
+  -> Use <u>different fields</u> inside the document to ~
+
+  ```javascript
+  db.posts.createIndex({title: 1, date: -1})  // Create an index on the combination of "title" in ascending order and "date" in descending order
+  ```
+
+* **Multikey ~**
+
+* **Text ~**
+
+  <u>"Full-Text-Search"</u>, created <u>for text search support</u>
+
+  -> Not only follow the <u>exact matches</u> against the index structure, but also take <u>relevance ("fuzzy matches")</u> into consideration
+
+  -> "How relevant is the key compared to the entries in the index?"
+
+  ***
+
+  e.g.,
+
+  => (Previously) <u>(Only) Exact match</u>:
+
+  ```javascript
+  db.movies.find({title: "Titanic"})
+  // Only find the movies with title exactly matching "Titanic" literal
+  ```
+
+  Assume that we have created a text index on "title" field in "movies" collections.
+
+  ```javascript
+  db.movies.create_index([title, "text"])
+  ```
+
+  => (With text index) <u>Exact match + Relevance (Fuzzy match)</u>:
+
+  ```javascript
+  filter = {
+      $text: {
+          $search: "titanic"
+      }
+  }
+  db.movies.find(filter)
+  // Noy only find the movies with title exactly matching "titanic" literal, but also the movies with title fuzzily matching "titanic"
+  // e.g., "Clash of Titans", ...
+  ```
+
+  ***
+
+* **Hashed ~**
+
+* **Geospatial ~**
+
+  * 2d
+  * 2dsphere
+  * geoHaystack
+
+```javascript
+db.posts.dropIndex({rank: -1})  // Delete the index on "rank" in descending order in "posts" collection
+```
 
 <br>
 

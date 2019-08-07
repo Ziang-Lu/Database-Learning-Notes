@@ -11,7 +11,9 @@ __author__ = 'Ziang Lu'
 
 from datetime import datetime
 
-from pymongo import ASCENDING, InsertOne, MongoClient, UpdateOne
+from pymongo import (
+    ASCENDING, DESCENDING, InsertOne, MongoClient, TEXT, UpdateOne
+)
 
 
 def init_db() -> None:
@@ -121,7 +123,9 @@ def test_index() -> None:
     posts = db.posts
 
     # Create index
-    posts.create_index([('title', ASCENDING)], unique=True)
+    posts.create_index([('title', ASCENDING)], unique=True)  # Single Field Index
+    posts.create_index([('title', ASCENDING), ('date', DESCENDING)])  # Compound Index
+    posts.create_index([('title', TEXT)])  # Text Index
     print(list(posts.index_information()))
 
     # Check index
