@@ -39,10 +39,10 @@ def get_posts() -> Iterator[Tuple[str, datetime]]:
             cursor.execute('''
             select content, time
             from posts
-            order by time
+            order by time desc
             ''')
             results = cursor.fetchall()
-    return reversed(results)
+    return results
 
 
 # Script attack:

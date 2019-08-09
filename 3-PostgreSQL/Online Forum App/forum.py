@@ -8,7 +8,7 @@ Main driver module.
 import bleach
 from flask import Flask, request, redirect, url_for
 
-import forumdb
+import forumdb as db
 
 app = Flask(__name__)
 
@@ -55,31 +55,53 @@ POST_TEMPLATE = '''\
 
 
 @app.route('/', methods=['GET'])
-def main_page() -> str:
+def main_page():
     """
     Forum main page.
     When a "GET" request is forwarded to "/", this function gets called.
-    :return: str
+    :return:
     """
     posts = ''.join(
         POST_TEMPLATE % (bleach.clean(content), date)
-        for content, date in forumdb.get_posts()
+        for content, date in db.get_posts()
     )  # Output sanitization
     return PAGE_TEMPLATE % posts
 
 
 @app.route('/', methods=['POST'])
-def post() -> None:
+def post():
     """
     Forum main page, with post submission.
     When a "POST" request is forwarded to "/", this function gets called.
-    :return: None
+    :return:
     """
+    # Note:
+    # When a "POST" request is forwarded, the request is carrying the filled
+    # form, stored in "request.form"
     msg = request.form['content']
-    forumdb.add_post(msg)
+    db.add_post(msg)
     return redirect(url_for('main_page'))
 
 
+# @app.route('/', methods=['GET', 'POST'])
+# def main_page():
+#     """
+#     A more common pattern that combines the previous two view functions into
+#     one, which can handle both "GET" and "POST" requests.
+#     :return:
+#     """
+#     if request.method == 'POST':
+#         msg = request.form['content']
+#         db.add_post(msg)
+#         return redirect(url_for('main_page'))
+
+#     posts = ''.join(
+#         POST_TEMPLATE % (bleach.clean(content), date)
+#         for content, date in db.get_posts()
+#     )  # Output sanitization
+#     return PAGE_TEMPLATE % posts
+
+
 if __name__ == '__main__':
-    forumdb.init_db()
+    db.init_db()
     app.run(host='0.0.0.0')  # Default port: 5000
