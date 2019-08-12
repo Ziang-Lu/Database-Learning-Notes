@@ -104,4 +104,4 @@ def post():
 
 if __name__ == '__main__':
     db.init_db()
-    app.run(host='0.0.0.0')  # Default port: 5000
+    app.run(host='0.0.0.0', debug=True)  # Default port: 5000
