@@ -74,14 +74,14 @@ def query_db() -> None:
     print(f"Documents with author 'Ziang': "
           f"{posts.count_documents({'author': 'Ziang'})}")
     for post in posts.find(
-            filter={'author': 'Ziang'},
+            {'author': 'Ziang'},
             projection={'_id': False, 'tags': False, 'date': False}
     ):
         print(post)
 
     print("Same result sorted by 'title':")
     for post in posts.find(
-            filter={'author': 'Ziang'},
+            {'author': 'Ziang'},
             projection={'_id': False, 'tags': False, 'date': False},
     ).sort('title', direction=ASCENDING):
         print(post)
@@ -97,7 +97,7 @@ def update_db() -> None:
     posts = db.posts
 
     update_result = posts.update_many(
-        filter={'author': 'Ziang'}, update={'$set': {'rank': 1}}
+        {'author': 'Ziang'}, update={'$set': {'rank': 1}}
     )
     print(f'Number of updated documents: {update_result.modified_count}')
 
@@ -106,7 +106,7 @@ def update_db() -> None:
     # We can also do bulk write as follows:
     requests = [
         InsertOne({'x': 1}),
-        UpdateOne(filter={'author': 'Ziang'}, update={'$set': {'rank': 1}})
+        UpdateOne({'author': 'Ziang'}, update={'$set': {'rank': 1}})
     ]
     write_result = posts.bulk_write(requests)
     print(f'Number of inserted documents: {write_result.inserted_count}')
@@ -124,7 +124,8 @@ def test_index() -> None:
 
     # Create index
     posts.create_index([('title', ASCENDING)], unique=True)  # Single Field Index
-    posts.create_index([('title', ASCENDING), ('date', DESCENDING)])  # Compound Index
+    # Compound Index
+    posts.create_index([('title', ASCENDING), ('date', DESCENDING)])
     posts.create_index([('title', TEXT)])  # Text Index
     print(list(posts.index_information()))
 

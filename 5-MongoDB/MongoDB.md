@@ -122,6 +122,8 @@ or
         date: Date()  // Default: Put in the current date
     })
     
+    // db.posts.insertOne(...)
+    
     db.posts.insertMany([
         {
             title: "My Second Post",
@@ -165,13 +167,15 @@ or
                 votes: 0
             }
         ]
-    })
+  })
     ````
 
   * Select documents
-
+  
     ```javascript
     // Filtering
+    
+    // db.posts.findOne(...)
     
     db.posts.find()  // Select all the documents in "posts" collection
     db.posts.find().pretty()  // ..., and present them in a pretty way (similar to JSON format)
@@ -190,6 +194,8 @@ or
     // We can also use regex to specify the selection condition.
     db.posts.find({title: /u/})  // ... whose title contains "u" ...
     db.posts.find({title: /^R/})  // ... whose title starts with "R" ...
+    // <-> db.posts.find({title: {$regex: "u"}})
+    // <-> db.posts.find({title: {$regex: "^R"}})
     
     db.posts.find({$or: [{tag: "diary"}, {rank: {$gte: 5}}]})  // ... where "tag" is "diary" OR "rank" >= 5 ...
     // We can also use $and to represent "AND".
@@ -255,13 +261,13 @@ or
                     "coordinates": [-73.9899604, 40.7575067]
                 },
                 $maxDistance: 1000  // In meters
-            }
+          }
         }
     })
     ```
-
+  
   * Update documents (Manipulate fields)
-
+  
     ```javascript
     // Update the entire document
     
@@ -270,6 +276,9 @@ or
     
     db.posts.update({title: "My First Post"}, {title: "My First Post", rank: 99, tag: "diary"}, {upsert: true})  // ..., deleting all the fields and setting the specified fields
     // (UPSERT) if the document does not exist, create the document
+    
+    // db.posts.replaceOne(...)
+    // db.posts.replaceMany(...)
     
     
     // Update fields
@@ -281,21 +290,28 @@ or
     db.posts.update({title: "My First Post"}, {$inc: {rank: 5}})  // Increment "rank" by 10 for the FIRST!!! document where "title" is "My First Post" in "posts" collection
     db.posts.update({title: "My First Post"}, {$mul: {rank: 2}})  // Multiply "rank" by 2 ...
     
-    db.posts.update({title: "My First Post"}, {$rename: {rank: "ranking"}})  // Rename "rank" field to "ranking" ...
-    
-    
-    // Delete fields
-    
-    db.posts.update({title: "My First Post"}, {$unset: {rank: ""}})  // Delete "rank" field ...
     ```
-
+  
+  db.posts.update({title: "My First Post"}, {$rename: {rank: "ranking"}})  // Rename "rank" field to "ranking" ...
+  
+  
+    // Delete fields
+  
+    db.posts.update({title: "My First Post"}, {$unset: {rank: ""}})  // Delete "rank" field ...
+  
+    // db.posts.updateOne(...)
+    // db.posts.updateMany(...)
+    ```
+  
   * Delete documents
-
+  
     ```javascript
     db.posts.remove({})  // Delete all the documents in "posts" collection
     db.posts.remove({title: "Post"})  // ... where "title" is "Post" ...
+    
+    // db.posts.deleteOne(...)
+    // db.posts.deleteMany(...)
     ```
-
 
 ***
 
