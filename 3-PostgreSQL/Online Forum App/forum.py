@@ -54,52 +54,52 @@ POST_TEMPLATE = '''\
 '''
 
 
-@app.route('/', methods=['GET'])
-def main_page():
-    """
-    Forum main page.
-    When a "GET" request is forwarded to "/", this function gets called.
-    :return:
-    """
-    posts = ''.join(
-        POST_TEMPLATE % (bleach.clean(content), date)
-        for content, date in db.get_posts()
-    )  # Output sanitization
-    return PAGE_TEMPLATE % posts
-
-
-@app.route('/', methods=['POST'])
-def post():
-    """
-    Forum main page, with post submission.
-    When a "POST" request is forwarded to "/", this function gets called.
-    :return:
-    """
-    # Note:
-    # When a "POST" request is forwarded, the request is carrying the filled
-    # form, stored in "request.form"
-    msg = request.form['content']
-    db.add_post(msg)
-    return redirect(url_for('main_page'))
-
-
-# @app.route('/', methods=['GET', 'POST'])
+# @app.route('/', methods=['GET'])
 # def main_page():
 #     """
-#     A more common pattern that combines the previous two view functions into
-#     one, which can handle both "GET" and "POST" requests.
+#     Forum main page.
+#     When a "GET" request is forwarded to "/", this function gets called.
 #     :return:
 #     """
-#     if request.method == 'POST':
-#         msg = request.form['content']
-#         db.add_post(msg)
-#         return redirect(url_for('main_page'))
-
 #     posts = ''.join(
 #         POST_TEMPLATE % (bleach.clean(content), date)
 #         for content, date in db.get_posts()
 #     )  # Output sanitization
 #     return PAGE_TEMPLATE % posts
+
+
+# @app.route('/', methods=['POST'])
+# def post():
+#     """
+#     Forum main page, with post submission.
+#     When a "POST" request is forwarded to "/", this function gets called.
+#     :return:
+#     """
+#     # Note:
+#     # When a "POST" request is forwarded, the request is carrying the filled
+#     # form, stored in "request.form"
+#     msg = request.form['content']
+#     db.add_post(msg)
+#     return redirect(url_for('main_page'))
+
+
+@app.route('/', methods=['GET', 'POST'])
+def main_page():
+    """
+    A more common pattern that combines the previous two view functions into
+    one, which can handle both "GET" and "POST" requests.
+    :return:
+    """
+    if request.method == 'POST':
+        msg = request.form['content']
+        db.add_post(msg)
+        return redirect(url_for('main_page'))
+
+    posts = ''.join(
+        POST_TEMPLATE % (bleach.clean(content), date)
+        for content, date in db.get_posts()
+    )  # Output sanitization
+    return PAGE_TEMPLATE % posts
 
 
 if __name__ == '__main__':
