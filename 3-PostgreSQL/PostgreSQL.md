@@ -41,19 +41,19 @@
 **Start PostgreSQL Server**   **(Daemon process)**
 
 ```bash
-> postgres -D /usr/local/var/postgresql@9.6/
+$ postgres -D /usr/local/var/postgresql@9.6/
 ```
 
 or
 
 ```bash
-> pg_ctl -D /usr/local/var/postgresql@9.6/ start
+$ pg_ctl -D /usr/local/var/postgresql@9.6/ start
 ```
 
 **Stop PostgreSQL server**
 
 ```bash
-> pg_ctl -D /usr/local/var/postgresql@9.6/ stop
+$ pg_ctl -D /usr/local/var/postgresql@9.6/ stop
 ```
 
 <br>
@@ -61,19 +61,19 @@ or
 ## PostgreSQL Command-Line Interface
 
 ```bash
-> createuser -s postgres  # Create a superuser "postgres" for later use
+$ createuser -s postgres  # Create a superuser "postgres" for later use
 ```
 
 ***
 
 ```bash
-> psql -l  # Show all the databases on the PostgreSQL server
+$ psql -l  # Show all the databases on the PostgreSQL server
 ```
 
 ```bash
-> createdb test  # Create a database called "test"
-> psql -l  # Now "test" database should show up
-> psql test  # Connect to "test" database and enter the interactive shell
+$ createdb test  # Create a database called "test"
+$ psql -l  # Now "test" database should show up
+$ psql test  # Connect to "test" database and enter the interactive shell
 ```
 
 ***
@@ -101,8 +101,8 @@ or
 ***
 
 ```bash
-> dropdb test  # Delete a database called "test"
-> dropuser postgres  # Delete the previously created superuser "postgres"
+$ dropdb test  # Delete a database called "test"
+$ dropuser postgres  # Delete the previously created superuser "postgres"
 ```
 
 <br>

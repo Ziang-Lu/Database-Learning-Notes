@@ -48,9 +48,7 @@ Difference between document and record:
 
  * Download and install MongoDB from `homebrew`
 
-  ```bash
-  > brew install mongodb
-  ```
+   `> brew install mongodb`
 
 <br>
 
@@ -59,7 +57,7 @@ Difference between document and record:
 **Start MongoDB Server   (Non-daemon process)**
 
 ```bash
-> mongod --config /usr/local/etc/mongod.conf
+$ mongod --config /usr/local/etc/mongod.conf
 ```
 
 **Stop MongoDB Server**
@@ -71,13 +69,13 @@ Difference between document and record:
 ## MongoDB Command-Line Interface
 
 ```bash
-> mongo
+$ mongo
 ```
 
 or
 
 ```bash
-> mongo test  # Directly enter "test" database
+$ mongo test  # Directly enter "test" database
 ```
 
 ***

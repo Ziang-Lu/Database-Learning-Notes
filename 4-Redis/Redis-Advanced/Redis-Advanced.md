@@ -189,15 +189,15 @@ Check out https://redis.io/topics/replication and `redis.conf` "REPLICATION" sec
 Example master/slave set-up:
 
 ```bash
-mkdir redis_folder
-cd redis_folder
-mkdir pidfile
-mkdir data
+$ mkdir redis_folder
+$ cd redis_folder
+$ mkdir pidfile
+$ mkdir data
 
 # We want Slave-1 to carry the work of RDB snapshotting to disk and AOF.
 
 # Set up Master
-scp /usr/local/redis/redis.conf redis_master.conf
+$ scp /usr/local/redis/redis.conf redis_master.conf
 # In the configuation file:
 ##### (-> Turned to Slave-1)
 # Turn off RDB snapshotting to disk
@@ -209,7 +209,7 @@ appendonly no
 #####
 
 # Set up Slave-1
-scp /usr/local/redis/redis.conf redis_slave1_6380.conf
+$ scp /usr/local/redis/redis.conf redis_slave1_6380.conf
 # In the configuration file:
 replicaof localhost 6379
 # Set the PID file
@@ -226,7 +226,7 @@ replica-serve-stale-data no
 rename-command CONFIG ""
 
 # Set up Slave-2
-scp /usr/local/redis/redis.conf redis_slave1_6381.conf
+$ scp /usr/local/redis/redis.conf redis_slave1_6381.conf
 # Set the PID file
 pidfile ./pidfile/redis_6381.pid
 # Change the port
@@ -248,19 +248,19 @@ rename-command CONFIG ""
 Start the master/slave servers:
 
 ```bash
-> redis-server redis_maser.conf
-> redis-server redis_slave1_6380.conf
-> redis-server redis_slave2_6381.conf
+$ redis-server redis_maser.conf
+$ redis-server redis_slave1_6380.conf
+$ redis-server redis_slave2_6381.conf
 ```
 
 Simple demo:
 
 ```bash
-> redis-cli
+$ redis-cli
 set title software_engineer
 # OK
 
-> redis-cli -p 6380
+$ redis-cli -p 6380
 get title
 # "software_engineer"
 set title "data_scientist"

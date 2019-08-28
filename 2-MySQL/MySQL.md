@@ -48,7 +48,7 @@ Note that `mysqld` is the command-line tool for operating MySQL server
 * Set the system variable `innodb_buffer_pool_size` to set the amount of RAM used for caching query results
 
   ```bash
-  > mysqld --innodb_buffer_pool_size=...
+  $ mysqld --innodb_buffer_pool_size=...
   ```
 
   Or if we want a permanent change, we can put it in the configuation file `/etc/my.cnf`.
@@ -60,7 +60,7 @@ Note that `mysqld` is the command-line tool for operating MySQL server
 ## MySQL Command-Line Interface
 
 ```bash
-> mysql -u root -p  # Establish a connection (open a client session), and enter MySQL interactive shell
+$ mysql -u root -p  # Establish a connection (open a client session), and enter MySQL interactive shell
 ```
 
 ***

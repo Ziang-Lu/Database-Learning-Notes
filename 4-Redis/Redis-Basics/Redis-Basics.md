@@ -60,7 +60,7 @@
 ## Redis Command-Line Interface
 
 ```bash
-> redis-cli  # 默认进入DB-0
+$ redis-cli  # 默认进入DB-0
 ```
 
 <br>
