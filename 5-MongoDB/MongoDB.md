@@ -288,15 +288,12 @@ $ mongo test  # Directly enter "test" database
     db.posts.update({title: "My First Post"}, {$inc: {rank: 5}})  // Increment "rank" by 10 for the FIRST!!! document where "title" is "My First Post" in "posts" collection
     db.posts.update({title: "My First Post"}, {$mul: {rank: 2}})  // Multiply "rank" by 2 ...
     
-    ```
-  
-  db.posts.update({title: "My First Post"}, {$rename: {rank: "ranking"}})  // Rename "rank" field to "ranking" ...
-  
-  
+    db.posts.update({title: "My First Post"}, {$rename: {rank: "ranking"}})  // Rename "rank" field to "ranking" ...
+    
     // Delete fields
-  
+    
     db.posts.update({title: "My First Post"}, {$unset: {rank: ""}})  // Delete "rank" field ...
-  
+    
     // db.posts.updateOne(...)
     // db.posts.updateMany(...)
     ```
@@ -332,6 +329,9 @@ MongoDB supports various different types of indexes:
   db.posts.createIndex({rank: -1})  // Create an index on "rank" in descending order in "posts" collection
   db.posts.createIndex({title: 1}, {unique: true})  // ... on "title" in ascending order and must be unique ...
   // Since this index specifies that "title" must be unique, it can work as a PRIMARY KEY.
+  
+  // Create Single Field Index on an embedded field
+  db.theater.createIndex({location.geo: 1})  // Create an index on the "location.geo" in ascending order in "theaters" collection
   ```
 
 * **Compound ~**
