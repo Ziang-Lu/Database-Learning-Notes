@@ -7,3 +7,6 @@ __pycache__/
 # Redis persistence files
 *.rdb
 *.aof
+
+# Project files
+.idea/
