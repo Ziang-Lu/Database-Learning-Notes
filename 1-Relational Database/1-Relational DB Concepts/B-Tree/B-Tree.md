@@ -1,4 +1,4 @@
-## B-Tree
+## B-Tree & B+ Tree
 
 ### Definition
 
@@ -46,9 +46,11 @@ Compare to a pure B-tree structure:
 应用在database multi-level indexing上, 与B-tree实现的区别:
 
 * **所有的key-record mapping都存在leaf中**
-* **而在internal nodes中允许存储duplicate keys, 而不再存储对应的record address**
+* **而在internal nodes中只存储keys, 而不再存储对应的record address**
 
 与最上方相同的B-Tree, 其B+ tree的结构如图:
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree/B+%20Tree%20Demo.png?raw=true">
+
+*注意: 当split内部node时, 由于我们只存储key而不存储对应的record address, 则无需再保存重复的key即可正确nagivate至正确的leaf中*
 

@@ -1,3 +1,8 @@
+import common_constructs.BPlusTreeLeaf;
+import common_constructs.Entry;
+import common_constructs.IndexEntry;
+import common_constructs.Node;
+
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -15,7 +20,7 @@ public class BPlusTree extends BTreeBase {
         int pos = curr.findInsertPos(key);
         if (curr.isLeaf()) { // Leaf
             if (pos >= 0) { // Found it
-                return curr.getIndexEntry(pos).getRecordAddress();
+                return ((IndexEntry) curr.getEntry(pos)).getRecordAddress();
             } else { // Not found
                 return null;
             }
@@ -26,28 +31,34 @@ public class BPlusTree extends BTreeBase {
         return searchHelper(curr.getChild(insertPos), key);
     }
 
-    protected void percolateUp(Node curr, Stack<Node> path, Stack<Integer> pastInsertPositions) {
-        // curr is overflowed
-        // -> Percolate a copy of the middle key of curr
-        int mid = curr.size() / 2;
-        int midKey = curr.getIndexEntry(mid).getKey();
-        IndexEntry upDummyEntry = new IndexEntry(midKey, null); // This dummy entry doesn't have a record address associated with it.
-        Node leftChild = new Node(ORDER, Arrays.copyOfRange(curr.getIndexEntries(), 0, mid + 1),
-                Arrays.copyOfRange(curr.getChildren(), 0, mid + 2));
-        Node rightChild = new Node(ORDER, Arrays.copyOfRange(curr.getIndexEntries(), mid + 1, curr.size()),
-                Arrays.copyOfRange(curr.getChildren(), mid + 2, curr.size() + 1));
+    @Override
+    protected void percolateUp(Node leaf, Stack<Node> path, Stack<Integer> pastInsertPositions) {
+        // leaf is overflowed
+        // -> Percolate a copy of the middle key of leaf
+        int mid = leaf.size() / 2;
+        int midKey = leaf.getEntry(mid).getKey();
+        BPlusTreeLeaf rightChild = new BPlusTreeLeaf(ORDER,
+                Arrays.copyOfRange((IndexEntry[]) leaf.getEntries(), mid, leaf.size()), null);
+        BPlusTreeLeaf leftChild = new BPlusTreeLeaf(ORDER, Arrays.copyOfRange((IndexEntry[]) leaf.getEntries(), 0, mid),
+                rightChild); // Connect leftChild and rightChild
 
-        if (curr == root) {
-            root = new Node(ORDER, new IndexEntry[]{upDummyEntry}, new Node[]{leftChild, rightChild});
+        if (leaf == root) {
+            root = new Node(ORDER, new Entry[]{new Entry(midKey)}, new Node[]{leftChild, rightChild});
             return;
         }
 
-        // Insert into this parent node first, and if the parent node is overflowed, keep percolating up
+        // Insert into the parent node first, and if the parent node is overflowed, keep percolating up
         Node parent = path.pop();
         Integer pastInsertPos = pastInsertPositions.pop();
-        parent.insertEntry(pastInsertPos, upDummyEntry, leftChild, rightChild);
+        parent.insertEntry(pastInsertPos, new Entry(midKey), leftChild, rightChild);
+        BPlusTreeLeaf prevLeaf = pastInsertPos > 0 ? (BPlusTreeLeaf) parent.getChild(pastInsertPos - 1) : null;
+        BPlusTreeLeaf nextLeaf = pastInsertPos < parent.size() ? (BPlusTreeLeaf) parent.getChild(pastInsertPos + 1) : null;
+        if (prevLeaf != null) {
+            prevLeaf.next = leftChild;
+        }
+        rightChild.next = nextLeaf;
         if (parent.isOverflowed()) {
-            percolateUp(parent, path, pastInsertPositions);
+            super.percolateUp(parent, path, pastInsertPositions);
         }
     }
 

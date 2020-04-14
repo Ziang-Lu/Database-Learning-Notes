@@ -1,3 +1,8 @@
+import common_constructs.Entry;
+import common_constructs.IndexEntry;
+import common_constructs.Node;
+
+import java.util.Arrays;
 import java.util.Stack;
 
 abstract class BTreeBase {
@@ -68,16 +73,15 @@ abstract class BTreeBase {
             Stack<Integer> pastInsertPositions) {
         int pos = curr.findInsertPos(key);
         if (pos >= 0) { // Found it
-            // No duplicate key allowed
+            // No duplicate key allowed to be inserted
             return;
         }
         int insertPos = -pos - 1;
-        IndexEntry indexEntry = new IndexEntry(key, recordAddress);
         if (curr.isLeaf()) { // Leaf
             // Insert into the leaf node first, and if the leaf node itself is overflowed, percolate up
-            curr.insertEntry(insertPos, indexEntry, null, null);
+            curr.insertEntry(insertPos, new IndexEntry(key, recordAddress), null, null);
             if (curr.isOverflowed()) {
-                percolateUp(curr,i path, pastInsertPositions);
+                percolateUp(curr, path, pastInsertPositions);
             }
             return;
         }
@@ -85,7 +89,7 @@ abstract class BTreeBase {
         // Go to the appropriate child
         path.push(curr);
         pastInsertPositions.push(insertPos);
-        insertHelper(curr.getChild(insertPos), indexEntry, path, pastInsertPositions);
+        insertHelper(curr.getChild(insertPos), key, recordAddress, path, pastInsertPositions);
     }
 
     /**
@@ -94,6 +98,28 @@ abstract class BTreeBase {
      * @param path path along which to find the leaf
      * @param pastInsertPositions insert positions along path
      */
-    protected abstract void percolateUp(Node curr, Stack<Node> path, Stack<Integer> pastInsertPositions);
+    protected void percolateUp(Node curr, Stack<Node> path, Stack<Integer> pastInsertPositions) {
+        // curr is overflowed.
+        // -> Percolate up the middle index entry of curr
+        int mid = curr.size() / 2;
+        Entry midEntry = curr.getEntry(mid);
+        Node leftChild = new Node(ORDER, Arrays.copyOfRange(curr.getEntries(), 0, mid),
+                Arrays.copyOfRange(curr.getChildren(), 0, mid + 1));
+        Node rightChild = new Node(ORDER, Arrays.copyOfRange(curr.getEntries(), mid + 1, curr.size()),
+                Arrays.copyOfRange(curr.getChildren(), mid + 1, curr.size() + 1));
+
+        if (curr == root) {
+            root = new Node(ORDER, new Entry[]{midEntry}, new Node[]{leftChild, rightChild});
+            return;
+        }
+
+        // Insert into this parent node first, and if the parent node is overflowed, keep percolating up
+        Node parent = path.pop();
+        Integer pastInsertPos = pastInsertPositions.pop();
+        parent.insertEntry(pastInsertPos, midEntry, leftChild, rightChild);
+        if (parent.isOverflowed()) {
+            BTreeBase.this.percolateUp(parent, path, pastInsertPositions);
+        }
+    }
 
 }

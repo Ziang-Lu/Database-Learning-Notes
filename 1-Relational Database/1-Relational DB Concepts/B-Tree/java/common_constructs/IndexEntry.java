@@ -1,12 +1,16 @@
-final class IndexEntry {
+package common_constructs;
+
+/**
+ * IndexEntry class.
+ * This is the class used in the nodes that actually have table record
+ * addresses.
+ *
+ * @author Ziang Lu
+ */
+public final class IndexEntry extends Entry {
 
     /**
-     * Key of this entry.
-     * Essentially, this is the primary key of the table.
-     */
-    private final int key;
-    /**
-     * Record address with the primary key.
+     * Record address with the key.
      */
     private final String recordAddress;
 
@@ -16,16 +20,8 @@ final class IndexEntry {
      * @param recordAddress record address with the key
      */
     public IndexEntry(int key, String recordAddress) {
-        this.key = key;
+        super(key);
         this.recordAddress = recordAddress;
-    }
-
-    /**
-     * Accessor of key.
-     * @return key
-     */
-    public int getKey() {
-        return key;
     }
 
     /**

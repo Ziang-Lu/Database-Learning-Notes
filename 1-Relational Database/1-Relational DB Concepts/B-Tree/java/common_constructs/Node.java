@@ -1,6 +1,15 @@
+package common_constructs;
+
 import java.util.Arrays;
 
-class Node {
+/**
+ * Node class.
+ * Essentially, this can be seen as a block on disk, on which the database table
+ * is stored.
+ *
+ * @author Ziang Lu
+ */
+public class Node {
 
     /**
      * Order of this node.
@@ -9,7 +18,7 @@ class Node {
     /**
      * Index entries of this node.
      */
-    private final IndexEntry[] indexEntries;
+    protected final Entry[] entries;
     /**
      * Valid number of keys in this node.
      */
@@ -22,39 +31,39 @@ class Node {
     /**
      * Constructor with parameter.
      * @param order order of the node
-     * @param fromIndexEntries index entries to copy from
+     * @param fromEntries entries to copy from
      * @param fromChildren children to copy from
      */
-    public Node(int order, IndexEntry[] fromIndexEntries, Node[] fromChildren) {
+    public Node(int order, Entry[] fromEntries, Node[] fromChildren) {
         ORDER = order;
         // Index entries
-        indexEntries = new IndexEntry[order]; // Extend 1 position for temporary overflow
-        int size = fromIndexEntries.length;
+        entries = new Entry[order]; // Extend 1 position for temporary overflow
+        int size = fromEntries.length;
         this.size = size;
-        System.arraycopy(fromIndexEntries, 0, indexEntries, 0, size);
+        System.arraycopy(fromEntries, 0, entries, 0, size);
         // Children
         children = new Node[order + 1]; // Extend 1 position for temporary overflow
         System.arraycopy(fromChildren, 0, children, 0, fromChildren.length);
     }
 
     /**
-     * Returns the index entries of this node.
+     * Returns the entries of this node.
      * @return indexEntries
      */
-    public IndexEntry[] getIndexEntries() {
-        return indexEntries;
+    public Entry[] getEntries() {
+        return entries;
     }
 
     /**
-     * Returns the index entry at the given position.
-     * @param pos position of the index entry
-     * @return the i-th index entry
+     * Returns the entry at the given position.
+     * @param pos position of the entry
+     * @return the i-th entry
      */
-    public IndexEntry getIndexEntry(int pos) {
+    public Entry getEntry(int pos) {
         if ((pos < 0) || (pos >= size)) {
-            throw new IllegalArgumentException("Invalid index entry position");
+            throw new IllegalArgumentException("Invalid entry position");
         }
-        return indexEntries[pos];
+        return entries[pos];
     }
 
     /**
@@ -127,7 +136,7 @@ class Node {
     private int[] extractKeys() {
         int[] keys = new int[size];
         for (int i = 0; i < size; ++i) {
-            keys[i] = indexEntries[i].getKey();
+            keys[i] = entries[i].getKey();
         }
         return keys;
     }
@@ -136,20 +145,26 @@ class Node {
      * Inserts the given key-record mapping into this node, at the given
      * position, with the given left and right children.
      * @param pos insert position
-     * @param indexEntry index entry to insert
+     * @param entry index entry to insert
      * @param leftChild left child to insert
      * @param rightChild right child to insert
      */
-    public void insertEntry(int pos, IndexEntry indexEntry, Node leftChild, Node rightChild) {
-        // Handle the index entries
+    public void insertEntry(int pos, Entry entry, Node leftChild, Node rightChild) {
+        // Handle the entries
         int copyLength = size - pos;
-        System.arraycopy(indexEntries, pos, indexEntries, pos + 1, copyLength);
-        indexEntries[pos] = indexEntry;
+        System.arraycopy(entries, pos, entries, pos + 1, copyLength);
+        entries[pos] = entry;
         ++size;
         // Handle the children
         System.arraycopy(children, pos + 1, children, pos + 2, copyLength);
         children[pos] = leftChild;
         children[pos + 1] = rightChild;
+    }
+
+    @Override
+    public String toString() {
+        int[] keys = extractKeys();
+        return Arrays.toString(keys);
     }
 
 }
