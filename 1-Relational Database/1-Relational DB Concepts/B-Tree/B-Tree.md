@@ -43,7 +43,7 @@ Compare to a pure B-tree structure:
 
 ## B+ Tree
 
-应用在database multi-level indexing上, 与B-Tree实现的区别:
+应用在database multi-level indexing上, 与B-tree实现的区别:
 
 * **所有的key-record mapping都存在leaf中**
 * **而在internal nodes中允许存储duplicate keys, 而不再存储对应的record address**
