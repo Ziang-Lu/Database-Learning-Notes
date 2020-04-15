@@ -49,9 +49,9 @@ The following Python modules <u>all follow Python DB-API</u>.
 
 *Check out the corresponding demo program for detailed usage*
 
-<br>
-
 ***
+
+<br>
 
 ### Object-Relational Mapping (对象-关系映射) (ORM)
 

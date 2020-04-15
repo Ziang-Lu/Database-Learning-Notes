@@ -10,7 +10,7 @@
 
 * **Attribute**
 
-  A ~ is a <u>characteristic of an entity</u>.
+  An ~ is a <u>characteristic of an entity</u>.
 
 * **Relationship**
 
@@ -102,20 +102,20 @@ Like in the above example, in the `Department` tale, each `Department` needs to 
 
 ## Normalized Table Design
 
-#### * Every row has the same number of columns.
+#### Every row has the same number of columns.
 
 - If for a given key, there are <u>many values having the same meaning</u>, they need to be <u>splitted into separate rows (separate records)</u>.
 
 <br>
 
-#### * There is a **unique key (one column, or multiples columns combined)**, and the **non-key columns describes about the key**.
+#### There is a **unique key (one column, or multiples columns combined)**, and the **non-key columns describes about the key**.
 
 - The key can even be the entire row (all the columns)!!!
 - In any row, the <u>key provides the topic of the sentence</u>, and the <u>rest of the row descibes about the that topic</u>.
 
 <br>
 
-#### * (From previous one) **Facts that don't relate to the key belong in different tables.**
+#### (From previous one) **Facts that don't relate to the key belong in different tables.**
 
 *这点需要特别注意!!!*
 

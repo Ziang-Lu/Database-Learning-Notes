@@ -129,50 +129,50 @@ create view brazil_customers as
 
 #### (4) Altering Existing Table Itself
 
-- Add, modify, or delete columns of an existing table
+Add, modify, or delete columns of an existing table
 
-  - Rename table
+- Rename table
 
-    ```sql
-    alter table customers rename to my_customers;
-    ```
+  ```sql
+  alter table customers rename to my_customers;
+  ```
 
-  - Rename column
+- Rename column
 
-    ```sql
-    alter table customers rename name to fullname;
-    ```
+  ```sql
+  alter table customers rename name to fullname;
+  ```
 
-  - Add column
+- Add column
 
-    ```sql
-    alter table customers
-    add email /* column_name */ varchar(255) /* data_type */;
-    ```
+  ```sql
+  alter table customers
+  add email /* column_name */ varchar(255) /* data_type */;
+  ```
 
-  - Delete column   (*Only in MySQL and PostgreSQL*)
+- Delete column   (*Only in MySQL and PostgreSQL*)
 
-    ```sql
-    alter table customers
-    drop email /* column_name */;
-    ```
+  ```mysql
+  alter table customers
+  drop email /* column_name */;
+  ```
 
 
 <br>
 
-#### (6) Updating View   (*Only in MySQL & PostgreSQL*)
+#### (5) Updating View   (*Only in MySQL & PostgreSQL*)
 
-```sql
+```mysql
 -- Update the "brazil_customers" view by adding a "City" column to it
 create or replace view brazil_customers as
-select customer_name, contact_name, city
-from customers
-where country = 'Brazil';
+    select customer_name, contact_name, city
+    from customers
+    where country = 'Brazil';
 ```
 
 <br>
 
-#### (7) Deleting Table
+#### (6) Deleting Table
 
 ```sql
 drop table scores;  -- Delete all the information stored in the table, and then delete the table
@@ -184,7 +184,7 @@ truncate table scores;  -- Delete all the information stored (including the head
 
 <br>
 
-#### (8) Deleting View
+#### (7) Deleting View
 
 ```sql
 drop view brazil_customers;
@@ -246,7 +246,7 @@ Use `not between` to exclude a range of values (exclusive):
 select name, species
 from animals
 where birthdate not between '1993-07-31' and '1993-10-05';
--- This will include neigher '1993-07-31' nor '1993-10-05'.
+-- This will include neither '1993-07-31' nor '1993-10-05'.
 ```
 
 ------
@@ -298,17 +298,7 @@ where species not like '_r%';
 
 ------
 
-Note: **Use `*` to select all columns**:
-
-```sql
-select * from animals
-where species = 'orangutan'
-order by birthdate desc;
-```
-
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_order-by.png?raw=true" width="500px">
-
-<br>
+Note:
 
 ```sql
 select name, birthdate
@@ -318,12 +308,6 @@ limit 5 offset 3;
 ```
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_limit_offset.png?raw=true" width="500px">
-
-------
-
-**Supported Comparison Operators**
-
-`=`, `!=`, `<`, `>`, `<=`, `>=`
 
 ------
 
@@ -337,7 +321,7 @@ limit 5 offset 3;
 - Do different processing based on some condition
 
 ```sql
--- Add a corresponding description to the "quantity" field
+-- Add a corresponding description according to the "quantity" field
 select order_id, quantity,
     (case
         when quantity > 30 then 'The quantity is greater than 30'
@@ -376,7 +360,7 @@ from tracks;
   - For each distinct species, find how many animals are there?
 
     ```sql
-    select species, count(species)
+    select species, count(*) as num
     from animals
     group by species
     limit 5;
@@ -589,7 +573,7 @@ where animals.species = diet.species;
 
   *Determine "left table" and "right table":*
 
-  `from left_table left join right table` or `from left_table, righ_table`
+  `from left_table left join right table` or `from left_table, right_table`
 
   ```sql
   select customers.customer_name, orders.order_id
@@ -653,7 +637,7 @@ where customer_id = 1;
 
 ### 4. Deleting Data in Table
 
-**在实际设计DB时, 应该只使用逻辑删除 (把对应record的`is_del`设置为`true`), 而不使用物理删除 (实际删除掉对应record)**
+**在实际设计DB时, 应该只使用逻辑删除 (把对应record的`is_del`设置为`true`), 而不使用物理删除 (即实际删除掉对应record)**
 
 ```sql
 delete from customers
@@ -679,9 +663,8 @@ begin;  -- Start a transaction
 -- Some SQL changes
 -- Note that during the execution of these SQL changes, these changes are still VISIBLE to the developer.
 -- i.e., If we do "select" within a transaction, we can still see the changes we made.
--- But they are just not committed and not updated to the DB server
--- (Pretty much like Git workflow)
-commit;  -- Commit the transaction, updating the DB with the above changes at the same time
+-- But they are just not committed and not updated to the DB server.
+commit;  -- Commit the transaction, updating the DB with the above changes
 
 rollback;  -- Rollback to the last commit, aborting all the changes since then
 ```

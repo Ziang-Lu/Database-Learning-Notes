@@ -101,59 +101,54 @@ from products;
     select first_name, substr(first_name, 2, 3)  -- Select only 3 characters, starting from the 2nd character
     from employees
     where department_id = 60;
-    
-    
-    select substr('MySQL', -2, 2);  -- Select only 2 characters, starting from the 1st character from the right
-    
-    -- QL
     ```
-
+    
     ***
-
+    
     *MySQL*: `substr()` = `substring()`
-
-    ***
-
-  - Concatenate: `||`
-
-    ```sql
+    
+***
+    
+- Concatenate: `||`
+  
+  ```sql
     select company_name, contact_name,
-        company_name || ' (' || contact_name || ')'  -- Concatenate "company_name" and "contact_name"
+      company_name || ' (' || contact_name || ')'  -- Concatenate "company_name" and "contact_name"
     from customers;
-    ```
-
+  ```
+  
     ***
-
+  
     *MySQL*:
-
-    * `concat(str1, str2, ...)`
-
-      ```mysql
+  
+  * `concat(str1, str2, ...)`
+  
+    ```mysql
       select concat('My', 'S', 'QL');
-      
+    
       -- MySQL
-      
+    
       -- If any argument is null, return null.
       select concat('My', null, 'QL');
       
       -- null
       ```
-
+  
     * `concat_ws(separator, str1, str2, ...)`
-
+  
       ```mysql
       select concat_ws(',', 'First name', 'Second name', 'Last name');
-      
+    
       -- 'First name,Second name,Last name'
-      
+    
       -- If the separator is null, the result is null.
       select concat_ws(',', 'First name', null, 'Last name');
       
       -- null
       ```
-
+  
     ***
-
+  
 - `char(n)`
 
   A string of exactly *n* characters
