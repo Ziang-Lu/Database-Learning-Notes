@@ -41,8 +41,8 @@ DB enables **safe concurrent access by multiple programs/users**.
   *(Based on "Relational Data Model (关系型数据模型)")*
 
   -> 操作data都是通过SQL语句来完成的
-  
-  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/Relational%20DB%20Concepts.md">Relational DB Concepts</a>
+
+  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts.md">Relational DB Concepts</a>
   * SQL Notes
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/1-Data%20Types%20in%20SQL/Data%20Types%20in%20SQL.md">Data Types in SQL</a>
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/Operations.md">Operations</a>
@@ -66,26 +66,24 @@ DB enables **safe concurrent access by multiple programs/users**.
       * 能承受高concurrency访问
     * Oracle
       * 不开源、付费
-  
+
   优点:
-  
+
   * data的每个table都非常规整, 确保了每一个row (record) 都有相同数量的column (field)
   * 通过foreign key的使用, 可以减少数据冗余
-  
-  缺点:
-  
-  * 很多时候为了拿到某个information, 需要把多个table join起来, 这是一个很耗时且占用资源的操作
-  
-* **<u>Not-only SQL (NoSQL)</u>**
 
-  操作data都是通过commands或prorgamming language来完成的
+  缺点:
+
+  * 很多时候为了拿到某个information, 需要把多个table join起来, 这是一个很耗时且占用资源的操作
+
+* **<u>Not-only SQL (NoSQL)</u>**
 
   * **<u>Key-value store (键-值存储)</u>**
 
     *(Based on "Key-Value Data Model (键-值对数据模型)")*
 
     适用于要存储的data type相对简单, 但需要极高的retrieve和insert速度的嵌入式场景
-    
+  
     * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/4-Redis/Redis-Basics.md">Redis</a>
       * In-memory存储
       

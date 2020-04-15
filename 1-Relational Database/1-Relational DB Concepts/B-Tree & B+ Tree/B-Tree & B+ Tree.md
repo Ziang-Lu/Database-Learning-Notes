@@ -2,7 +2,7 @@
 
 ### Definition
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree/B-Tree%20Definition.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree%20&%20B+%20Tree/B-Tree%20Definition.png?raw=true" width="600px">
 
 *从操作上讲: Search的次数比insertion、deletion要多得多*
 
@@ -30,7 +30,7 @@ The idea is similar to a normal BST.
 
 ### Database Multi-level Indexing
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree/Multilevel%20Indexing.png?raw=true" width="600px">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree%20&%20B+%20Tree/Multilevel%20Indexing.png?raw=true" width="600px">
 
 **=> This form of multi-level indexing leads to the use of B-tree.**
 
@@ -50,7 +50,7 @@ Compare to a pure B-tree structure:
 
 与最上方相同的B-Tree, 其B+ tree的结构如图:
 
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree/B+%20Tree%20Demo.png?raw=true">
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree%20&%20B+%20Tree/B+%20Tree%20Demo.png?raw=true">
 
 *注意: 当split内部node时, 由于我们只存储key而不存储对应的record address, 则无需再保存重复的key即可正确nagivate至正确的leaf中*
 
