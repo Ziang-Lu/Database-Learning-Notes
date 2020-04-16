@@ -70,8 +70,8 @@ def lightning_order() -> None:
         #    lock will be released.
     finally:
         # In case that the business codes may raise an exception, we should
-        # release the lock in a "finally", by deleting "lock" key.
-        # r.delete('lock')
+        # finally release the lock, by deleting "lock" key.
+        # r.delete(LOCK_KEY)
 
         # PROBLEM:
         # What if the execution time of the business codes exceeds the expire
@@ -80,8 +80,8 @@ def lightning_order() -> None:
         # business codes, and some other client is able to acquire the same
         # lock, which is unsafe.
         # => We need to set the value of the "lock" key to be unique for every
-        #    client, so that when releasing the lock, we know whether this lock has
-        #    been automatically released.
+        #    client, so that when releasing the lock, we know whether this lock
+        #    has been automatically released.
         lock_val = r.get(LOCK_KEY)
         if lock_val != client_id:
             raise Exception('Business codes timed out.')
@@ -99,7 +99,7 @@ def lightning_order_with_redlock() -> None:
         'host': 'localhost',
         'port': 6379,
         'db': 0
-    }, ])  # Stands for "distributed lock manager"
+    }])  # Stands for "distributed lock manager"
 
     lock = None
     try:
