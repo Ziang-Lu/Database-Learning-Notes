@@ -24,10 +24,13 @@ def redis_transaction() -> None:
     r.set('ziang', 500)
     r.set('mama', 300)
 
+    # Start a command queue (Similar to a transaction, but allow partial
+    # success, and cannot rollback)
     queue = r.pipeline()
     queue.decrby('ziang', 100)
     queue.incrby('mama', 100)
     try:
+        # Execute the command queue
         queue.execute()
     except Exception as ex:
         print(f'{type(ex).__name__}: {ex}')
@@ -47,11 +50,14 @@ def redis_transaction_error() -> None:
     r = redis.Redis()
     print(r.ping())
 
+    # Start a command queue (Similar to a transaction, but allow partial
+    # success, and cannot rollback)
     queue = r.pipeline()
     queue.incrby('ziang', 100)
     queue.sadd('ziang', 'rocks')  # This is correct syntax, but invalid command that doesn't work.
     # Redis cannot detect these kinds of errors, and will queue that command.
     try:
+        # Execute the command queue
         queue.execute()
     except Exception as ex:
         print(f'{type(ex).__name__}: {ex}')

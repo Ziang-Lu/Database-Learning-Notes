@@ -288,7 +288,6 @@ Full command lists:
 
   https://redis.io/commands#sorted_set
   
-  Check out `zrangebyscore_weighted_random_selection.py` for using `zrangescore` to do weighted random selection
 
 <br>
 
@@ -306,6 +305,7 @@ e.g.,
 set user:userid:5:username 'Joey'
 set user:userid:5:title 'Software Engineer'
 set user:userid:5:email 'joey@gmail.com'
+
 set user:userid:6:username 'Lily'
 ...
 ```

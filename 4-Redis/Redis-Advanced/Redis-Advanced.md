@@ -11,11 +11,9 @@ set mama 300
 multi  # Multiple commands incoming (create a command queue)
 
 # Simulate that "ziang" transfers 100 to "mama"
-decrby ziang 100
-# QUEUED
-incrby mama 100
-# QUEUED
-# From the returned messages we can know that actually the commands are actually queued, waiting to be executed as a whole.
+decrby ziang 100  # QUEUED
+incrby mama 100  # QUEUED
+# From the returned messages we know that the commands are actually queued, waiting to be executed as a whole.
 
 exec  # Execute all the queued commands
 ```
@@ -174,8 +172,6 @@ vs
 
 **AOF (Append-Only-File) Logging Data Persistence (AOF日志 数据持久化)**
 
-(Including aggregated commands on some key "inverted" => single command on that key ("一步到位"))
-
 Check out https://redis.io/topics/persistence
 
 <br>
@@ -317,7 +313,7 @@ When doing <u>full synchronization</u>, an RDB file is transmitted from the mast
   repl-dickless-sync yes  # Turn on diskless replication
   ```
 
-  Since once a transfer starts, the master cannot serve newly arriving replicas, which will be scheduled for the next transfer,
+  Since once a transfer starts, the master cannot serve newly arriving replicas, which will be scheduled for the next transfer.
 
   => We can configure the master to wait for some seconds, in order to let more replicas arrive in time, so that the master can do the transfer all at one.
 

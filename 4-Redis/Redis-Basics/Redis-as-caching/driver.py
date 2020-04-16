@@ -32,12 +32,13 @@ def simply_query() -> None:
     print(r.zrangebyscore('product_price', min=200, max=500, withscores=True))
 
 
-def main():
+if __name__ == '__main__':
     # MySQL setup
     parser = argparse.ArgumentParser(description='MySQL setup')
     parser.add_argument('-u', '--user', help='User to login', default='root')
     parser.add_argument(
-        '-p', '--password', help='Password for the user to login',
+        '-p', '--password',
+        help='Password for the user to login',
         default='password'
     )
 
@@ -45,14 +46,10 @@ def main():
     user = args.user
     pwd = args.password
 
-    mysql_setup(user, pwd)
+    # mysql_setup(user, pwd)
 
     # Redis setup
-    redis_setup()
+    redis_setup(mysql_user=user, mysql_pwd=pwd)
 
     # Do a simply query
     simply_query()
-
-
-if __name__ == '__main__':
-    main()

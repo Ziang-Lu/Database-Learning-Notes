@@ -5,44 +5,45 @@
 Redis setup module.
 """
 
+import pymysql
 import redis
 
 
-def redis_setup() -> None:
+def redis_setup(mysql_user: str, mysql_pwd: str) -> None:
     """
     Redis setup.
+    :param mysql_user: str
+    :param mysql_pwd: str
     :return: None
     """
-    r = redis.Redis()
-    print(r.ping())
+    conn = pymysql.connect(user=mysql_user, password=mysql_pwd, database='test')
 
-    # Start a transaction
-    queue = r.pipeline()
-    queue.hmset('PRODUCT:1000001', mapping={
-        'name': 'AAAA',
-        'description': 'Description of AAAA',
-        'price': 100
-    })
-    queue.hmset('PRODUCT:1000002', mapping={
-        'name': 'BBBB',
-        'description': 'Description of BBBB',
-        'price': 200
-    })
-    queue.hmset('PRODUCT:1000003', mapping={
-        'name': 'CCCC',
-        'description': 'Description of CCCC',
-        'price': 200
-    })
-    queue.hmset('PRODUCT:1000100', mapping={
-        'name': 'XXYZ',
-        'description': 'Description of XXYZ',
-        'price': 500
-    })
-    queue.execute()
+    with conn.cursor() as cursor:
+        cursor.execute('''
+        select *
+        from product
+        ''')
+        products = cursor.fetchall()
 
-    r.zadd('product_price', mapping={
-        'PRODUCT:1000001': 100,
-        'PRODUCT:1000002': 200,
-        'PRODUCT:1000003': 200,
-        'PRODUCT:1000100': 500
-    })
+        r = redis.Redis()
+        print(r.ping())
+
+        # Start a command queue (Similar to a transaction, but allow partial
+        # success, and cannot rollback)
+        queue = r.pipeline()
+        for product in products:
+            key = f'PRODUCT:{product[0]}'
+            queue.hmset(key, mapping={
+                'name': product[1],
+                'description': product[2],
+                'price': product[3]
+            })
+        # Execute the command queue
+        queue.execute()
+
+        product_prices = {
+            f'PRODUCT:{product[0]}': product[3] for product in products
+        }
+        r.zadd('product_price', mapping=product_prices)
+
+    conn.close()

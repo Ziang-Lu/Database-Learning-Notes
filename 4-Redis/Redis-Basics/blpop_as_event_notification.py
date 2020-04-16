@@ -24,29 +24,29 @@ from multiprocessing import Process
 import redis
 
 
-def set_element_processing(set_key: str, helper_indicator_list: str) -> None:
+def set_element_processing(set_key: str, indicator_list: str) -> None:
     """
     Process function to process set elements, using a helper indicator List and
     its "blpop" operation as event notification.
     :param set_key: str
-    :param helper_indicator_list: str
+    :param indicator_list: str
     :return: None
     """
     r = redis.Redis()
     print(r.ping())
 
     while True:
+        r.blpop(indicator_list)
         while r.scard(set_key) > 0:
             elem = r.spop(set_key)
             print(f'Processing {elem}...')
-        r.blpop(helper_indicator_list)
 
 
-def add_set_elements(set_key: str, helper_indicator_list: str) -> None:
+def add_set_elements(set_key: str, indicator_list: str) -> None:
     """
     Process function to add elements to set.
     :param set_key: str
-    :param helper_indicator_list: str
+    :param indicator_list: str
     :return: None
     """
     r = redis.Redis()
@@ -57,32 +57,29 @@ def add_set_elements(set_key: str, helper_indicator_list: str) -> None:
     queue.sadd(set_key, 'Judy')
     queue.sadd(set_key, 'Vance')
     queue.sadd(set_key, 'Jessie')
-    queue.lpush(helper_indicator_list, 'Notification')
+    queue.lpush(indicator_list, 'Notification')
+    # Commit the transaction
     queue.execute()
 
 
-def main():
+if __name__ == '__main__':
     set_key = 'students'
-    helper_indicator_list = 'helper_list'
+    indicator_list = 'indicator'
     p1 = Process(
-        target=set_element_processing, args=(set_key, helper_indicator_list)
+        target=set_element_processing, args=(set_key, indicator_list)
     )
     p1.start()
     time.sleep(3)
 
     for _ in range(3):
         p = Process(
-            target=add_set_elements, args=(set_key, helper_indicator_list)
+            target=add_set_elements, args=(set_key, indicator_list)
         )
         p.start()
         time.sleep(3)
 
     # Manually kill the processing process
     p1.terminate()
-
-
-if __name__ == '__main__':
-    main()
 
 # Output:
 # True

@@ -27,14 +27,13 @@ def ticket_booking_with_optimistic_locking() -> None:
 
     # "ziang" wants to book the only remaining ticket.
 
+    # Start a command queue (With a "watch", this becomes a true transaction.)
     queue = r1.pipeline()
-    # Optimistic locking mechanism
     # Watch the key "tickets"
     # => If during the further "execute()", any watched key has been changed by
     #    some other Redis client, then the entire transaction is discarded.
     queue.watch('tickets')
-    # After WATCHing, the pipeline is put into "immediate execution mode"...
-    queue.multi()  # ... until we put into "buffered mode" again.
+    queue.multi()
     queue.decrby('ziang', 100)
     queue.decr('tickets')
 
@@ -48,6 +47,7 @@ def ticket_booking_with_optimistic_locking() -> None:
     # 'tickets' -> 0 (booked)
 
     try:
+        # Execute the command queue
         queue.execute()
     except Exception as ex:
         print(f'{type(ex).__name__}: {ex}')

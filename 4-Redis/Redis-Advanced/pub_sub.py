@@ -21,17 +21,19 @@ def pub_sub_demo() -> None:
     """
     r1 = redis.Redis()
     print(r1.ping())
+
     # Create a PubSub instance for client-1
     p1 = r1.pubsub(ignore_subscribe_messages=IGNORE_SUBSCRIBE_MESSAGE)
     # Subscribe to "news" channel
     p1.subscribe('news')
 
-    # To avoid commands executing at the same time and thus ensure the commands
+    # To avoid commands executing at the same time and ensure the commands
     # order, let the program sleep 2 seconds.
     time.sleep(2)
 
     r2 = redis.Redis()
     print(r2.ping())
+
     # Create a PubSub instance for client-2
     p2 = r2.pubsub(ignore_subscribe_messages=IGNORE_SUBSCRIBE_MESSAGE)
     # Register a callback function for messages received from "news" channel
@@ -43,6 +45,7 @@ def pub_sub_demo() -> None:
 
     r3 = redis.Redis()
     print(r3.ping())
+
     # Publish some message to "news" channel
     r3.publish('news', "It's a good day!")
 
@@ -56,13 +59,13 @@ def pub_sub_demo() -> None:
     # MESSAGE HANDLER: "It's a good day!"
 
 
-def _message_handler(message: dict) -> None:
+def _message_handler(msg: dict) -> None:
     """
     Dummy message callback function.
-    :param message: dict
+    :param msg: dict
     :return: None
     """
-    print(f"MESSAGE HANDLER: {message['data']}")
+    print(f"MESSAGE HANDLER: {msg['data']}")
 
 
 if __name__ == '__main__':

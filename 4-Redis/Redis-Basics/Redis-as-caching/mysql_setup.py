@@ -5,8 +5,6 @@
 MySQL setup module.
 """
 
-import argparse
-
 import pymysql
 
 
