@@ -3,10 +3,15 @@ import common_constructs.Entry;
 import common_constructs.IndexEntry;
 import common_constructs.Node;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 public class BPlusTree extends BTreeBase {
+
+    private BPlusTreeLeaf leaf;
+    private int leafPos;
 
     /**
      * Constructor with parameter.
@@ -17,18 +22,68 @@ public class BPlusTree extends BTreeBase {
     }
 
     protected String searchHelper(Node curr, int key) {
+        locateLeafAndPos(curr, key);
+        if (leafPos >= 0) { // Found it
+            return ((IndexEntry) leaf.getEntry(leafPos)).getRecordAddress();
+        } else { // Not found
+            return null;
+        }
+    }
+
+    /**
+     * Helper method to locate the given key in the given subtree recursively.
+     * @param curr current not
+     * @param key key to search for
+     */
+    private void locateLeafAndPos(Node curr, int key) {
         int pos = curr.findInsertPos(key);
         if (curr.isLeaf()) { // Leaf
-            if (pos >= 0) { // Found it
-                return ((IndexEntry) curr.getEntry(pos)).getRecordAddress();
-            } else { // Not found
-                return null;
-            }
+            leaf = (BPlusTreeLeaf) curr;
+            leafPos = pos;
+            return;
         }
         // Non-leaf
         // Go to the appropriate child
-        int insertPos = -pos - 1;
-        return searchHelper(curr.getChild(insertPos), key);
+        locateLeafAndPos(curr.getChild(pos), key);
+    }
+
+    /**
+     * Searches for the given range of keys in this B+ tree, and returns the
+     * associated record addresses if found.
+     * @param fromKey key lower bound (inclusive)
+     * @param toKey key upper bound (inclusive)
+     * @return list of associated record addresses
+     */
+    public List<String> rangeSearch(int fromKey, int toKey) {
+        if (fromKey > toKey) {
+            throw new IllegalArgumentException("fromKey must be <= toKey");
+        }
+
+        if (root == null) {
+            return new ArrayList<>();
+        }
+
+        // 1. Find the fromKey
+        locateLeafAndPos(root, fromKey);
+        // 2. Use the fact that all the leaves are connect, simply do a linear scan along the leaves (and thus the
+        //    keys), find all the keys within the given range
+        BPlusTreeLeaf leafPtr = leaf;
+        int posPtr = leafPos;
+        List<String> result = new ArrayList<>();
+        while (leafPtr != null) {
+            if (posPtr < leafPtr.size()) {
+                IndexEntry entry = (IndexEntry) leafPtr.getEntry(posPtr);
+                if (entry.getKey() > toKey) {
+                    break;
+                }
+                result.add(entry.getRecordAddress());
+                ++posPtr;
+            } else {
+                leafPtr = leafPtr.next;
+                posPtr = 0;
+            }
+        }
+        return result;
     }
 
     @Override

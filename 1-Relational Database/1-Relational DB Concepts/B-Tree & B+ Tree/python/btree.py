@@ -14,6 +14,7 @@ from common_constructs import Node
 
 
 class BTree(BTreeBase):
+    __slots__ = []
 
     def __init__(self, order: int):
         """
