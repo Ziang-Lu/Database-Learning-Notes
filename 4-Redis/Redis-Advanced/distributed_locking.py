@@ -13,10 +13,13 @@ We can use Redis's single-threaded feature to
    => Works for high-concurrent scenarios
 """
 
+import time
+
 import redis
 from redlock import MultipleRedlockException, Redlock
 
 LOCK_KEY = 'lock'
+BUSINESS_RUNTIME = 30  # in seconds
 
 
 def set_up() -> None:
@@ -29,9 +32,10 @@ def set_up() -> None:
     r.set('stock', 10)
 
 
-def lightning_order() -> None:
+def lightning_order(wait_interval: int) -> None:
     """
     Lightning order.
+    :param wait_interval: int
     :return: None
     """
     r = redis.Redis()
@@ -43,12 +47,13 @@ def lightning_order() -> None:
     client_id = r.client_id()
     result = r.setnx(LOCK_KEY, client_id)
     while not result:  # If not acquiring the lock, block here
+        time.sleep(wait_interval)
         result = r.setnx(LOCK_KEY, client_id)
 
     # Acquired the lock
     # => We need to set an expire time for "lock", so that eventually this lock
     #    will be released.
-    r.expire(LOCK_KEY, 30)
+    r.expire(LOCK_KEY, BUSINESS_RUNTIME)
     # But how do we set the expire time?
     # => Estimate the execution time of the business codes, and set the expire
     #    time to be longer than it, so make sure the client who acquired the
@@ -99,12 +104,12 @@ def lightning_order_with_redlock() -> None:
         'host': 'localhost',
         'port': 6379,
         'db': 0
-    }])  # Stands for "distributed lock manager"
+    },])  # Stands for "distributed lock manager"
 
     lock = None
     try:
         # Try to acquire the lock
-        lock = dlm.lock(LOCK_KEY, 30000)  # If not acquiring the lock, block here
+        lock = dlm.lock(LOCK_KEY, BUSINESS_RUNTIME * 1000)  # If not acquiring the lock, block here
         # Business codes
         remaining = int(r.get('stock'))
         if remaining > 0:

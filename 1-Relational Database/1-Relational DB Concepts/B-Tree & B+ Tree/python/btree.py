@@ -23,7 +23,7 @@ class BTree(BTreeBase):
         """
         super().__init__(order)
 
-    def _search_helper(self, curr: Node, key: int) -> Optional[str]:
+    def _search_helper(self, curr: Node, key: Any) -> Optional[str]:
         pos = curr.find_insert_pos(key)
         if pos < curr.size() and key == curr.get_entry(pos).key:  # Found it
             return curr.get_entry(pos).record_address

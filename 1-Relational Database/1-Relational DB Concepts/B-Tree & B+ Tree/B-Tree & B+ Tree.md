@@ -39,6 +39,8 @@ Compare to a pure B-tree structure:
 * **Keys in a node <=> Primary keys of the table to create an index on**
 * **For each key, store the corresponding table record address associated with it**
 
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree%20&%20B+%20Tree/B-Tree%20Multilevel%20Indexing.png?raw=true">
+
 <br>
 
 ## B+ Tree

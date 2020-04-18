@@ -7,7 +7,7 @@ A very simple B+ tree implementation.
 
 __author__ = 'Ziang Lu'
 
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 from btree_base import BTreeBase
 from common_constructs import BPlusTreeLeaf, Entry, Node
@@ -23,7 +23,7 @@ class BPlusTree(BTreeBase):
         """
         super().__init__(order)
 
-    def _search_helper(self, curr: Node, key: int) -> Optional[str]:
+    def _search_helper(self, curr: Node, key: Any) -> Optional[str]:
         leaf, pos = self._locate_leaf_and_pos(curr, key)
         if pos < leaf.size() and key == leaf.get_entry(pos).key:  # Found it
             return leaf.get_entry(pos).record_address
@@ -31,11 +31,11 @@ class BPlusTree(BTreeBase):
             return None
 
     def _locate_leaf_and_pos(self, curr: Node,
-                             key: int) -> Tuple[BPlusTreeLeaf, int]:
+                             key: Any) -> Tuple[BPlusTreeLeaf, int]:
         """
         Helper method to locate the given key in the given subtree recursively.
         :param curr: Node
-        :param key: int
+        :param key: Any
         :return: BPlusTreeLeaf, int
         """
         pos = curr.find_insert_pos(key)
@@ -45,12 +45,12 @@ class BPlusTree(BTreeBase):
         # Go to the appropriate child
         return self._locate_leaf_and_pos(curr.get_child(pos), key)
 
-    def range_search(self, from_key: int, to_key: int) -> List[str]:
+    def range_search(self, from_key: Any, to_key: Any) -> List[str]:
         """
         Searches for the given range of keys in this B+ tree, and returns the
         associated record addresses if found.
-        :param from_key: int
-        :param to_key: int:
+        :param from_key: Any
+        :param to_key: Any
         :return: list[str]
         """
         if from_key > to_key:

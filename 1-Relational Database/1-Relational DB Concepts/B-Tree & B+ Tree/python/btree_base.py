@@ -4,7 +4,7 @@
 __author__ = 'Ziang Lu'
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from common_constructs import IndexEntry, Node
 
@@ -20,11 +20,11 @@ class BTreeBase(ABC):
         self._ORDER = order
         self._root = None
 
-    def search(self, key: int) -> Optional[str]:
+    def search(self, key: Any) -> Optional[str]:
         """
         Searches for the given key in this B-tree, and returns the associated
         record address if found.
-        :param key: int
+        :param key: Any
         :return: str or None
         """
         if not self._root:
@@ -32,20 +32,20 @@ class BTreeBase(ABC):
         return self._search_helper(self._root, key)
 
     @abstractmethod
-    def _search_helper(self, curr: Node, key: int) -> Optional[str]:
+    def _search_helper(self, curr: Node, key: Any) -> Optional[str]:
         """
         Private helper method to search for the given key in the given subtree
         recursively.
         :param curr: Node
-        :param key: int
+        :param key: Any
         :return: str or None
         """
         pass
 
-    def insert(self, key: int, record_address: str) -> None:
+    def insert(self, key: Any, record_address: str) -> None:
         """
         Inserts the given key-record mapping to the B-tree.
-        :param key: int
+        :param key: Any
         :param record_address: str
         :return: None
         """
@@ -62,7 +62,7 @@ class BTreeBase(ABC):
     def _insert_helper(
                 self,
                 curr: Node,
-                key: int,
+                key: Any,
                 record_address: str,
                 path: List[Node],
                 past_insert_positions: List[int]
@@ -71,7 +71,7 @@ class BTreeBase(ABC):
         Private helper method to insert the given key-record mapping to the
         given subtree recursively.
         :param curr: Node
-        :param key: int
+        :param key: Any
         :param record_address: str
         :param path: list[Node]
         :param past_insert_positions: list[int]

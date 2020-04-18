@@ -1,10 +1,14 @@
 #!usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Common constructs for B-tree and B+ tree.
+"""
+
 __author__ = 'Ziang Lu'
 
 from bisect import bisect_left
-from typing import List, Optional
+from typing import Any, List, Optional
 
 
 class Entry:
@@ -14,18 +18,18 @@ class Entry:
     """
     __slots__ = ['_key']
 
-    def __init__(self, key: int):
+    def __init__(self, key: Any):
         """
         Constructor with parameter.
-        :param key: int
+        :param key: Any
         """
         self._key = key
 
     @property
-    def key(self) -> int:
+    def key(self) -> Any:
         """
         Accessor of key.
-        :return: int
+        :return: Any
         """
         return self._key
 
@@ -119,10 +123,10 @@ class Node:
         """
         return self._size > self.capacity()
 
-    def find_insert_pos(self, key: int) -> int:
+    def find_insert_pos(self, key: Any) -> int:
         """
         Finds the insert position for the given key, using binary search.
-        :param key: int
+        :param key: Any
         :return: int
         """
         return bisect_left(
@@ -159,10 +163,10 @@ class IndexEntry(Entry):
     """
     __slots__ = ['_record_address']
 
-    def __init__(self, key: int, record_address: Optional[str]):
+    def __init__(self, key: Any, record_address: Optional[str]):
         """
         Constructor with parameter.
-        :param key: int
+        :param key: Any
         :param record_address: str or None
         """
         super().__init__(key)
