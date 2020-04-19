@@ -104,7 +104,7 @@ def lightning_order_with_redlock() -> None:
         'host': 'localhost',
         'port': 6379,
         'db': 0
-    },])  # Stands for "distributed lock manager"
+    }, ])  # Stands for "distributed lock manager"
 
     lock = None
     try:
