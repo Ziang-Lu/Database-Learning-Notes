@@ -62,6 +62,18 @@ PK <u>cannot be null</u>.
 
 ***
 
+**Index (索引)**
+
+**-> 用来快速检索数据**
+
+实现 (B-tree & B+ tree) 见:
+
+* Brif introduction: https://mp.weixin.qq.com/s/cOdvz3SPltNQsm-C2Cyd0A
+
+* Implementation: https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree%20%26%20B%2B%20Tree/B-Tree%20%26%20B%2B%20Tree.md
+
+***
+
 **Foreign Key (FK) (外部键)**
 
 **A column or a set of columns that <u>identify a row in another table</u>** (refer to the PK in another table)
@@ -132,6 +144,5 @@ Note that the <u>addresses actually describes locations, rather than particular 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/comm_with_relational_DB.png?raw=true" width="600px">
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/comm_with_relational_DB_impl.png?raw=true" width="600px">
-
 
 

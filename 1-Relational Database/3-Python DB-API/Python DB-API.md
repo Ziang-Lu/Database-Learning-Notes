@@ -16,23 +16,7 @@ e.g., Python DB-API specifies <u>which functions you should call</u> to connect 
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/python_db-api_workflow.png?raw=true" width="600px">
 
-**Whenever we make changes to a DB, these changes will go into a <u>transaction</u>, and it will take effect only when we call `conn.commit()` method.**
-
-=> **"Atomicity": A transaction happens as a whole, or not at all.**
-
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_1.png?raw=true" width="500px">
-
-=> If we close a connection or the code crashes without committing the changes, the changes will be <u>rolled back</u>.
-
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/transaction_2.png?raw=true" width="500px">
-
-*Note:*
-
-*During the execution of the SQL statements within a transaction, these changes are still VISIBLE to the developer.*
-
-*i.e., If we do `select` within a transaction, we can still see the changes we made.*
-
-*But they are just not committed and not updated to the DB server.*
+**Whenever we make changes to a DB, these changes will go into a transaction, and it will take effect only when we call `conn.commit()` method.**
 
 <br>
 
@@ -44,8 +28,6 @@ The following Python modules <u>all follow Python DB-API</u>.
 | :------------------: | :----------------------------------------------------------: |
 |        MySQL         | <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/2-MySQL/mysql-connector_demo.py">`mysql.connector-python`</a><br/><a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/2-MySQL/pymysql_demo.py">`PyMySQL`</a> |
 |      PostgreSQL      | <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/3-PostgreSQL/psycopg2_demo.py">`psycopg2`</a> |
-
-***
 
 *Check out the corresponding demo program for detailed usage*
 

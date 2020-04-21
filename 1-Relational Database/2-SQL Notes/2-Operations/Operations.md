@@ -2,7 +2,7 @@
 
 ## 0. Operations on DB
 
-```sql
+```mysql
 create database test;
 ```
 
@@ -14,7 +14,7 @@ show databases;
 
 To delete the DB, use the following command:
 
-```sql
+```mysql
 drop database test;
 ```
 
@@ -34,11 +34,9 @@ drop database test;
 
 - `not null`
 
-  Check out the coding examples
-
 - `check`
 
-  ```sql
+  ```mysql
   create table users (
       id integer primary key,
       username varchar(100) not null unique,
@@ -48,13 +46,9 @@ drop database test;
 
 - `unique`
 
-  Check out the coding examples
-
 - `primary key`
 
   - A combination of `not null` and `unique`
-
-  Check out the coding examples
 
 - `autoincrement`
 
@@ -83,21 +77,32 @@ drop database test;
   ***
 
 - `foreign key`
+  
   - By using `foreign key` constraints, we establish links between tables.
-  - Using `foreign key` constraint prevents actions that would break these links
-
-  Check out the coding examples
+- Using `foreign key` constraint prevents actions that would break these links
+  
 
 <br>
 
-#### (2) Creating Temporary Table (临时表)
+#### (2) Creating Index on Table
+
+```mysql
+create index index_name
+on table_name (column_name);
+```
+
+<br>
+
+***
+
+#### Temporary Table (临时表)
 
 Temporary table:
 
 - Creating faster than a real, permanent table
 - Deleted when the current client session is terminated
 
-```sql
+```mysql
 -- Create a temporary table containing all the sandals
 create temporary table sandals as
     select *
@@ -107,102 +112,101 @@ create temporary table sandals as
 
 *(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
 
-<br>
+***
 
-#### (3) Creating View
+#### View (视图)
 
 View: A ~ is a <u>virtual table (illusion) based on the result-set of an SQL statement</u>.
 
-```sql
--- Create a view containing all the customers from Brazil
-create view brazil_customers as
-    select customer_name, contact_name
-    from customers
-    where country = 'Brazil';
-```
+* Creation
 
-*(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
+  ```mysql
+  -- Create a view containing all the customers from Brazil
+  create view brazil_customers as
+      select customer_name, contact_name
+      from customers
+      where country = 'Brazil';
+  ```
 
-<u>但是与temporary table不同的是, view本质上并没有写数据: 因此对于没有write权限的DB, 用view是更方便的.</u>
+  *(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
+
+  <u>但是与temporary table不同的是, view本质上并没有写数据: 因此对于没有write权限的DB, 用view是更方便的.</u>
+
+* Update
+
+  ```mysql
+  -- Update the "brazil_customers" view by adding a "City" column to it
+  create or replace view brazil_customers as
+      select customer_name, contact_name, city
+      from customers
+      where country = 'Brazil';
+  ```
+
+* Deletion
+
+  ```mysql
+  drop view brazil_customers;
+  ```
+
+***
 
 <br>
 
-#### (4) Altering Existing Table Itself
+#### (3) Altering Existing Table Itself
 
 Add, modify, or delete columns of an existing table
 
 - Rename table
 
-  ```sql
+  ```mysql
   alter table customers rename to my_customers;
   ```
 
 - Rename column
 
-  ```sql
+  ```mysql
   alter table customers rename name to fullname;
   ```
 
 - Add column
 
-  ```sql
+  ```mysql
   alter table customers
   add email /* column_name */ varchar(255) /* data_type */;
   ```
 
-- Delete column   (*Only in MySQL and PostgreSQL*)
+- Delete column
 
   ```mysql
   alter table customers
   drop email /* column_name */;
   ```
 
-
 <br>
 
-#### (5) Updating View   (*Only in MySQL & PostgreSQL*)
+#### (4) Deleting Table
 
 ```mysql
--- Update the "brazil_customers" view by adding a "City" column to it
-create or replace view brazil_customers as
-    select customer_name, contact_name, city
-    from customers
-    where country = 'Brazil';
-```
-
-<br>
-
-#### (6) Deleting Table
-
-```sql
 drop table scores;  -- Delete all the information stored in the table, and then delete the table
 ```
 
-```sql
+```mysql
 truncate table scores;  -- Delete all the information stored (including the headers) in the table, but not table itself
 ```
 
 <br>
 
-#### (7) Deleting View
-
-```sql
-drop view brazil_customers;
-```
-
-<br>
-
-### 1. Fetching Data from DB
+## 1. Fetching Data from DB
 
 #### (1) Retrieving & Filtering
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_where.png?raw=true" width="600px">
 
-```sql
+```mysql
 select name, birthdate
 from animals
 where species = 'gorilla'
-	and name = 'Max';
+    and name = 'Max';
 ```
 
 Note that <u>`where` applies before any aggregation</u>
@@ -213,7 +217,7 @@ Note that <u>`where` applies before any aggregation</u>
 
 Select a value from a selection of values:
 
-```sql
+```mysql
 select name, birthdate
 from animals
 where species in ('gorilla', 'llama', 'orangutan');
@@ -221,7 +225,7 @@ where species in ('gorilla', 'llama', 'orangutan');
 
 Use `not in` to exclude a selection of values:
 
-```sql
+```mysql
 select name, birthdate
 from animals
 where species not in ('gorilla', 'llama', 'orangutan');
@@ -233,7 +237,7 @@ where species not in ('gorilla', 'llama', 'orangutan');
 
 Select a value from a <u>range</u> of values (inclusive):
 
-```sql
+```mysql
 select name, species
 from animals
 where birthdate between '1993-07-31' and '1993-10-05';
@@ -242,7 +246,7 @@ where birthdate between '1993-07-31' and '1993-10-05';
 
 Use `not between` to exclude a range of values (exclusive):
 
-```sql
+```mysql
 select name, species
 from animals
 where birthdate not between '1993-07-31' and '1993-10-05';
@@ -255,7 +259,7 @@ where birthdate not between '1993-07-31' and '1993-10-05';
 
 Select only `null` values:
 
-```sql
+```mysql
 select name, species
 from animals
 where birthdate is null;
@@ -263,7 +267,7 @@ where birthdate is null;
 
 Use `is not null` to select only non-null values:
 
-```sql
+```mysql
 select name, species
 from animals
 where birthdate is not null;
@@ -280,7 +284,7 @@ Wildcards
 - `%` represents any number of characters
 - `_` represents a single character
 
-```sql
+```mysql
 select name, birthdate
 from animals
 where species like '_r%';
@@ -289,7 +293,7 @@ where species like '_r%';
 
 Use `not like` to exclude values that follow a pattern:
 
-```sql
+```mysql
 select name, birthdate
 from animals
 where species not like '_r%';
@@ -300,7 +304,7 @@ where species not like '_r%';
 
 Note:
 
-```sql
+```mysql
 select name, birthdate
 from animals
 where species = 'gorilla'
@@ -320,7 +324,7 @@ limit 5 offset 3;
 - Mimics the `if-then-else` scheme in most programming languages
 - Do different processing based on some condition
 
-```sql
+```mysql
 -- Add a corresponding description according to the "quantity" field
 select order_id, quantity,
     (case
@@ -331,7 +335,7 @@ select order_id, quantity,
 from order_details;
 ```
 
-```sql
+```mysql
 -- Classify the tracks by size
 select track_id, name, bytes,
     (case
@@ -359,7 +363,7 @@ from tracks;
 
   - For each distinct species, find how many animals are there?
 
-    ```sql
+    ```mysql
     select species, count(*) as num
     from animals
     group by species
@@ -370,7 +374,7 @@ from tracks;
 
     <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_group-by.png?raw=true" width="600px">
 
-    ```sql
+    ```mysql
     select name, count(*) as num
     from animals
     group by name;
@@ -385,28 +389,28 @@ from tracks;
 
 - `sum`
 
-  ```sql
+  ```mysql
   select sum(unit_price) as total_prod_price
   from products;
   ```
 
 - `avg`
 
-  ```sql
+  ```mysql
   select avg(unit_price) as avg_price
   from products;
   ```
 
 - `max`
 
-  ```sql
+  ```mysql
   select max(name) as max_name
   from animals;
   ```
 
 - `min`
 
-  ```sql
+  ```mysql
   select species, min(birthdate)
   from animals
   group by species
@@ -428,7 +432,7 @@ from tracks;
 
 Works <u>similar to `where`</u> clause, but <u>after any aggregation</u>
 
-```sql
+```mysql
 select customer_id, count(*) as customer_orders
 from orders
 group by customer_id
@@ -445,7 +449,7 @@ having customer_orders >= 2;
 
 <u>Question: Need to know the region of each customer who ever had an order with freight > 100</u>
 
-```sql
+```mysql
 -- Step 1: Select all the customers who ever had an order with freight > 100
 select distinct customer_id
 from orders
@@ -470,7 +474,7 @@ where customer_id in (
 
 <u>Question: What is the total number of orders placed by each customer?</u>
 
-```sql
+```mysql
 -- Count the total number of orders placed by a particular customer
 select count(*)
 from orders
@@ -499,7 +503,7 @@ order by customer_name;
 
 Running the following `join` query results in the table on the left:
 
-```sql
+```mysql
 select animals.name, animals.species, diet.food
 from animals join diet
 on animals.species = diet.species
@@ -516,7 +520,7 @@ The whole process is explained by the following diagram:
 
 Simplified version:
 
-```sql
+```mysql
 select animals.name, animals.species, diet.food
 from animals, diet
 where animals.species = diet.species;
@@ -534,7 +538,7 @@ where animals.species = diet.species;
 
   => Very <u>computationally taxing</u>, and potentially generates <u>a very large result set</u>!
 
-  ```sql
+  ```mysql
   select products.product_name, products.unit_price, suppliers.supplier_name
   from suppliers cross join products;
   ```
@@ -549,7 +553,7 @@ where animals.species = diet.species;
 
   - 是`join`的默认形式, 即上面的
 
-    ```sql
+    ```mysql
     select animals.name, animals.species, diet.food
     from animals join diet
     on animals.species = diet.species
@@ -560,7 +564,7 @@ where animals.species = diet.species;
 
   `inner join` three tables:
 
-  ```sql
+  ```mysql
   select order.order_id, customers.customer_name, shippers.shipper_name
   from orders
   join customers on orders.customer_id = customers.customer_id
@@ -575,7 +579,7 @@ where animals.species = diet.species;
 
   `from left_table left join right table` or `from left_table, right_table`
 
-  ```sql
+  ```mysql
   select customers.customer_name, orders.order_id
   from customers left join orders
   on cutomers.customer_id = orders.customer_id
@@ -588,7 +592,7 @@ where animals.species = diet.species;
 
   *与left (outer) join是完全对称的*
 
-  ```sql
+  ```mysql
   select orders.order_id, employees.last_name, employees.first_name
   from orders right join employees
   on orders.employee_id = employees.employee_id
@@ -601,7 +605,7 @@ where animals.species = diet.species;
 
   *本质上是一个left (outer) join再补上right table中的剩余部分*
 
-  ```sql
+  ```mysql
   select customers.curstomer_name, orders.order_id
   from customers full outer join orders
   on customers.customer_id = orders.customer_id
@@ -614,7 +618,7 @@ where animals.species = diet.species;
 
 <br>
 
-### 2. Inserting Data to Table
+## 2. Inserting Data to Table
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/insert-into_values.png?raw=true" width="600px">
 
@@ -622,31 +626,31 @@ A single `insert` statement can only <u>insert rows into a single table</u>.
 
 <br>
 
-### 3. Updating Data to Table
+## 3. Updating Data to Table
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/update.png?raw=true" width="500px">
 
-```sql
+```mysql
 update customers
 set contact_name = 'Aflred Schmidt',
-	city = 'Frankfurt'
+    city = 'Frankfurt'
 where customer_id = 1;
 ```
 
 <br>
 
-### 4. Deleting Data in Table
+## 4. Deleting Data in Table
 
 **在实际设计DB时, 应该只使用逻辑删除 (把对应record的`is_del`设置为`true`), 而不使用物理删除 (即实际删除掉对应record)**
 
-```sql
+```mysql
 delete from customers
 where customer_name = 'Alfred Futterkiste';
 ```
 
 Note that
 
-```sql
+```mysql
 delete from customers; -- Delete all the information (not including the headers) stored in the table, but not table itself
 ```
 
