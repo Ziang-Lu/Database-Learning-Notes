@@ -43,15 +43,18 @@ from typing import List
 import redis
 
 SELECTED_DB = 2
-N_USER = 5000000
 
 
-def new_day(day: str) -> None:
+def simulate_one_day(day: str) -> None:
     """
-    Initializes a bitmap for the given day.
+    Initializes a bitmap for the given day, and simulates user logins.
     :param day: str
     :return: None
     """
+    N_USER = 5000000
+    N_LOGIN_PER_DAY_MIN = 100000
+    N_LOGIN_PER_DAY_MAX = 200000
+
     # Connect to the selected Redis DB
     r = redis.Redis(db=SELECTED_DB)
     # r provies a Python interface to all Redis commands
@@ -60,19 +63,6 @@ def new_day(day: str) -> None:
     # Create a long-enough bitmap for the given day, where each offset (bit)
     # represents a user
     r.setbit(day, N_USER, 0)
-
-
-def simulate_one_day(day: str) -> None:
-    """
-    Simulates user logins for the given day.
-    :param day: str
-    :return: None
-    """
-    N_LOGIN_PER_DAY_MIN = 100000
-    N_LOGIN_PER_DAY_MAX = 200000
-
-    r = redis.Redis(db=SELECTED_DB)
-    print(r.ping())
 
     for _ in range(random.randint(N_LOGIN_PER_DAY_MIN, N_LOGIN_PER_DAY_MAX)):
         r.setbit(day, random.randint(0, N_USER), 1)
@@ -95,6 +85,6 @@ def find_active_users(days: List[str]) -> None:
 if __name__ == '__main__':
     days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
     for day in days:
-        new_day(day)
         simulate_one_day(day)
+
     find_active_users(days)

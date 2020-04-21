@@ -9,14 +9,18 @@ import pymysql
 import redis
 
 
-def redis_setup(mysql_user: str, mysql_pwd: str) -> None:
+def redis_setup(mysql_user: str, mysql_pwd: str, mysql_db: str='test') -> None:
     """
-    Redis setup.
+    Redis reads from the actual database (MySQL), and stores the corresponding
+    information as cache.
     :param mysql_user: str
     :param mysql_pwd: str
+    :param msql_db: str
     :return: None
     """
-    conn = pymysql.connect(user=mysql_user, password=mysql_pwd, database='test')
+    conn = pymysql.connect(
+        user=mysql_user, password=mysql_pwd, database=mysql_db
+    )
 
     with conn.cursor() as cursor:
         cursor.execute('''
@@ -26,7 +30,7 @@ def redis_setup(mysql_user: str, mysql_pwd: str) -> None:
         products = cursor.fetchall()
 
         r = redis.Redis()
-        print(r.ping())
+        print(f'Cache storage connected to Redis? {r.ping()}')
 
         # Start a command queue (Similar to a transaction, but allow partial
         # success, and cannot rollback)

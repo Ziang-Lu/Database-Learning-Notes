@@ -20,7 +20,7 @@ def pub_sub_demo() -> None:
     :return: None
     """
     r1 = redis.Redis()
-    print(r1.ping())
+    print(f'Session-1 connected to Redis? {r1.ping()}')
 
     # Create a PubSub instance for client-1
     p1 = r1.pubsub(ignore_subscribe_messages=IGNORE_SUBSCRIBE_MESSAGE)
@@ -32,7 +32,7 @@ def pub_sub_demo() -> None:
     time.sleep(2)
 
     r2 = redis.Redis()
-    print(r2.ping())
+    print(f'Session-2 connected to Redis? {r2.ping()}')
 
     # Create a PubSub instance for client-2
     p2 = r2.pubsub(ignore_subscribe_messages=IGNORE_SUBSCRIBE_MESSAGE)
@@ -44,7 +44,7 @@ def pub_sub_demo() -> None:
     time.sleep(2)
 
     r3 = redis.Redis()
-    print(r3.ping())
+    print(f'Session-3 connected to Redis? {r3.ping()}')
 
     # Publish some message to "news" channel
     r3.publish('news', "It's a good day!")

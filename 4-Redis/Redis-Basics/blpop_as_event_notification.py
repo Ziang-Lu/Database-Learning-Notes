@@ -24,7 +24,8 @@ from multiprocessing import Process
 import redis
 
 
-def set_element_processing(set_key: str, indicator_list: str) -> None:
+def set_element_processing(name: str, set_key: str,
+                           indicator_list: str) -> None:
     """
     Process function to process set elements, using a helper indicator List and
     its "blpop" operation as event notification.
@@ -33,7 +34,7 @@ def set_element_processing(set_key: str, indicator_list: str) -> None:
     :return: None
     """
     r = redis.Redis()
-    print(r.ping())
+    print(f'{name} to Redis? {r.ping()}')
 
     while True:
         r.blpop(indicator_list)
@@ -42,7 +43,7 @@ def set_element_processing(set_key: str, indicator_list: str) -> None:
             print(f'Processing {elem}...')
 
 
-def add_set_elements(set_key: str, indicator_list: str) -> None:
+def add_set_elements(name: str, set_key: str, indicator_list: str) -> None:
     """
     Process function to add elements to set.
     :param set_key: str
@@ -50,7 +51,7 @@ def add_set_elements(set_key: str, indicator_list: str) -> None:
     :return: None
     """
     r = redis.Redis()
-    print(r.ping())
+    print(f'{name} connected to Redis? {r.ping()}')
 
     # Start a transaction
     queue = r.pipeline()
@@ -66,32 +67,19 @@ if __name__ == '__main__':
     set_key = 'students'
     indicator_list = 'indicator'
     p1 = Process(
-        target=set_element_processing, args=(set_key, indicator_list)
+        target=set_element_processing,
+        args=('Consumer', set_key, indicator_list)
     )
     p1.start()
     time.sleep(3)
 
-    for _ in range(3):
+    for i in range(3):
         p = Process(
-            target=add_set_elements, args=(set_key, indicator_list)
+            target=add_set_elements,
+            args=(f'Producer-{i + 1}', set_key, indicator_list)
         )
         p.start()
         time.sleep(3)
 
     # Manually kill the processing process
     p1.terminate()
-
-# Output:
-# True
-# True
-# Processing b'Jessie'...
-# Processing b'Judy'...
-# Processing b'Vance'...
-# True
-# Processing b'Judy'...
-# Processing b'Jessie'...
-# Processing b'Vance'...
-# True
-# Processing b'Vance'...
-# Processing b'Judy'...
-# Processing b'Jessie'...

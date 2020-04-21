@@ -8,16 +8,18 @@ MySQL setup module.
 import pymysql
 
 
-def mysql_setup(user: str, pwd: str) -> None:
+def mysql_setup(user: str, pwd: str, db: str='test') -> None:
     """
     MySQL setup.
     :param user: str
     :param pwd: str
+    :param db: str
     :return: None
     """
-    conn = pymysql.connect(user=user, password=pwd, database='test')
+    conn = pymysql.connect(user=user, password=pwd, database=db)
 
     with conn.cursor() as cursor:
+        # Create the table
         cursor.execute('''
         create table product (
             id integer primary key,
@@ -28,6 +30,7 @@ def mysql_setup(user: str, pwd: str) -> None:
         ''')
         conn.commit()
 
+        # Insert some data
         cursor.execute('''
         insert into product (id, name, description, price)
         values

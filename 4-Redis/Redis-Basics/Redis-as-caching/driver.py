@@ -20,16 +20,19 @@ from mysql_setup import mysql_setup
 from redis_setup import redis_setup
 
 
-def simply_query() -> None:
+def query_products_between(min_price: int, max_price: int) -> None:
     """
-    Simple query.
+    Simple query to get all the products with price between the given range.
+    Rather than directly querying from the actual database (MySQL), query from
+    cache (Redis).
     :return: None
     """
     r = redis.Redis()
-    print(r.ping())
+    print(f'Query connected to Redis (cache)? {r.ping()}')
 
-    # Get all the products with price between [200, 500]
-    print(r.zrangebyscore('product_price', min=200, max=500, withscores=True))
+    print(r.zrangebyscore(
+        'product_price', min=min_price, max=max_price, withscores=True
+    ))
 
 
 if __name__ == '__main__':
@@ -46,10 +49,10 @@ if __name__ == '__main__':
     user = args.user
     pwd = args.password
 
-    # mysql_setup(user, pwd)
+    mysql_setup(user, pwd)
 
     # Redis setup
     redis_setup(mysql_user=user, mysql_pwd=pwd)
 
     # Do a simply query
-    simply_query()
+    query_products_between(min_price=200, max_price=500)
