@@ -8,7 +8,11 @@
 
   一个事务是一个不可分割的工作单位: 一个事务中包括的操作要么都成功, 要么都不成功.
 
+  成功:
+
   <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/3-Transaction%20&%20Concurrency%20Control/transaction_1.png?raw=true">
+
+  失败:
 
   <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/3-Transaction%20&%20Concurrency%20Control/transaction_2.png?raw=true">
 
