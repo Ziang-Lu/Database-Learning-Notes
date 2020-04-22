@@ -56,7 +56,7 @@ Check out `redis_transaction.py`
 
 <br>
 
-### Redis Transaction - (Optimistic) Locking Mechanism
+### Redis Transaction
 
 #### Scenario: Ticket-booking (But before `exec`, interfered by some other client)
 
@@ -102,7 +102,21 @@ get ziang tickets
 
 We can see that the `ticket` now becomes `-1`, so the booking becomes invalid.
 
-#### Solution: Redis (Optimistic) Locking Mechanism
+#### Solution: Redis Optimistic Locking Mechanism
+
+***
+
+关于"乐观锁", 详见: https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/3-Transaction%20%26%20Concurrency%20Control/Transaction%20%26%20Concurrency%20Control.md
+
+简单来讲, 乐观锁 认为: 事务并发不频繁, 冲突不频繁
+
+所以, 可以放心大胆地just do it, 如果`commit`时没有冲突, 即可`commit`成功, 否则失败
+
+***
+
+使用`watch`语句, `watch`一些key/entry, 即可变成一个"乐观锁"机制:
+
+即如果之后的`exec`执行时, 所有被`watch`的key未被其他client更改, 则整个transaction提交成功; 若有任何一个被`watch`的key被其他client更改了, 则整个transaction提交失败
 
 ```bash
 watch tickets  # Watch the key "tickets" => If during the further "exec", any watched key has been changed by some other Redis client, then the entire transaction is discarded.

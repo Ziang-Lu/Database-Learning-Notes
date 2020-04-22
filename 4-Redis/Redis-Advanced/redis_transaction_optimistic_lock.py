@@ -14,7 +14,7 @@ __author__ = 'Ziang Lu'
 import redis
 
 
-def ticket_booking_with_optimistic_locking() -> None:
+def ticket_booking_with_optimistic_lock() -> None:
     """
     Ticket-booking with optimistic locking mechanism.
     :return: None
@@ -60,4 +60,4 @@ def ticket_booking_with_optimistic_locking() -> None:
 
 
 if __name__ == '__main__':
-    ticket_booking_with_optimistic_locking()
+    ticket_booking_with_optimistic_lock()
