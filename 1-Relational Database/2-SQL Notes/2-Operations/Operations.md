@@ -654,24 +654,4 @@ Note that
 delete from customers; -- Delete all the information (not including the headers) stored in the table, but not table itself
 ```
 
-<br>
-
-***
-
-### Transaction
-
-*MySQL and PostgreSQL:*
-
-```mysql
-begin;  -- Start a transaction
--- Some SQL changes
--- Note that during the execution of these SQL changes, these changes are still VISIBLE to the developer.
--- i.e., If we do "select" within a transaction, we can still see the changes we made.
--- But they are just not committed and not updated to the DB server.
-commit;  -- Commit the transaction, updating the DB with the above changes
-
-rollback;  -- Rollback to the last commit, aborting all the changes since then
-```
-
-***
 
