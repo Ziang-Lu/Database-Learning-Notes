@@ -45,6 +45,7 @@ def naive_distributed_lock(wait_interval: int, business_runtime: int):
 
     r.expire(LOCK_KEY, business_runtime)
 
+    # Acquired the lock
     try:
         yield r  # Business codes
     finally:
@@ -54,28 +55,28 @@ def naive_distributed_lock(wait_interval: int, business_runtime: int):
         r.delete(LOCK_KEY)
 
 
-def lightning_order(waiting_interval: int, business_runtime) -> None:
+def lightning_order(wait_interval: int, business_runtime) -> None:
     """
     Lightning order.
-    :param waiting_interval: int
+    :param wait_interval: int
     :param business_runtime: int
     :return: None
     """
-    # with naive_distributed_lock(waiting_interval, business_runtime=30) as r:
-    #     remaining = int(r.get('stock'))
-    #     if remaining > 0:
-    #         r.set('stock', str(remaining - 1))
-    #         print(f'Deducted stock, {remaining - 1} remaining')
-    #     else:
-    #         print('Failed to deduct stock')
-
-    with redlock(business_runtime) as r:
+    with naive_distributed_lock(wait_interval, business_runtime) as r:
         remaining = int(r.get('stock'))
         if remaining > 0:
             r.set('stock', str(remaining - 1))
             print(f'Deducted stock, {remaining - 1} remaining')
         else:
             print('Failed to deduct stock')
+
+    # with redlock(business_runtime) as r:
+    #     remaining = int(r.get('stock'))
+    #     if remaining > 0:
+    #         r.set('stock', str(remaining - 1))
+    #         print(f'Deducted stock, {remaining - 1} remaining')
+    #     else:
+    #         print('Failed to deduct stock')
 
 
 @contextmanager
@@ -96,7 +97,7 @@ def redlock(business_runtime: int):
     lock = None
     try:
         # Try to acquire the lock
-        lock = dlm.lock(LOCK_KEY, business_runtime)
+        lock = dlm.lock(LOCK_KEY, business_runtime)  # If not acquiring the lock, block here
         yield r  # Business codes
     except MultipleRedlockException as e:
         print(e)
