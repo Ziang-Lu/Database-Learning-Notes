@@ -66,11 +66,23 @@ PK <u>cannot be null</u>.
 
 **-> 用来快速检索数据**
 
+*每当一个table被创建时, 会同时自动创建一个基于其primary key的索引, 这个索引有时被称为"聚集索引" ("clustered index").*
+
 实现 (B-tree & B+ tree) 见:
 
 * Brif introduction: https://mp.weixin.qq.com/s/cOdvz3SPltNQsm-C2Cyd0A
-
 * Implementation: https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree%20%26%20B%2B%20Tree/B-Tree%20%26%20B%2B%20Tree.md
+
+索引可以基于多个column创建, 例如:
+
+```mysql
+create index composite_index_name
+on some_table (column_name1, column_name2, column_name3);
+```
+
+在此情况下, 任何基于leftmost prefix of the indexed columns的检索, 都可以使用到这个索引.
+
+换句话说, 基于`column_name1`, `(column_name1, column_name2)`或`(column_name1, column_name2, column_name3)`的检索都可以使用到这个索引, 但是基于`column_name2`或类似于`(column_name2, column_name1)`的检索却无法使用到这个索引.
 
 ***
 

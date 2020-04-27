@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Simple usage demo of mysql-connector library (driver).
+Simple usage demo of PyMySQL library (driver).
 
 Before running this script, first make sure MySQL server is up and running, and
 create a MySQL database called "test":
@@ -29,13 +29,12 @@ def init_db(user: str, pwd: str) -> None:
     conn = pymysql.connect(user=user, password=pwd, database=DB_NAME)
 
     # Get the cursor
-    with conn.cursor() as cursor:
+    with conn.cursor() as cursor:  # Use the cursor with context manager
         cursor.execute('''
         create table students (
             id integer primary key auto_increment,
             name varchar(20) not null,
-            email varchar(100) not null,
-            is_del boolean default false
+            email varchar(100) not null
         );
         ''')
         # Note that specifying autoincrement in MySQL is like above
@@ -47,8 +46,7 @@ def init_db(user: str, pwd: str) -> None:
             ('Lisa', 'lisa@gmail.com')
         ''')
         # Whenever we make changes to a DB, these changes will go into a
-        # "transaction", and it will take effect only when we call conn.commit()
-        # method.
+        # transaction, and it will take effect only when we call conn.commit()
         conn.commit()
         # If we close a connection or the code crashes without committing the
         # changes, the changes will be rolled back.
@@ -57,7 +55,6 @@ def init_db(user: str, pwd: str) -> None:
         create table courses (
             id char(5) primary key,
             name varchar(30) not null,
-            is_del boolean default false
         );
         ''')
         cursor.execute('''
@@ -73,7 +70,6 @@ def init_db(user: str, pwd: str) -> None:
             student_id integer references students(id),
             course_id char(5) references courses(id),
             score integer,
-            is_del boolean default false,
             primary key(student_id, course_id)
         );
         ''')
@@ -96,7 +92,7 @@ def init_db(user: str, pwd: str) -> None:
 
 
 def get_score_within(user: str, pwd: str, low: int,
-                     high: int) -> List[Tuple[str]]:
+                     high: int) -> List[dict]:
     """
     Gets students and courses where score is within the given range, ordered by
     the score in ascending order.
@@ -104,7 +100,7 @@ def get_score_within(user: str, pwd: str, low: int,
     :param pwd: str
     :param low: lower bound
     :param high: upper bound
-    :return: list[tuple(str)]
+    :return: list[dict]
     """
     print(f'List students and courses where score is within {low} and {high}, '
           f'ordered by the score in ascending order:')
@@ -122,7 +118,6 @@ def get_score_within(user: str, pwd: str, low: int,
         where scores.score between %s and %s
         order by scores.score
         ''', (low, high))
-        # Note that MySQL uses %s placeholder
         results = cursor.fetchall()
 
     # Always to remember to close the connection
@@ -131,7 +126,7 @@ def get_score_within(user: str, pwd: str, low: int,
     return results
 
 
-def main():
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='MySQL simple demo using mysql-connector'
     )
@@ -149,12 +144,3 @@ def main():
 
     init_db(user, pwd)
     print(get_score_within(user, pwd, low=60, high=80))
-
-
-if __name__ == '__main__':
-    main()
-
-# Output:
-# Finished DB initialization...
-# List students and courses where score is within 60 and 80, ordered by the score in ascending order:
-# [{'name': 'Lisa', 'courses.name': 'Intro to Computer Science'}, {'name': 'Bart', 'courses.name': 'Intro to Computer Science'}]

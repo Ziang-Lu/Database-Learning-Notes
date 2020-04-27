@@ -23,9 +23,9 @@ def init_db() -> None:
     Initialize a DB by inserting rows into it.
     :return: None
     """
-    with psycopg2.connect(dbname=DB_NAME) as conn:
+    with psycopg2.connect(dbname=DB_NAME) as conn:  # Use the connection with context manager
         # Get the cursor
-        with conn.cursor() as cursor:
+        with conn.cursor() as cursor:  # Use the cursor with context manager
             cursor.execute('''
             create table students (
                 id serial primary key,
@@ -44,9 +44,8 @@ def init_db() -> None:
                 ('Lisa', 'lisa@gmail.com')
             ''')
             # Whenever we make changes to a DB, these changes will go into a
-            # "transaction", and it will take effect only when we call
+            # transaction, and it will take effect only when we call
             # conn.commit()
-            # method.
             conn.commit()
             # If we close a connection or the code crashes without committing
             # the changes, the changes will be rolled back.
@@ -111,20 +110,10 @@ def get_score_within(low: int, high: int) -> List[Tuple[str]]:
             where scores.score between %s and %s
             order by scores.score
             ''', (low, high))
-            # Note that PostgreSQL uses %s placeholder
             results = cursor.fetchall()
     return results
 
 
-def main():
-    # init_db()
-    print(get_score_within(low=60, high=80))
-
-
 if __name__ == '__main__':
-    main()
-
-# Output:
-# Finished DB initialization
-# List students and courses where score is within 60 and 80, ordered by the score in ascending order:
-# [('Lisa', 'Intro to Computer Science'), ('Bart', 'Intro to Computer Science')]
+    init_db()
+    print(get_score_within(low=60, high=80))

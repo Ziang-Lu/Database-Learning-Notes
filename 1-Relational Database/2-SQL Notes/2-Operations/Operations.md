@@ -88,7 +88,7 @@ drop database test;
 
 ```mysql
 create index index_name
-on table_name (column_name);
+on some_table (column_name);
 ```
 
 <br>
