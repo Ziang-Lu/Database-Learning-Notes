@@ -83,7 +83,7 @@ def query_db() -> None:
     for post in posts.find(
             {'author': 'Ziang'},
             projection={'_id': False, 'tags': False, 'date': False},
-    ).sort('title', direction=ASCENDING):
+    ).sort('title', ASCENDING):
         print(post)
 
 
@@ -122,11 +122,13 @@ def test_index() -> None:
     db = cli.test
     posts = db.posts
 
-    # Create index
-    posts.create_index([('title', ASCENDING)], unique=True)  # Single Field Index
+    # Single-Field Index
+    posts.create_index([('title', ASCENDING)], unique=True)  # "title" must be unique
     # Compound Index
     posts.create_index([('title', ASCENDING), ('date', DESCENDING)])
-    posts.create_index([('title', TEXT)])  # Text Index
+    # Text Index
+    posts.create_index([('title', TEXT)])
+
     print(list(posts.index_information()))
 
     # Check index
@@ -141,7 +143,7 @@ def test_index() -> None:
     })  # DuplicateKeyError
 
 
-def main():
+if __name__ == '__main__':
     init_db()
 
     # Output:
@@ -175,7 +177,3 @@ def main():
 
     # Output:
     # ['_id_', 'title_1']
-
-
-if __name__ == '__main__':
-    main()

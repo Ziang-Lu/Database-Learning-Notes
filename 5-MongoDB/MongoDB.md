@@ -48,7 +48,9 @@ Difference between document and record:
 
  * Download and install MongoDB from `homebrew`
 
-   `> brew install mongodb`
+   ```bash
+   $ brew install mongodb
+   ```
 
 <br>
 
@@ -99,9 +101,9 @@ $ mongo test  # Directly enter "test" database
 * Collection-level commands
 
   ```javascript
-  db.createCollection("posts");  // Create a collection called "posts" in "test" database
+  db.createCollection("posts");  // Create a collection called "posts" in the current database
   
-  show collections;  // Show all the collections in "test" database
+  show collections;  // Show all the collections in the current database
   
   db.posts.renameCollection("articles");  // Rename the "posts" collection to "articles"
   
@@ -113,14 +115,12 @@ $ mongo test  # Directly enter "test" database
   * Insert documents
 
     ````javascript
-    db.posts.insert({
+    db.posts.insertOne({
         title: "My First Post",
         content: "What to write???",
         tags: ["diary"],
         date: Date()  // Default: Put in the current date
     })
-    
-    // db.posts.insertOne(...)
     
     db.posts.insertMany([
         {
@@ -137,15 +137,14 @@ $ mongo test  # Directly enter "test" database
     
     // Support JavaScript
     for (let i = 2; i <= 10; ++i) {
-        db.posts.insert({
+        db.posts.insertOne({
             title: "Post-" + i,
             content: ""
         })
     };
     
-    
     // Insert embedded document
-    db.reviews.insert({
+    db.reviews.insertOne({
         name: "Some Restaurant",
         location: "315 Mary St.",
         comments: [
@@ -165,44 +164,55 @@ $ mongo test  # Directly enter "test" database
                 votes: 0
             }
         ]
-  })
+    })
     ````
-
+  
   * Select documents
   
-    ```javascript
+  ```javascript
     // Filtering
-    
-    // db.posts.findOne(...)
     
     db.posts.find()  // Select all the documents in "posts" collection
     db.posts.find().pretty()  // ..., and present them in a pretty way (similar to JSON format)
     
-    // Select all the documents in "posts" collection, and for each document, do something (based on the pass-in function) (Similar to JavaScript)
+    // Select all the documents in "posts" collection, and for each document, do something (based on the pass-in function) (JavaScript syntax)
     db.posts.find().forEach(function(doc) {
         print("Post: " + doc.title)
     })
     
     db.posts.find({title: "My First Post"})  // ... where "title" is "My First Post"
-    db.posts.find({tag: "diary"})  // ... where "tag" array contains an element "diary" ... !!!
     db.posts.find({rank: {$gte: 5}})  // ... where "rank" >= 5 ...
     // We can also use $gt, $lte, $lt, $eq and $ne to represent >, <=, <, = and !=, respectively.
-    // But for $eq, we can simply use "tag": "diary".
+    // But for $eq, we can simply use "rank": 5.
     
     // We can also use regex to specify the selection condition.
     db.posts.find({title: /u/})  // ... whose title contains "u" ...
-    db.posts.find({title: /^R/})  // ... whose title starts with "R" ...
     // <-> db.posts.find({title: {$regex: "u"}})
+    db.posts.find({title: /^R/})  // ... whose title starts with "R" ...
     // <-> db.posts.find({title: {$regex: "^R"}})
     
-    db.posts.find({$or: [{tag: "diary"}, {rank: {$gte: 5}}]})  // ... where "tag" is "diary" OR "rank" >= 5 ...
-    // We can also use $and to represent "AND".
-    // But, we can simply combine the selection conditions into one single JSON object.
+    db.posts.find({$or: [{category: "diary"}, {rank: {$gte: 5}}]})  // ... where "category" is "diary" OR "rank" >= 5 ...
+    // We can also use $and to represent "AND". But, we can simply combine the selection conditions into one single JSON object.
     // We can also use $not to represent "NOT".
     
     db.posts.find({rank: {$exists: true}})  // ... where "rank" field exists ...
     db.posts.find({rank: {$in: [3, 4, 5]}})  // ... where "rank" is in [3, 4, 5] ...
     // We can also use $nin to represent "not in".
+    
+    // Querying an array
+    db.posts.find({tags: ["diary", "tech-article"]})  // Select all the documents in "posts" collection where "tags" array exactly match ["diary", "tech-article"]
+    db.posts.find({tags: "diary"})  // ... where "tags" array contains an element "diary"
+    db.posts.find({tags: {$all: ["diary", "tech-article"]}})  // ... where "tags" array contains all of the specified elements, regardless of order
+    db.reviews.find({
+        comments: {
+            $elemMatch: {
+                user: "Mary Williams",
+                year: {
+                    $lt: 2015
+                }
+            }
+        }
+    })  // Select all the documents in "reviews" collection, where in the "comments" array field, at least 1 element (embedded document) has <"user" is "Mary Williams" and "date" is before 2015>.
     
     // Projection
     
@@ -210,7 +220,7 @@ $ mongo test  # Directly enter "test" database
     // Note that if a document only has some matchings of the specified fields, that document still will be selected out with only those matchings
     
     // However, by default, MongoDB also selects out "_id". Therefore to avoid this, we need to do
-    // db.posts.find({}, {title: true, rank: true, _id: false});
+    // db.posts.find({}, {_id: false, title: true, rank: true});
     
     // Post-processing
     
@@ -221,24 +231,10 @@ $ mongo test  # Directly enter "test" database
     db.posts.find().sort({rank: 1}).limit(3)  // ..., and select the first 3 documents
     db.posts.find().sort({rank: 1}).skip(10).limit(3)  // ..., skipping the first 10 documents, and select the first 3
     
-    db.posts.count()  // Count the number of documents in "posts" collection
+    db.posts.countDocuments({})  // Count the number of documents in "posts" collection
     
     
-    // Query for embedded documents
-    // For a document to be selected out, there must be at least 1 specific array element matching the inner-most filter.
-    db.reviews.find({
-        comments: {
-            $elemMatch: {
-                user: "Mary Williams",
-                year: {
-                    $lt: 2015
-                }
-            }
-        }
-    })  // Select all the documents in "reviews" collection, where in the "comment" array field, "user" is "Mary Williams" and "date" is before 2015.
-    
-    
-    // Query for geospatial data
+    // ===== Query for geospatial data =====
     db.theaters.find({
         location.geo: {
             $geoWithin: {
@@ -267,45 +263,39 @@ $ mongo test  # Directly enter "test" database
   * Update documents (Manipulate fields)
   
     ```javascript
-    // Update the entire document
+    // Update the entire document (Replacement)
     
-    db.posts.update({title: "My First Post"}, {rank: 99})  // Change the document where "title" is "My First Post" in "posts" collection, deleting all the fields and setting only one field: "rank" is 99
-    // This is DANGEROUS!!!
-    
-    db.posts.update({title: "My First Post"}, {title: "My First Post", rank: 99, tag: "diary"}, {upsert: true})  // ..., deleting all the fields and setting the specified fields
-    // (UPSERT) if the document does not exist, create the document
-    
-    // db.posts.replaceOne(...)
-    // db.posts.replaceMany(...)
+    db.posts.replaceOne({title: "My First Post"}, {title: "My First Post", rank: 99, category: "diary"}, {upsert: true})  // Change the first document where "title" is "My First Post" in "posts" collection, deleting all the fields and setting the specified fields
+    // (UPSERT) if the document does not exist, insert the document
     
     
     // Update fields
     
-    db.posts.update({tag: "diary"}, {$set: {rank: 10}})  // Set "rank" to be 10 for the FIRST!!! document where "tag" is "diary" in "posts" collection
-    db.posts.update({tag: "diary"}, {$set: {rank: 10}}, {multi: true})  // ... all the documents ...
+    db.posts.updateOne({category: "diary"}, {$set: {rank: 10}})  // Set "rank" to be 10 for the first document where "category" is "diary" in "posts" collection
+    
+    db.posts.updateMany({category: "diary"}, {$set: {rank: 10}})  // ... all the documents ...
     // Note that if the field doesn't exist for a document, it will be created
     
-    db.posts.update({title: "My First Post"}, {$inc: {rank: 5}})  // Increment "rank" by 10 for the FIRST!!! document where "title" is "My First Post" in "posts" collection
-    db.posts.update({title: "My First Post"}, {$mul: {rank: 2}})  // Multiply "rank" by 2 ...
+    db.posts.updateMany({title: "My First Post"}, {$inc: {rank: 5}})  // Increment "rank" by 10 for all the document where "title" is "My First Post" in "posts" collection
+    db.posts.updateMany({title: "My First Post"}, {$mul: {rank: 2}})  // Multiply "rank" by 2 ...
     
-    db.posts.update({title: "My First Post"}, {$rename: {rank: "ranking"}})  // Rename "rank" field to "ranking" ...
+    db.posts.updateMany({title: "My First Post"}, {$push: {tags: "tech-article"}})  // Push a new element to "tags" array ...
+    
+    db.posts.updateMany({title: "My First Post"}, {$rename: {rank: "ranking"}})  // Rename "rank" field to "ranking" ...
+    
     
     // Delete fields
     
-    db.posts.update({title: "My First Post"}, {$unset: {rank: ""}})  // Delete "rank" field ...
-    
-    // db.posts.updateOne(...)
-    // db.posts.updateMany(...)
+    db.posts.updateMany({title: "My First Post"}, {$unset: {rank: true}})  // Delete "rank" field ...
     ```
-  
+    
   * Delete documents
   
     ```javascript
-    db.posts.remove({})  // Delete all the documents in "posts" collection
-    db.posts.remove({title: "Post"})  // ... where "title" is "Post" ...
+    db.posts.deleteOne({title: "Post"})  // Delete the first document in where "title" is "Post" in "posts" collection
+    db.posts.deleteMany({title: "Post"})  // ... all the documents ...
     
-    // db.posts.deleteOne(...)
-    // db.posts.deleteMany(...)
+    db.posts.deleteMany({})  // Delete all the documents in "posts" collection
     ```
 
 ***
@@ -321,7 +311,7 @@ db.posts.getIndexes()  // Get all the indexes of "posts" collection
 
 MongoDB supports various different types of indexes:
 
-* **Single Field ~**
+* **Single-Field ~**
 
   -> Use <u>one single field</u> to create the index
 
@@ -330,19 +320,17 @@ MongoDB supports various different types of indexes:
   db.posts.createIndex({title: 1}, {unique: true})  // ... on "title" in ascending order and must be unique ...
   // Since this index specifies that "title" must be unique, it can work as a PRIMARY KEY.
   
-  // Create Single Field Index on an embedded field
+  // Create Single-Field Index on an embedded field
   db.theater.createIndex({location.geo: 1})  // Create an index on the "location.geo" in ascending order in "theaters" collection
   ```
 
 * **Compound ~**
 
-  -> Use <u>different fields</u> inside the document to ~
+  -> Use <u>multiple fields</u> inside the document to ~
 
   ```javascript
   db.posts.createIndex({title: 1, date: -1})  // Create an index on the combination of "title" in ascending order and "date" in descending order
   ```
-
-* **Multikey ~**
 
 * **Text ~**
 
@@ -350,7 +338,7 @@ MongoDB supports various different types of indexes:
 
   -> Not only follow the <u>exact matches</u> against the index structure, but also take <u>relevance ("fuzzy matches")</u> into consideration
 
-  -> "How relevant is the key compared to the entries in the index?"
+  -> "How relevant is the searched key compared to the entries in the index?"
 
   ***
 
@@ -363,28 +351,31 @@ MongoDB supports various different types of indexes:
   // Only find the movies with title exactly matching "Titanic" literal
   ```
 
-  Assume that we have created a text index on "title" field in "movies" collections.
+  Assume that we have created a text index on "title" field in "movies" collections:
 
   ```javascript
-  db.movies.create_index([title, "text"])
+  db.movies.create_index({title: "text"})
   ```
 
   => (With text index) <u>Exact match + Relevance (Fuzzy match)</u>:
 
   ```javascript
-  filter = {
+  db.movies.find({
       $text: {
-          $search: "titanic"
+          $search: "titan"
       }
-  }
-  db.movies.find(filter)
-  // Noy only find the movies with title exactly matching "titanic" literal, but also the movies with title fuzzily matching "titanic"
-  // e.g., "Clash of Titans", ...
+  })
   ```
-
+  
   ***
-
+  
 * **Hashed ~**
+
+  Hashed ~ maintain entries with <<u>hashes of the values of the indexed field</u>.
+
+  ```javascript
+  db.posts.createIndex({name: "hashed"})  // Create an index using the hashes of "name"
+  ```
 
 * **Geospatial ~**
 
@@ -419,3 +410,4 @@ https://github.com/Ziang-Lu/Intro-to-MongoDB/tree/master/notebooks
 ## Python Support
 
 `PyMongo`
+
