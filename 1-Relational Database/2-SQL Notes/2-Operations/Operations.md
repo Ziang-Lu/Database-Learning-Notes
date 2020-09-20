@@ -40,7 +40,7 @@ drop database test;
   create table users (
       id integer primary key,
       username varchar(100) not null unique,
-      age check(age >= 18)
+      age check(age >= 18)  -- Check a boolean expression
   );
   ```
 
@@ -48,7 +48,7 @@ drop database test;
 
 - `primary key`
 
-  - A combination of `not null` and `unique`
+  - Essentially, a combination of `not null` and `unique`
 
 - `autoincrement`
 
@@ -58,7 +58,7 @@ drop database test;
 
   ```mysql
   create table students (
-      id integer primary key auto_increment,  -- Specify autoincrement in MySQL
+      id integer primary key auto_increment,  -- "autoincrement" implementation in MySQL
       name varchar(20) not null,
       email varchar(100) not null
   );
@@ -68,7 +68,7 @@ drop database test;
 
   ```sql
   create table students (
-      id serial primary key,  -- Specify autoincrement in PostgreSQL by using "serial" data type
+      id serial primary key,  -- "autoincrement" implementation in PostgreSQL
       name varchar(20) not null,
       email varchar(100) not null
   );
@@ -77,10 +77,6 @@ drop database test;
   ***
 
 - `foreign key`
-  
-  - By using `foreign key` constraints, we establish links between tables.
-- Using `foreign key` constraint prevents actions that would break these links
-  
 
 <br>
 
@@ -96,8 +92,6 @@ on some_table (column_name);
 ***
 
 #### Temporary Table (临时表)
-
-Temporary table:
 
 - Creating faster than a real, permanent table
 - Deleted when the current client session is terminated
@@ -159,27 +153,29 @@ Add, modify, or delete columns of an existing table
 - Rename table
 
   ```mysql
-  alter table customers rename to my_customers;
+  alter table customers
+  rename to my_customers;
   ```
 
 - Rename column
 
   ```mysql
-  alter table customers rename name to fullname;
+  alter table customers
+  rename name to fullname;
   ```
 
 - Add column
 
   ```mysql
   alter table customers
-  add email /* column_name */ varchar(255) /* data_type */;
+  add email varchar(255);
   ```
 
 - Delete column
 
   ```mysql
   alter table customers
-  drop email /* column_name */;
+  drop email;
   ```
 
 <br>
@@ -297,7 +293,7 @@ Use `not like` to exclude values that follow a pattern:
 select name, birthdate
 from animals
 where species not like '_r%';
--- This will select all the species that does not have 'r' at the second position.
+-- This will select all the species whose second position is not 'r'.
 ```
 
 ------

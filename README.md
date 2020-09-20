@@ -34,38 +34,23 @@ DB enables **safe concurrent access by multiple programs/users**.
 
 <br>
 
-## DB Types (本质上是Data Model的不同type)
+## DB Types (本质上是Data Model的不同types)
 
-* **<u>Relational DB (关系型数据库)</u>**
+* **<u>Relational DB (关系型数据库) => Relational DB Management System (RDBMS) (关系型数据库管理系统)</u>**
 
-  *(Based on "Relational Data Model (关系型数据模型)")*
-
-  -> 操作data都是通过SQL语句来完成的
-
-  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts.md">Relational DB Concepts</a>
-  * SQL Notes
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/1-Data%20Types%20in%20SQL/Data%20Types%20in%20SQL.md">Data Types in SQL</a>
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/Operations.md">Operations</a>
-      * Operations on DB
-      * Fetching Data from DB
-      * Inserting Data to Table
-      * Updating Data in Table
-      * Deleting Data in Table
-  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/3-Python%20DB-API/Python%20DB-API.md">Python DB-API</a>
-  * Relational DB Management System (RDBMS) (关系型数据库管理系统)
-    * SQLite
-      * 轻量级、嵌入式DB
-      * 其一个DB就是一个文件(`xxx.db`), 存储在disk上
-      * => 经常被集成到桌面和移动端应用之中
-      * 不能承受高concurrency访问
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/2-MySQL/MySQL.md">MySQL</a>
-      * 为server-side设计的, 使用最广泛的DB server
-      * 能承受高concurrency访问
-    * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/3-PostgreSQL/PostgreSQL.md">PostgreSQL</a>
-      * 为server-side设计的, 使用流行度呈上升趋势
-      * 能承受高concurrency访问
-    * Oracle
-      * 不开源、付费
+  * SQLite
+    * 轻量级、嵌入式DB
+    * 其一个DB就是一个文件(`xxx.db`), 存储在disk上
+    * => 经常被集成到桌面和移动端应用之中
+    * 不能承受高concurrency访问
+  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/2-MySQL/MySQL.md">MySQL</a>
+    * 为server-side设计的, 使用最广泛的DB server
+    * 能承受高concurrency访问
+  * <a href="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/3-PostgreSQL/PostgreSQL.md">PostgreSQL</a>
+    * 为server-side设计的, 使用流行度呈上升趋势
+    * 能承受高concurrency访问
+  * Oracle
+    * 不开源、付费
 
   优点:
 

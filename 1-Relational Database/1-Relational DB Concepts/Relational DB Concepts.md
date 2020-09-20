@@ -66,11 +66,13 @@ PK <u>cannot be null</u>.
 
 **-> 用来快速检索数据**
 
-*每当一个table被创建时, 会同时自动创建一个基于其primary key的索引, 这个索引有时被称为"聚集索引" ("clustered index").*
+每当一个table被创建时, 会同时自动创建一个基于其primary key的索引.
+
+*(这个索引有时被称为"聚集索引" ("clustered index").)*
 
 实现 (B-tree & B+ tree) 见:
 
-* Brif introduction: https://mp.weixin.qq.com/s/cOdvz3SPltNQsm-C2Cyd0A
+* Brief introduction: https://mp.weixin.qq.com/s/cOdvz3SPltNQsm-C2Cyd0A
 * Implementation: https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/B-Tree%20%26%20B%2B%20Tree/B-Tree%20%26%20B%2B%20Tree.md
 
 索引可以基于多个column创建, 例如:
@@ -94,33 +96,13 @@ on some_table (column_name1, column_name2, column_name3);
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Relational%20DB%20Concepts/data_storage-primary_key_and_foreign_key.png?raw=true" width="600px">
 
-Like in the above example, in the `Department` tale, each `Department` needs to uniquely identify its leader, which is a `Person`.
+Like in the above example, in the `Department` table, each `Department` needs to uniquely identify its leader, which is a `Person`.
 
 => The `Department` table uses a column called `Department.leadPersonID` to refer to the values in `Person.ID`, which is the primary key of `Person` table, and thus uniquely identifies the person (the leader).
 
 => In this way, `Department.leadPersonID` works as a foreign key from `Department` table to `Person` table.
 
 ***
-
-<br>
-
-## Benefits
-
-* Logically models a business process
-
-  => Helps understand the way a business works in the real word
-
-* Efficient storage
-
-  => Reduce duplicate information
-
-* Link tables through common values ("keys")
-
-  => Reduce duplicate information
-
-* Greater scalability
-
-* Easy manipulation
 
 <br>
 

@@ -10,7 +10,7 @@
 
   An exact decimal value
 
-  ```sql
+  ```mysql
   decimal(8, 2)
   -- At most 8 digits in total
   -- 2 digits to the right of the decimal place
@@ -19,27 +19,11 @@
 
 - `real`
 
-  - $\approx$ Java `float`
+  - 约等于 Java `float`
 
 - `double`
 
-  - $\approx$ Java `double` / Python `float`
-
-------
-
-**Supported Math Operators (Only for Numerical Types)**
-
-`+`, `-`, `*`, `/`, `%`
-
-```sql
-select product_id, units_on_order, unit_price,
-	units_on_order * unit_price as order_total_cost  -- Calculate the each order's total cost
-from products;
-```
-
-<u>Note that `/` is using integer division!!!</u>
-
-------
+  - 约等于 Java `double` / Python `float`
 
 - `text`
 
@@ -53,12 +37,11 @@ from products;
 
     ```mysql
     select locate('bar', 'foobarbar', 5);
-    
-    -- 7
+    -- 7 (1-based index)!!!
     ```
-
-    ***
-
+    
+  ***
+  
   - Change case: `upper(s)` / `lower(s)`
 
     ***
@@ -69,9 +52,9 @@ from products;
 
   - Trim: `trim(s)`, `ltrim(s)`, `rtrim(s)`
 
-    - `trim(s)`: Trim the leading and trailing space
-    - `ltrim(s)`: Trim only the leading space
-    - `rtrim(s)`: Trim only the trailing space
+    - `trim(s)`: Trim the leading and trailing spaces
+    - `ltrim(s)`: Trim only the leading spaces
+    - `rtrim(s)`: Trim only the trailing spaces
 
     ***
 
@@ -79,25 +62,22 @@ from products;
 
     ```mysql
     select trim('   bar   ');  -- BOTH is assumed + space is assumed
-    
     -- bar
     
     select trim(LEADING 'x' FROM 'xxxbarxxx');
-    
     -- barxxx
     
     select trim(TRAILING 'xyz' FROM 'barxxyz');
-    
     -- barx
     ```
-
+    
     ***
-
+    
   - Substring: `substr(str_name, str_pos, substr_length)`
 
-    Note that `str_pos` starts from 1!!!
+    Note that `str_pos` uses 1-based index!!!
 
-    ```sql
+    ```mysql
     select first_name, substr(first_name, 2, 3)  -- Select only 3 characters, starting from the 2nd character
     from employees
     where department_id = 60;
@@ -105,50 +85,45 @@ from products;
     
     ***
     
-    *MySQL*: `substr()` = `substring()`
+    *MySQL*: `substr(...)` = `substring(...)`
     
-***
-    
-- Concatenate: `||`
-  
-  ```sql
-    select company_name, contact_name,
-      company_name || ' (' || contact_name || ')'  -- Concatenate "company_name" and "contact_name"
-    from customers;
-  ```
-  
     ***
-  
-    *MySQL*:
-  
-  * `concat(str1, str2, ...)`
-  
+    
+  - Concatenation: `||`
+
     ```mysql
+    select company_name, contact_name,
+        company_name || ' (' || contact_name || ')'  -- Concatenate "company_name" and "contact_name"
+    from customers;
+    ```
+
+    ***
+
+    *MySQL*:
+
+    * `concat(str1, str2, ...)`
+
+      ```mysql
       select concat('My', 'S', 'QL');
-    
       -- MySQL
-    
+      
       -- If any argument is null, return null.
       select concat('My', null, 'QL');
-      
       -- null
       ```
-  
+
     * `concat_ws(separator, str1, str2, ...)`
-  
+
       ```mysql
       select concat_ws(',', 'First name', 'Second name', 'Last name');
-    
       -- 'First name,Second name,Last name'
-    
-      -- If the separator is null, the result is null.
-      select concat_ws(',', 'First name', null, 'Last name');
       
+      -- If any argument is null, return null.
+      select concat_ws(',', 'First name', null, 'Last name');
       -- null
       ```
-  
+
     ***
-  
 - `char(n)`
 
   A string of exactly *n* characters
@@ -163,17 +138,6 @@ from products;
 
   - Values are written like `'2014-04-13'`.
 
-  - `date(timestring, modifier, modifier, ...) -> date`
-
-    *有点像一个constructor*
-
-    ```sql
-    -- Get today's date
-    select date('now');  -- 本质上相当于 select strftime('%Y-%m-%s', 'now')
-    
-    -- '2018-12-09'
-    ```
-
 - `time`
 
   A time of day
@@ -184,59 +148,9 @@ from products;
 
   - Values are written like `'2014-04-13 13:17:48'`.
 
-  - `datetime(timestring, modifier, modifier, ...)`
-
-    `timestamp(timestring, modifier, modifier, ...)`
-
-    *有点像一个constructor*
-
-    ```sql
-    -- Get the current datetime
-    select datetime('now');  -- 本质上相当于 select strftime('%Y-%m-%d %H-%M-%S', 'now')
-    
-    -- 2018-12-09 15:40:48
-    ```
-
-    ```sql
-    -- Select employees who have worked for the compnay for 15 years or more
-    select first_name, last_name, hire_date
-    from employees
-    where (date('now') - hire_date) >= 15;
-    ```
+Check out `Date Types.md` for more about date-related types
 
 ------
 
-**Reformat date and time strings: `strftime(timestring, modifier, modifier, ...) -> text`**
+**To make the queries simple and easy to maintain, <u>DO NOT ALLOW TIME COMPONENT IN THE DATES!</u>**
 
-```sql
--- Parse out and reformat the current datetime to "Year Month Day"
-select strftime('%Y %m %d', 'now')
-from employees;
-
--- 1993 10 05
-```
-
-```sql
--- Parse out and reformat the current datetime to "Hour Minute Second Millisecond"
-select strftime('%H %M %S %s', 'now')
-from employees;
-
--- 15 40 48 785
-```
-
-```sql
--- Parse out certain pieces from "birthdate"
-select birthdate,
-    strftime('%Y', birthdate) as year,
-    strftime('%m', birthdate) as month,
-    strftime('%d', birthdate) as day,
-    date('now') - birthdate as age
-from employees;
-
--- birthdate  year month day age
--- 1993-10-05 1993  10   05  25
-```
-
-------
-
-**To make the queries simple and easy to maintain, DO NOT ALLOW TIME COMPONENT IN THE DATES!**
