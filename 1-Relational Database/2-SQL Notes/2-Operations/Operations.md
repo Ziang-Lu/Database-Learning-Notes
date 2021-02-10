@@ -117,21 +117,21 @@ View: A ~ is a <u>virtual table (illusion) based on the result-set of an SQL sta
   ```mysql
   -- Create a view containing all the customers from Brazil
   create view brazil_customers as
-      select customer_name, contact_name
+      select name, contact_name
       from customers
       where country = 'Brazil';
   ```
 
   *(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
 
-  <u>但是与temporary table不同的是, view本质上并没有写数据: 因此对于没有write权限的DB, 用view是更方便的.</u>
+  但是与temporary table不同的是, view本质上并没有写数据: 因此对于没有write权限的DB, 用view是更方便的.
 
 * Update
 
   ```mysql
   -- Update the "brazil_customers" view by adding a "City" column to it
   create or replace view brazil_customers as
-      select customer_name, contact_name, city
+      select name, contact_name, city
       from customers
       where country = 'Brazil';
   ```
@@ -231,7 +231,7 @@ where species not in ('gorilla', 'llama', 'orangutan');
 
 **`between` operator** in `where` clause
 
-Select a value from a <u>range</u> of values (inclusive):
+Select a value from a range of values (inclusive):
 
 ```mysql
 select name, species
@@ -326,7 +326,7 @@ select order_id, quantity,
     (case
         when quantity > 30 then 'The quantity is greater than 30'
         when quantity = 30 then 'The quantity is 30'
-        else 'The quentity is under 30'
+        else 'The quentity is less than 30'
     end) as quantity_description
 from order_details;
 ```
@@ -353,8 +353,6 @@ from tracks;
 
 **(=> Compute a single value from a set of values)**
 
-[On a single table]
-
 - `count`
 
   - For each distinct species, find how many animals are there?
@@ -366,7 +364,7 @@ from tracks;
     limit 5;
     ```
 
-  - <u>For each distinct name, find how many animals are sharing that name?</u>
+  - For each distinct name, find how many animals are sharing that name?
 
     <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_group-by.png?raw=true" width="600px">
 
@@ -386,7 +384,7 @@ from tracks;
 - `sum`
 
   ```mysql
-  select sum(unit_price) as total_prod_price
+  select sum(unit_price) as total_price
   from products;
   ```
 
@@ -418,7 +416,7 @@ from tracks;
   From `animals` table,
 
   - select the `species` column
-  - do the aggregation: <u>for each distinct `species`, find the minimum `birthdate` with that `species`</u>
+  - do the aggregation: <u>for each distinct `species`, find the minimum `birthdate` within that `species`</u>
 
   Check the above illustration
 
@@ -452,46 +450,45 @@ from orders
 where freight > 100;
 
 -- Step 2: Get the customer name, company name and region for those selected customers
-select customer_name, company_name, region
+select name, company_name, region
 from customers
-where customer_id in ...;  -- Use the above resulting Customer IDs
+where id in ...;  -- Use the above resulting customer IDs
 
 -- Combined using subquery:
-select customer_name, company_name, region
+select name, company_name, region
 from customers
-where customer_id in (
-    select distinct customer_id, order_id
+where id in (
+    select distinct customer_id
     from orders
     where freight > 100
 ) as subq;  -- PostgreSQL requires an alias of the subquery result table
 ```
 
-<br>
+***
 
-<u>Question: What is the total number of orders placed by each customer?</u>
+**"Common Table Expression" ("公共表表达式") - `with` 结构**
+
+与subquery本质上相同，只是一个syntax sugar
 
 ```mysql
--- Count the total number of orders placed by a particular customer
-select count(*)
-from orders
-where customer_id = 143569;
+with events as (
+    select channel, date_trunc('day', occurred_at), count(*) as daily_count  -- date_trunc() is a function defined in PostgreSQL
+    from web_events
+    group by 1, 2
+)
 
--- Use the above as a calculation
-select customer_name, customer_state,
-	(select count(*)
-    from orders
-    where orders.customer_id = customers.customer_id) as num_of_orders
-from customers
-order by customer_name;
+select channel, avg(daily_count) as avg_daily_count
+from events
+group by channel;
 ```
+
+***
 
 <br>
 
 #### (4) Join (合并)
 
 **Linking multiples tables** to extract the desired information
-
-[On multiple tables]
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/join-1-original_tables.png?raw=true" width="500px">
 
@@ -514,12 +511,14 @@ The whole process is explained by the following diagram:
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/join-3-process.png?raw=true" width="500px">
 
-Simplified version:
-
 ```mysql
-select animals.name, animals.species, diet.food
-from animals, diet
-where animals.species = diet.species;
+select count(*) as count
+from (
+    select animals.name, animals.species, diet.food
+    from animals join diet
+    on animals.species = diet.species
+    where diet.food = 'fish'
+);
 ```
 
 <br>
@@ -561,10 +560,10 @@ where animals.species = diet.species;
   `inner join` three tables:
 
   ```mysql
-  select order.order_id, customers.customer_name, shippers.shipper_name
+  select order.id, customers.customer_name, shippers.shipper_name
   from orders
-  join customers on orders.customer_id = customers.customer_id
-  join shippers on orders.shipper_id = shippers.shipper_id;
+  join customers on orders.customer_id = customers.id
+  join shippers on orders.shipper_id = shippers.id;
   ```
 
 - **LEFT (OUTER) JOIN**
@@ -573,12 +572,12 @@ where animals.species = diet.species;
 
   *Determine "left table" and "right table":*
 
-  `from left_table left join right table` or `from left_table, right_table`
+  `from left_table left join right table`
 
   ```mysql
-  select customers.customer_name, orders.order_id
+  select customers.customer_name, orders.id
   from customers left join orders
-  on cutomers.customer_id = orders.customer_id
+  on cutomers.customer_id = orders.id
   order by customers.customer_name;
   ```
 
@@ -589,10 +588,10 @@ where animals.species = diet.species;
   *与left (outer) join是完全对称的*
 
   ```mysql
-  select orders.order_id, employees.last_name, employees.first_name
+  select orders.id, employees.last_name, employees.first_name
   from orders right join employees
-  on orders.employee_id = employees.employee_id
-  order by orders.order_id;
+  on orders.employee_id = employees.id
+  order by orders.id;
   ```
 
 - **FULL (OUTER) JOIN**
@@ -602,9 +601,9 @@ where animals.species = diet.species;
   *本质上是一个left (outer) join再补上right table中的剩余部分*
 
   ```mysql
-  select customers.curstomer_name, orders.order_id
+  select customers.curstomer_name, orders.id
   from customers full outer join orders
-  on customers.customer_id = orders.customer_id
+  on customers.id = orders.customer_id
   order by customers.customer_name;
   ```
 

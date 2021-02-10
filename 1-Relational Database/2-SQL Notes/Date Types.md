@@ -65,6 +65,8 @@ from employees;
 
 ## MySQL
 
+Check out https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html
+
 <br>
 
 ## PostgreSQL
@@ -95,3 +97,4 @@ from employees;
 <br>
 
 **To make the queries simple and easy to maintain, <u>DO NOT ALLOW TIME COMPONENT IN THE DATES!</u>**
+

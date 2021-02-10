@@ -28,102 +28,72 @@
 - `text`
 
   - 约等于 Java `String` / Python `str`
-
-  - Find index of first occurrence of substring: `instr(str, substr)`
-
-    ***
-
-    *MySQL*: `locate(substr, str, pos)`
-
-    ```mysql
-    select locate('bar', 'foobarbar', 5);
-    -- 7 (1-based index)!!!
-    ```
-    
   ***
+
+  | Functionality                                   | MySQL                                                        | PostgreSQL                                                   |
+  | ----------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | Take length                                     | `length(s)`                                                  | Same                                                         |
+  | Find the index of first occurrence of substring | `locate(substr, str, pos)`                                   | `position(substr in str) / strpos(str, substr)`              |
+  | Change case                                     | `upper(s) / ucase(s)`, `lower(s) / lcase(s)`                 | `upper(s)`, `lower(s)`                                       |
+  | Trim                                            | `trim([{BOTH | LEADING | TRAILING} [remstr] FROM] s)`<br>`ltrim(s)`, `rtrim(s)` *Trims leading/trailing spaces* | `trim([leading | trailing | both] [characters] from s)`      |
+  | Take out leading/trailing characters            | `left(s, n)`, `right(s, n)`                                  | Same                                                         |
+  | Substring                                       | `substring(s, str_pos, substr_length) / substr(...)`         | `substring(s [from int] [for int]) / substr(s, from [, count])` |
+  | Concatenation                                   | `|| / concat(s1, s2, ...) / concat_ws(separator, s1, s2, ...)` | Same                                                         |
+  | Concatenation in aggregation                    | `group_concat([column_name])`                                |                                                              |
+
+  MySQL examples:
+
+  ```mysql
+  select locate('bar', 'foobarbar', 5);
+  -- 7 (1-based index)
+  ```
+
+  ```mysql
+  select trim('   bar   ');  -- BOTH is assumed + space is assumed
+  -- bar
   
-  - Change case: `upper(s)` / `lower(s)`
+  select trim(LEADING 'x' FROM 'xxxbarxxx');
+  -- barxxx
+  
+  select trim(TRAILING 'xyz' FROM 'barxxyz');
+  -- barx
+  ```
 
-    ***
+  ```mysql
+  select first_name, substr(first_name, 2, 3)  -- Select only 3 characters, starting from the 2nd character
+  from employees
+  where department_id = 60;
+  -- Note that str_pos uses 1-based index!!!
+  ```
 
-    *MySQL*: `upper(s)` = `ucase(s)`, `lower(s)` = `lcase(s)`
+  ```mysql
+  select company_name, contact_name,
+      company_name || ' (' || contact_name || ')'  -- Concatenate "company_name" and "contact_name"
+  from customers;
+  
+  select concat('My', 'S', 'QL');
+  -- MySQL
+  
+  -- If any argument is null, return null.
+  select concat('My', null, 'QL');
+  -- null
+  
+  select concat_ws(',', 'First name', 'Second name', 'Last name');
+  -- 'First name,Second name,Last name'
+  
+  -- If any argument is null, return null.
+  select concat_ws(',', 'First name', null, 'Last name');
+  -- null
+  ```
 
-    ***
+  ```mysql
+  select sell_date, group_concat(distinct product order by product)
+  group by sell_date;
+  -- For each sell_date, collect the distinct products, order them lexicographically, and finally concatenates with ","
+  ```
 
-  - Trim: `trim(s)`, `ltrim(s)`, `rtrim(s)`
+  ***
 
-    - `trim(s)`: Trim the leading and trailing spaces
-    - `ltrim(s)`: Trim only the leading spaces
-    - `rtrim(s)`: Trim only the trailing spaces
-
-    ***
-
-    *MySQL:* `trim([{BOTH | LEADING | TRAILING} [remstr] FROM] str)`
-
-    ```mysql
-    select trim('   bar   ');  -- BOTH is assumed + space is assumed
-    -- bar
-    
-    select trim(LEADING 'x' FROM 'xxxbarxxx');
-    -- barxxx
-    
-    select trim(TRAILING 'xyz' FROM 'barxxyz');
-    -- barx
-    ```
-    
-    ***
-    
-  - Substring: `substr(str_name, str_pos, substr_length)`
-
-    Note that `str_pos` uses 1-based index!!!
-
-    ```mysql
-    select first_name, substr(first_name, 2, 3)  -- Select only 3 characters, starting from the 2nd character
-    from employees
-    where department_id = 60;
-    ```
-    
-    ***
-    
-    *MySQL*: `substr(...)` = `substring(...)`
-    
-    ***
-    
-  - Concatenation: `||`
-
-    ```mysql
-    select company_name, contact_name,
-        company_name || ' (' || contact_name || ')'  -- Concatenate "company_name" and "contact_name"
-    from customers;
-    ```
-
-    ***
-
-    *MySQL*:
-
-    * `concat(str1, str2, ...)`
-
-      ```mysql
-      select concat('My', 'S', 'QL');
-      -- MySQL
-      
-      -- If any argument is null, return null.
-      select concat('My', null, 'QL');
-      -- null
-      ```
-
-    * `concat_ws(separator, str1, str2, ...)`
-
-      ```mysql
-      select concat_ws(',', 'First name', 'Second name', 'Last name');
-      -- 'First name,Second name,Last name'
-      
-      -- If any argument is null, return null.
-      select concat_ws(',', 'First name', null, 'Last name');
-      -- null
-      ```
-
-    ***
 - `char(n)`
 
   A string of exactly *n* characters
