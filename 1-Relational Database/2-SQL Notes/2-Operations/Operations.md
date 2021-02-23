@@ -613,6 +613,35 @@ from (
 
 <br>
 
+#### (5) Union / Union All
+
+`union` is used to combine the result sets of 2 or more `select` statements.
+
+```mysql
+select supplier_id as 'id_value', supplier_name
+from suppliers
+where supplier_id > 2000
+union
+select company_id as 'id_value', company_name
+from companies
+where company_id > 1000
+order by 1;
+```
+
+Notes:
+
+* There must be the same number of expressions in both SELECT statements.
+* The corresponding expressions must have the same data type in the SELECT statements.
+
+`union all`
+
+Only difference from `union`:
+
+* `union` removes duplicate rows.
+* `union all` does NOT remove duplicate rows.
+
+<br>
+
 ## 2. Inserting Data to Table
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/insert-into_values.png?raw=true" width="600px">

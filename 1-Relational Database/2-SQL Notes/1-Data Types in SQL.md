@@ -40,6 +40,7 @@
   | Substring                                       | `substring(s, str_pos, substr_length) / substr(...)`         | `substring(s [from int] [for int]) / substr(s, from [, count])` |
   | Concatenation                                   | `|| / concat(s1, s2, ...) / concat_ws(separator, s1, s2, ...)` | Same                                                         |
   | Concatenation in aggregation                    | `group_concat([column_name])`                                |                                                              |
+  | Replacement                                     | `replace(s, from_str, to_str)`                               | Same                                                         |
 
   MySQL examples:
 
@@ -90,6 +91,11 @@
   select sell_date, group_concat(distinct product order by product)
   group by sell_date;
   -- For each sell_date, collect the distinct products, order them lexicographically, and finally concatenates with ","
+  ```
+
+  ```mysql
+  select replace('www.mysql.com', 'w', 'Ww')
+  -- WwWwWw.mysql.com
   ```
 
   ***
