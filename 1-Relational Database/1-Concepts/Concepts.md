@@ -8,7 +8,7 @@
 
 ***
 
-**ER Diagram Notations**:
+ER Diagram Notations:
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Concepts/ER_diagram-notations.png?raw=true">
 
@@ -30,8 +30,6 @@
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/1-Concepts/data_storage-table.png?raw=true" width="600px">
 
-
-
 #### Primary Key (PK) (主键)
 
 A column or a set of columns that <u>uniquely identify each row</u> in the table
@@ -42,7 +40,7 @@ A column or a set of columns that <u>uniquely identify each row</u> in the table
 
 PK <u>cannot be null</u>.
 
-
+<br>
 
 #### Index (索引): 用来快速检索数据
 
@@ -66,7 +64,7 @@ on some_table (column_name1, column_name2, column_name3);
 > * 换句话说, 基于 `column_name1`, `(column_name1, column_name2)` 或 全部indexed columns 的检索都可以使用到这个索引
 > * 但是基于 `column_name2` 或类似于 `(column_name2, column_name1)` 的检索却无法使用到这个索引
 
-
+<br>
 
 #### Foreign Key (FK) (外键)
 
@@ -79,8 +77,6 @@ Like in the above example, in the `Department` table, each `Department` needs to
 => The `Department` table uses a column called `Department.leadPersonID` to refer to the values in `Person.ID`, which is the primary key of `Person` table, and thus uniquely identifies the leader.
 
 => In this way, `Department.leadPersonID` works as a foreign key from `Department` table to `Person` table.
-
-***
 
 <br>
 
