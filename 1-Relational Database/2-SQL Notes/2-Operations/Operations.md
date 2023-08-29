@@ -1,32 +1,27 @@
 # Operations
 
-## 0. Operations on DB
+## 0. 数据库操作
 
 ```mysql
+# Create DB
 create database test;
-```
 
-After creating the DB, use the following command to show all existing DBs, to check if the creation is successful:
-
-```mysql
+# Show all existing DBs
 show databases;
-```
 
-To delete the DB, use the following command:
-
-```mysql
+# Delete DB
 drop database test;
 ```
 
 <br>
 
-## 0. Operations on Table Itself
+## 0. 表操作
 
-#### (1) Creating Table
+#### (1) 创建表
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/create-table.png?raw=true" width="500px">
 
-*We can add `if not exists` between `table` and `tablename`, to create the table if it doesn't already exist.*
+We can add `if not exists` between `table` and `tablename`, to create the table if it doesn't already exist.
 
 **Constraints:**
 
@@ -46,29 +41,23 @@ drop database test;
 
 - `unique`
 
-- `primary key`
-
-  - Essentially, a combination of `not null` and `unique`
+- `primary key` (Essentially, a combination of `not null` and `unique`)
 
 - `autoincrement`
 
   ***
 
-  *MySQL*:
-
   ```mysql
+  -- MySQL:
   create table students (
-      id integer primary key auto_increment,  -- "autoincrement" implementation in MySQL
+      id integer primary key auto_increment,  -- "integer + auto_increment": "autoincrement"在MySQL的实现
       name varchar(20) not null,
       email varchar(100) not null
   );
-  ```
-
-  *PostgreSQL*:
-
-  ```sql
+  
+  -- PostgreSQL:
   create table students (
-      id serial primary key,  -- "autoincrement" implementation in PostgreSQL
+      id serial primary key,  -- "serial": "autoincrement"在PostgreSQL的实现
       name varchar(20) not null,
       email varchar(100) not null
   );
@@ -80,7 +69,7 @@ drop database test;
 
 <br>
 
-#### (2) Creating Index on Table
+##### 在表上创建索引:
 
 ```mysql
 create index index_name
@@ -91,110 +80,97 @@ on some_table (column_name);
 
 ***
 
-#### Temporary Table (临时表)
+##### Temporary Table (临时表)
 
-- Creating faster than a real, permanent table
-- Deleted when the current client session is terminated
+有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用
+
+- 创建得比真实的、持久化的表更快
+- 当当前的客户端session终止时，删除此临时表
 
 ```mysql
--- Create a temporary table containing all the sandals
 create temporary table sandals as
     select *
     from shoes
     where shoe_type = 'sandals';
 ```
 
-*(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
-
 ***
 
-#### View (视图)
+##### View (视图)
 
-View: A ~ is a <u>virtual table (illusion) based on the result-set of an SQL statement</u>.
+与temporary table不同的是, view本质上并没有写数据. 因此对于没有write权限的DB, 用view是更方便的
 
-* Creation
+```mysql
+-- Creation
+create view brazil_customers as
+    select name, contact_name
+    from customers
+    where country = 'Brazil';
 
-  ```mysql
-  -- Create a view containing all the customers from Brazil
-  create view brazil_customers as
-      select name, contact_name
-      from customers
-      where country = 'Brazil';
-  ```
+-- Update
+create or replace view brazil_customers as
+    select name, contact_name, city
+    from customers
+    where country = 'Brazil';
 
-  *(有点像一个temporary的变量, 来暂时储存intermediate的结果, 为了后续使用)*
-
-  但是与temporary table不同的是, view本质上并没有写数据: 因此对于没有write权限的DB, 用view是更方便的.
-
-* Update
-
-  ```mysql
-  -- Update the "brazil_customers" view by adding a "City" column to it
-  create or replace view brazil_customers as
-      select name, contact_name, city
-      from customers
-      where country = 'Brazil';
-  ```
-
-* Deletion
-
-  ```mysql
-  drop view brazil_customers;
-  ```
+-- Deletion
+drop view brazil_customers;
+```
 
 ***
 
 <br>
 
-#### (3) Altering Existing Table Itself
-
-Add, modify, or delete columns of an existing table
-
-- Rename table
-
-  ```mysql
-  alter table customers
-  rename to my_customers;
-  ```
-
-- Rename column
-
-  ```mysql
-  alter table customers
-  rename name to fullname;
-  ```
-
-- Add column
-
-  ```mysql
-  alter table customers
-  add email varchar(255);
-  ```
-
-- Delete column
-
-  ```mysql
-  alter table customers
-  drop email;
-  ```
-
-<br>
-
-#### (4) Deleting Table
+#### (2) 修改表
 
 ```mysql
-drop table scores;  -- Delete all the information stored in the table, and then delete the table
+-- Rename table
+alter table customers
+rename to my_customers;
+
+-- Add column
+alter table customers
+add email varchar(255);
+
+-- Rename column
+alter table customers
+rename name to fullname;
+
+-- Delete column
+alter table customers
+drop email;
 ```
 
-```mysql
-truncate table scores;  -- Delete all the information stored (including the headers) in the table, but not table itself
+HiveSQL 删除分区：
+
+```hive
+alter table some_db.some_table
+drop partition (date = 'deprecated_part')
 ```
 
 <br>
 
-## 1. Fetching Data from DB
+#### (3) 删除表
 
-#### (1) Retrieving & Filtering
+```mysql
+truncate table scores;  -- 删除表中全部信息, 但不删除表本身
+
+drop table scores;  -- 删除表中全部信息, 然后删除表
+```
+
+<br>
+
+## 1. 向表中插入数据 (Creation)
+
+<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/insert-into_values.png?raw=true" width="600px">
+
+注: 一条 `insert` 语句只能向一张表中插入数据
+
+<br>
+
+## 2. Query数据 (Retrieval)
+
+#### (1) `where`
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_where.png?raw=true" width="600px">
 
@@ -205,23 +181,35 @@ where species = 'gorilla'
     and name = 'Max';
 ```
 
-Note that <u>`where` applies before any aggregation</u>
+注: `where` 生效在任何聚合之前
 
-------
+***
+
+**`is null` operator** in `where` clause
+
+```mysql
+-- Select only null values:
+select name, species
+from animals
+where birthdate is null;
+
+-- Use "is not null" to select only non-null values:
+select name, species
+from animals
+where birthdate is not null;
+```
+
+***
 
 **`in` operator** in `where` clause
 
-Select a value from a selection of values:
-
 ```mysql
+-- Select from a selection of values:
 select name, birthdate
 from animals
 where species in ('gorilla', 'llama', 'orangutan');
-```
 
-Use `not in` to exclude a selection of values:
-
-```mysql
+-- Use "not in" to exclude a selection of values:
 select name, birthdate
 from animals
 where species not in ('gorilla', 'llama', 'orangutan');
@@ -231,18 +219,14 @@ where species not in ('gorilla', 'llama', 'orangutan');
 
 **`between` operator** in `where` clause
 
-Select a value from a range of values (inclusive):
-
 ```mysql
+-- Select from a range of values (inclusive):
 select name, species
 from animals
 where birthdate between '1993-07-31' and '1993-10-05';
 -- This will include both '1993-07-31' and '1993-10-05'.
-```
 
-Use `not between` to exclude a range of values (exclusive):
-
-```mysql
+-- Use "not between" to exclude a range of values (exclusive):
 select name, species
 from animals
 where birthdate not between '1993-07-31' and '1993-10-05';
@@ -251,29 +235,9 @@ where birthdate not between '1993-07-31' and '1993-10-05';
 
 ------
 
-**`is null` operator** in `where` clause
-
-Select only `null` values:
-
-```mysql
-select name, species
-from animals
-where birthdate is null;
-```
-
-Use `is not null` to select only non-null values:
-
-```mysql
-select name, species
-from animals
-where birthdate is not null;
-```
-
-------
-
 **`like` operator** in `where` clause
 
-Select values that follow a pattern:
+Select values that follow a pattern
 
 Wildcards
 
@@ -285,11 +249,8 @@ select name, birthdate
 from animals
 where species like '_r%';
 -- This will select all the species that have 'r' at the second position.
-```
 
-Use `not like` to exclude values that follow a pattern:
-
-```mysql
+-- Use "not like" to exclude values that follow a pattern:
 select name, birthdate
 from animals
 where species not like '_r%';
@@ -313,80 +274,71 @@ limit 5 offset 3;
 
 <br>
 
-------
-
-**`case` clause**
-
-- Mimics the `if-then-else` scheme in most programming languages
-- Do different processing based on some condition
+**`case` clause: 类似大多数编程语言里的 `if-then-else` 逻辑 或者 `case` 逻辑**
 
 ```mysql
--- Add a corresponding description according to the "quantity" field
+-- According to "quantity" field, add a corresponding description
 select order_id, quantity,
-    (case
+    case
         when quantity > 30 then 'The quantity is greater than 30'
         when quantity = 30 then 'The quantity is 30'
         else 'The quentity is less than 30'
-    end) as quantity_description
+    end as quantity_description
 from order_details;
 ```
 
-```mysql
--- Classify the tracks by size
-select track_id, name, bytes,
-    (case
-        when bytes < 300000 then 'small'
-        when bytes >= 300001 and bytes < 500000 then 'medium'
-        when bytes >= 500000 then 'large'
-        else 'other'
-    end) as byte_category
-from tracks;
-```
-
-------
+注: `case` 语句命中第一个条件后就退出, 不会继续check后面的条件
 
 <br>
 
-#### (2) Aggregation (聚合)
-
-**Summarize multiple rows into a single row**
-
-**(=> Compute a single value from a set of values)**
+#### (2) Aggregation (聚合): Compute a single value from a set of values)
 
 - `count`
 
-  - For each distinct species, find how many animals are there?
+  <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_group-by.png?raw=true" width="600px">
 
-    ```mysql
-    select species, count(*) as num
-    from animals
-    group by species
-    limit 5;
-    ```
-
-  - For each distinct name, find how many animals are sharing that name?
-
-    <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/select_from_group-by.png?raw=true" width="600px">
-
-    ```mysql
-    select name, count(*) as num
-    from animals
-    group by name;
-    ```
-
-    This reads as:
-
-    From `animals` table,
-
-    - select the `name` column
-    - do the aggregation: `count` all the selected rows grouping by the `name` column, i.e., <u>for each distinct `name`, `count` the number of selected rows with that `name`</u>
-
+  ```mysql
+  select name, count(*) as num
+  from animals
+  group by name;
+  
+  -- count(*) / count(1): 所有行都计数, 不忽略null, null也计数
+  -- count([column_name]): 忽略null, 只计数not null的行
+  ```
+  
 - `sum`
 
   ```mysql
   select sum(unit_price) as total_price
   from products;
+  
+  -- sum(*) / sum([column_name]): 忽略null, 只sum not null的行
   ```
+
+***
+
+**大坑！！！** `count` vs `sum` 在计算有条件count时的区别：
+
+```mysql
+select count(if(name = 'Jerry', 1, 0)) as jerry_cnt
+from animals
+where species = 'gorilla';
+-- 这种语法本质上类似于 count([column_name]), 忽略null, 只计数not null的行
+-- => 错误!!! 不管name是否 = 'Jerry', count(1) / count(0) 都会计数该行, 即该条件 未生效
+
+select count(if(name = 'Jerry', 1, null)) as jerry_cnt
+from animals
+where species = 'gorilla';
+-- 这种语法本质上类似于 count([column_name]), 忽略null, 只计数not null的行
+-- => 正确, 即该条件 生效
+
+select sum(if(name = 'Jerry', 1, 0)) as jerry_cnt
+from animals
+where species = 'gorilla';
+-- 正确
+```
+
+***
 
 - `avg`
 
@@ -411,20 +363,10 @@ from tracks;
   limit 5;
   ```
 
-  This reads as:
-
-  From `animals` table,
-
-  - select the `species` column
-  - do the aggregation: <u>for each distinct `species`, find the minimum `birthdate` within that `species`</u>
-
-  Check the above illustration
 
 ------
 
-**`having` clause**:
-
-Works <u>similar to `where`</u> clause, but <u>after any aggregation</u>
+**`having` clause: 类似 `where`, 但在所有聚合之后**
 
 ```mysql
 select customer_id, count(*) as customer_orders
@@ -437,9 +379,7 @@ having customer_orders >= 2;
 
 <br>
 
-#### (3) Subquery (子查询)
-
-**Queries inside another query**
+#### (3) Subquery (子查询): Queries inside another query
 
 <u>Question: Need to know the region of each customer who ever had an order with freight > 100</u>
 
@@ -461,38 +401,36 @@ where id in (
     select distinct customer_id
     from orders
     where freight > 100
-) as subq;  -- PostgreSQL requires an alias of the subquery result table
+) as subq;
 ```
 
 ***
 
 **"Common Table Expression" ("公共表表达式") - `with` 结构**
 
-与subquery本质上相同，只是一个syntax sugar
+与subquery本质上相同，只是一个syntax sugar. 👆🏻的subquery可以改写成:
 
 ```mysql
-with events as (
-    select channel, date_trunc('day', occurred_at), count(*) as daily_count  -- date_trunc() is a function defined in PostgreSQL
-    from web_events
-    group by 1, 2
+with qualified_customers as (
+  	select distinct customer_id
+		from orders
+		where freight > 100;
 )
 
-select channel, avg(daily_count) as avg_daily_count
-from events
-group by channel;
+select name, company_name, region
+from customers
+where id in qualified_customers;
 ```
 
 ***
 
 <br>
 
-#### (4) Join (合并)
-
-**Linking multiples tables** to extract the desired information
+#### (4) Join (合并): Linking multiples tables to extract the desired information
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/join-1-original_tables.png?raw=true" width="500px">
 
-**Question: How many individual animals eat fish?**
+<u>Question: How many individual animals eat fish?</u>
 
 Running the following `join` query results in the table on the left:
 
@@ -642,15 +580,7 @@ Only difference from `union`:
 
 <br>
 
-## 2. Inserting Data to Table
-
-<img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/insert-into_values.png?raw=true" width="600px">
-
-A single `insert` statement can only <u>insert rows into a single table</u>.
-
-<br>
-
-## 3. Updating Data to Table
+## 3. 向表中更新数据 (Update)
 
 <img src="https://github.com/Ziang-Lu/Database-Learning-Notes/blob/master/1-Relational%20Database/2-SQL%20Notes/2-Operations/update.png?raw=true" width="500px">
 
@@ -663,19 +593,12 @@ where customer_id = 1;
 
 <br>
 
-## 4. Deleting Data in Table
+## 4. 从表中删除数据 (Deletion)
 
-**在实际设计DB时, 应该只使用逻辑删除 (把对应record的`is_del`设置为`true`), 而不使用物理删除 (即实际删除掉对应record)**
+**在实际设计DB时, 应该不使用物理删除 (即实际删除掉对应行), 而只使用逻辑删除 (即把对应行的`is_del`设置为`true`)**
 
 ```mysql
 delete from customers
 where customer_name = 'Alfred Futterkiste';
 ```
-
-Note that
-
-```mysql
-delete from customers; -- Delete all the information (not including the headers) stored in the table, but not table itself
-```
-
 
